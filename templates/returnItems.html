@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Return Items</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="img/logo.png">
+</head>
+<body>
+
+<!-- collapsable nav bar with icon -->
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="addItemToBasket.html"><img src="img/logo.png"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarResponsive">
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="addItemToBasket.html">Home</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="adminArea.html">Admin Area</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="viewBasket.html">View Basket</a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" href="returnItems.html">Return Item</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="loginOrRegisterAccount.html">Logout</a>
+			</li>
+		</ul>
+	</div>
+	</div>
+</nav>
+
+<div class="container">
+    <h2>Return Items</h2>  
+  
+
+  <div class="searchBox">
+    <input class="search" type="text" placeholder="Search Through History (doesnt work yet)" aria-label="Search">
+  </div>
+  <div class="title">
+  <h4>Return Item from History Below</h4>
+  </div>
+  </div>
+  <style>
+    table{
+	  border-collapse: collapse;
+	  margin: auto;
+	  width: 60%;
+	}
+	td, th{
+		border: 3px solid lightgrey;
+		padding-top: 1%;
+		padding-bottom: 1%;
+	}
+	th{
+		font-family: Arial, Verdana, sans-serif;
+		font-weight: bold;
+		text-shadow: 3px ;
+	}
+    .searchBox{
+    border: 2px solid pink;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    }
+    .search{
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    } 
+    .title{
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+	tr:nth-child(odd){
+		background-color: whitesmoke;
+	}
+	tr:hover{
+	  background-color: pink;
+		color: white;
+	}
+	</style>
+  
+	<script>
+	
+	  let sortDirection = false;
+	  let historyData = [
+	  { ProductCode: '111', Quantity: 3, Unit: "Items" },
+	  { ProductCode: '222', Quantity: 4, Unit: "Kg" },
+	  { ProductCode: '333', Quantity: 1, Unit: "Box" },
+      { ProductCode: '444', Quantity: 2, Unit: "Litres" },
+       
+  ];
+  
+  window.onload = () => {
+      loadTableData(historyData); //top table
+      display(); //bott table
+  };
+  
+  function loadTableData(historyData) {
+	  const tableBody = document.getElementById('historyData');
+	  let dataHtml = '';
+  
+	  for(let history of historyData) {
+		  dataHtml += `<tr><td>${history.ProductCode}</td><td>${history.Quantity}</td><td>${history.Unit}</td><td>${history.button}</td></tr>`;
+      }
+	  console.log(dataHtml)
+	  tableBody.innerHTML = dataHtml;
+  }
+  </script>
+
+  <table>
+	  <thread>
+		  <tr>
+			<th>Order ID</th>
+			<th>Quantity</th>
+            <th>TimeStamp</th> 
+            <th>Restore Purchase</th>   
+		  </tr>
+	  </thread>
+
+	  <tbody id="historyData"></tbody>
+  </table>
+
+ 
+
+
+  <html>
+
+    <head>
+        <meta charset="UTF-8">
+    
+    </head>
+    
+    <body id="body">
+    
+        <div id="wrapper">
+            <table cellspacing=1 cellpadding=1 id="mytable">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Time Stamp</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+        <p>work in progress</p>
+        <p>top table = simple and displays</p>
+        <p>bottom table = hard but can edit</p>
+    </body>
+    
+    </html>
+    
+    
+    <script>
+        var myArray = [{ "name": "aaa", "level": "A" }, 
+                       { "name": "bbb", "level": "B" }, 
+                                                        ];
+    
+        function display() {
+            var length = myArray.length;
+            var htmltext = "";
+    
+            for (var i = 0; i < length; i++) {
+                console.log(myArray[i]);
+                htmltext += "<tr id='table"+i+"'><td>"
+                +myArray[i].name+
+                "</td><td>"
+                +myArray[i].level+
+                "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
+            }
+            document.getElementById("tbody").innerHTML = htmltext;
+        }
+    
+        function edit(indice) {
+            var htmltext = "<tr><td><input id='inputname"+indice+"' type='text' value='"
+                +myArray[indice].name+
+                "'></td><td><input id='inputlevel"+indice+"' type='text' value='"
+                +myArray[indice].level+
+                "'></td><td><button onclick='save("+indice+")'>Save</button><button onclick='remove("+indice+")'>Remove</button></td></tr>";
+            document.getElementById("table"+indice).innerHTML = htmltext; 
+        }
+    
+    
+        function save(indice) {
+            myArray[indice].name = document.getElementById("inputname"+indice).value;
+            myArray[indice].level = document.getElementById("inputlevel"+indice).value;
+            var htmltext = "<tr id='table"+indice+"'><td>"
+                +myArray[indice].name+
+                "</td><td>"
+                +myArray[indice].level+
+                "</td><td><button onclick='edit("
+                +indice+")'>Edit</button><button onclick='remove("
+                +indice+")'>Remove</button></td></tr>";
+            document.getElementById("table"+indice).innerHTML = htmltext;
+        }
+    
+        function remove(indice) {
+            console.log(myArray);
+            myArray.splice(indice, 1);
+            display();
+        }
+    </script>
+<h5>edit button is for small changes</h5>
+<h5>remove button is to basically revert the entire order</h5>
+
+</div>
+</body>
+</html>
