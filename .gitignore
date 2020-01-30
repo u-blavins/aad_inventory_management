@@ -108,3 +108,4 @@ dmypy.json
 
 # Generated files
 *.DS_Store
+*.idea
