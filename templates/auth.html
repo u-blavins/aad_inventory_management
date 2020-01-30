@@ -9,12 +9,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    <link href="static/style.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css')}}" type="text/css" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
       <div class="container-fluid">
-        <a class="navbar-brand"><img src="static/img/logo.png"></a>
+        <a class="navbar-brand"><img src="{{ url_for('static', filename='img/logo.png')}}"></a>
         <div class=" navbar-collapse text-center">
         <h4>Inventory Management</h4>
         </div>
