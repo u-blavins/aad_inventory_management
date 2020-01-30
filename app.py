@@ -25,8 +25,9 @@ def Login():
         """
         params = (request.form['email'], request.form['password'])
         cursor = conn.cursor()
-        rc = cursor.execute(sql, params)
-        if "Login successful" in status:
+        cursor.execute(sql, params)
+        result = cursor.fetchone()
+        if "Login successful" == result[0]:
             return redirect('/home/admin')
     return redirect('/auth')
             
