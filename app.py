@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, session, url_for
-from utils import Database
+import utils
 
 app = Flask(__name__)
 app.debug = True
@@ -17,13 +17,12 @@ def login():
         sproc = "[usr].[UserLogin] @Email = ?, @Password= ?"
         user_email = request.form['email']
         params = (user_email, request.form['password'])
-        db = Database.Database()
-        result = db.execute_query(sproc, params)
+        result = utils.execute_query(sproc, params)
 
         if "Login successful" == result[0][0]:
             sproc = "[usr].[getUser] @Email = ?"
             params = user_email
-            result = db.execute_query(sproc, params)
+            result = utils.execute_query(sproc, params)
             is_admin = result[0][4]
             if is_admin:
                 return redirect('/home/admin')
@@ -45,8 +44,7 @@ def register():
 
         sproc = """[usr].[CreateUser] @Email = ?, @Password= ?, @FirstName = ?, @LastName = ?, 
         @DepartmentCode = ?, @isStaff = ?"""
-        db = Database.Database()
-        db.execute_query(sproc, params)
+        utils.execute_query(sproc, params)
     return redirect('/auth')
 
 
