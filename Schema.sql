@@ -1,9 +1,12 @@
 USE [StoreManagement]
 GO
+
 CREATE SCHEMA [usr]
 GO
+
 DROP TABLE [usr].[User]
 GO
+
 CREATE TABLE [usr].[User] (
 	ID UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
 	Email VARCHAR(50) UNIQUE NOT NULL,
@@ -14,6 +17,8 @@ CREATE TABLE [usr].[User] (
 	DepartmentCode CHAR(5) NOT NULL,
 	isStaff BIT NOT NULL DEFAULT 0
 )
+ALTER TABLE [usr].[User]
+ADD FOREIGN KEY (DepartmentCode) REFERENCES [usr].[Department](code)
 GO
 SET ANSI_NULLS ON
 GO
@@ -96,6 +101,56 @@ AS
 		
 GO
 
+CREATE TABLE [usr].[Department]
+(
+	Code CHAR(5) PRIMARY KEY,
+	[Name] VARCHAR(25)
+)
+GO
+
 CREATE SCHEMA [itm]
 GO
 
+CREATE TABLE [itm].[Unit]
+(
+	UnitName VARCHAR(50) PRIMARY KEY,
+	Val VARCHAR(25),
+	DataType VARCHAR(25)
+)
+GO
+
+CREATE TABLE [itm].[Item]
+(
+	Code VARCHAR(10) PRIMARY KEY,
+	[Name] VARCHAR(25),
+	Variant VARCHAR(25),
+	UnitName VARCHAR(50),
+	Risk BIT,
+	Price float
+)
+ALTER TABLE [itm].[Item]
+ADD FOREIGN KEY (UnitName) REFERENCES [itm].[Unit](UnitName)
+
+GO
+
+CREATE TABLE [itm].[Stock]
+(
+	StockCode VARCHAR(10) PRIMARY KEY,
+	ItemCode VARCHAR(10) FOREIGN KEY REFERENCES [itm].[Item](Code),
+	Quantity VARCHAR(10),
+	UnitName VARCHAR(50) FOREIGN KEY REFERENCES [itm].[Unit](UnitName),
+	MinThreshold VARCHAR(10),
+	MaxThreshold VARCHAR(10)
+)
+GO
+
+CREATE TABLE [itm].[Transaction]
+(
+	TransactionID UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
+	UserID UNIQUEIDENTIFIER FOREIGN KEY REFERENCES [usr].[User](ID),
+	ItemCode VARCHAR(10) FOREIGN KEY REFERENCES [itm].[Item](Code),
+	Quantity VARCHAR(10),
+	TransactionDate DATE,
+	isRefund BIT DEFAULT 0
+)
+GO

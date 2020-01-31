@@ -1,7 +1,7 @@
 import pyodbc
 
 
-def execute_query(self, query, params):
+def execute_query(query, params):
     conn = pyodbc.connect(
             'Driver={ODBC Driver 17 for SQL Server};'
             'Server=secretsasquatchsociety.chefvdjywstx.eu-west-2.rds.amazonaws.com,1433;'
