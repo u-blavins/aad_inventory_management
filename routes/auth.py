@@ -17,6 +17,7 @@ def login():
 
         if "Login successful" == result[0][0]:
             sproc = "[usr].[getUser] @Email = ?"
+            session['email'] = user_email
             params = user_email
             result = Database.execute_query(sproc, params)
             is_admin = result[0][4]
@@ -40,8 +41,8 @@ def register():
         sproc = """[usr].[CreateUser] @Email = ?, @Password= ?, @FirstName = ?, @LastName = ?, 
         @DepartmentCode = ?, @isStaff = ?"""
         Database.execute_query(sproc, params)
-    return redirect('/auth')
+    return redirect(url_for('auth.Auth'))
 
 @auth.route('/auth/logout')
 def logout():
-    return url_for('/auth')
+    return redirect(url_for('auth.Auth'))

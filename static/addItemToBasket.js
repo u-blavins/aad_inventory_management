@@ -99,7 +99,7 @@
             for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
 
                 var element = myTab.rows.item(row).cells[c];
-                if (element.childNodes[0].getAttribute('type') == 'text') {
+                if (c < 4) {
                     values.push("'" + element.childNodes[0].value + "'");
                 }
             }
