@@ -3,6 +3,7 @@ import pyodbc
 
 class Database:
     """ Database Object to execute commands """
+
     conn = pyodbc.connect(
         'Driver={ODBC Driver 17 for SQL Server};'
         'Server=secretsasquatchsociety.chefvdjywstx.eu-west-2.rds.amazonaws.com,1433;'
@@ -22,4 +23,3 @@ class Database:
         result = cursor.fetchall()
         cursor.commit()
         return result
-
