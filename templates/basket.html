@@ -19,6 +19,8 @@
     </div>
 
     </div>
-
-    <script type="text/javascript" src="{{ url_for('static', filename='addItemToBasket.js')}}"></script>
 {% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='addItemToBasket.js')}}"></script>
+{% endblock scripts %}
