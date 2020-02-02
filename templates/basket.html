@@ -1,0 +1,24 @@
+{% extends "home.html" %}
+
+{% block content %}
+<div onload="createTable()">
+    <div class="container text-center">
+    <br>
+    <h2>Add Item to Basket</h2>
+    <br>
+    <br>
+    <button id="addRow" class="addButton" onclick="addRow()"> Add Item </button> 
+
+    <!--THE CONTAINER WHERE WE'll ADD THE DYNAMIC TABLE-->
+    <div id="cont" class="text-center"></div>
+    <br>
+    <br>
+
+    <input type="button" id="bt" value="Confirm Items" onclick="submit()" />
+    </div>
+    </div>
+
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='addItemToBasket.js')}}"></script>
+{% endblock %}
