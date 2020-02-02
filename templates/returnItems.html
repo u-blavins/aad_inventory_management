@@ -78,6 +78,7 @@
                 <tbody id="tbody">
                 </tbody>
             </table>
+            <button onclick="submit(indice)">Submit Changes</button>
         </div>
         <p>work in progress</p>
     </body>
@@ -86,7 +87,7 @@
 
 
     <script>
-        var myArray = [{ "transactionCode": "123", "timeStamp": "18:00", "basket": "Blue Pens" + ", " + "Paper", "quantity": "5" + ", " + "1 "},
+        var myArray = [{ "transactionCode": "123", "timeStamp": "18:45", "basket": "Blue Pens" + ", " + "Paper", "quantity": "5" + ", " + "1 "},
                        { "transactionCode": "345", "timeStamp": "21:00", "basket": "300ml Tubes", "quantity": "10 " },
                        { "transactionCode": "678", "timeStamp": "21:30", "basket": "whiteboard", "quantity": "1 " },
                                                         ];
@@ -129,10 +130,23 @@
 
 
         function save(indice) {
+            var values = new Array();
+            console.log(values);
+
             //myArray[indice].transactionCode = document.getElementById("inputTransactionCode"+indice).value;
+            values.push("'" + myArray[indice].transactionCode[0].value + "'");
+
             myArray[indice].timeStamp = document.getElementById("inputTimeStamp"+indice).value;
+            values.push("'" + myArray[indice].timeStamp + "'");
+
             myArray[indice].basket = document.getElementById("inputBasket"+indice).value;
+            values.push("'" + myArray.basket + "'");
+            
             myArray[indice].quantity = document.getElementById("inputQuantity"+indice).value;
+            values.push("'" + myArray.quantity + "'");
+
+            console.log(values);
+
             var htmltext = "<tr id='table"+indice+"'><td>"
                 +myArray[indice].transactionCode+
                 "</td><td>"
@@ -149,11 +163,19 @@
             /* send new data as an array here to database*/
         }
 
+
         function remove(indice) {
             console.log(myArray);
             myArray.splice(indice, 1);
             display();
         }
+
+        function submit(indice) {
+            console.log(myArray);
+            myArray.splice(indice, 1);
+            display();
+        }
+        
     </script>
 <h5>edit button is for small changes</h5>
 <h5>remove button is to basically revert the entire order</h5>
