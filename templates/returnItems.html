@@ -78,7 +78,7 @@
                 <tbody id="tbody">
                 </tbody>
             </table>
-            <button onclick="submit(indice)">Submit Changes</button>
+            <button onclick="submit()">Submit Changes</button>
         </div>
         <p>work in progress</p>
     </body>
@@ -131,7 +131,6 @@
 
         function save(indice) {
             var values = new Array();
-            console.log(values);
 
             //myArray[indice].transactionCode = document.getElementById("inputTransactionCode"+indice).value;
             values.push("'" + myArray[indice].transactionCode[0].value + "'");
@@ -146,6 +145,7 @@
             values.push("'" + myArray.quantity + "'");
 
             console.log(values);
+            /*push to database here*/
 
             var htmltext = "<tr id='table"+indice+"'><td>"
                 +myArray[indice].transactionCode+
@@ -159,8 +159,6 @@
                 +indice+")'>Edit</button><button onclick='remove("
                 +indice+")'>Remove</button></td></tr>";
             document.getElementById("table"+indice).innerHTML = htmltext;
-
-            /* send new data as an array here to database*/
         }
 
 
@@ -170,7 +168,7 @@
             display();
         }
 
-        function submit(indice) {
+        function submit() {
             console.log(myArray);
             myArray.splice(indice, 1);
             display();
