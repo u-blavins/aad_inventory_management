@@ -114,8 +114,7 @@ GO
 CREATE TABLE [itm].[Unit]
 (
 	UnitName VARCHAR(50) PRIMARY KEY,
-	Val VARCHAR(25),
-	DataType VARCHAR(25)
+	Val FLOAT,
 )
 GO
 
@@ -144,13 +143,29 @@ CREATE TABLE [itm].[Stock]
 )
 GO
 
+
 CREATE TABLE [itm].[Transaction]
 (
 	TransactionID UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
-	UserID UNIQUEIDENTIFIER FOREIGN KEY REFERENCES [usr].[User](ID),
-	ItemCode VARCHAR(10) FOREIGN KEY REFERENCES [itm].[Item](Code),
-	Quantity VARCHAR(10),
+	UserID UNIQUEIDENTIFIER FOREIGN KEY REFERENCES [usr].[User](ID) NOT NULL,
+	DepartmentCode CHAR(5) FOREIGN KEY REFERENCES [usr].[Department](Code) NOT NULL,
+	Price FLOAT,
 	TransactionDate DATE,
-	isRefund BIT DEFAULT 0
+	IsRefund BIT DEFAULT 0
 )
 GO
+
+CREATE TABLE [itm].[TransactionInfo]
+(
+	TransactionID  UNIQUEIDENTIFIER FOREIGN KEY REFERENCES [itm].[Transaction](TransactionID) NOT NULL ,
+	ItemCode VARCHAR(10) FOREIGN KEY REFERENCES [itm].[Item](Code) NOT NULL,
+	UnitName VARCHAR(50) FOREIGN KEY REFERENCES [itm].[Unit](UnitName) NOT NULL,
+	Quantity VARCHAR(10)
+)
+
+ALTER TABLE
+	[itm].[TransactionInfo]
+ADD CONSTRAINT
+	pk_compositeOrderConstraint
+PRIMARY KEY
+	(TransactionID,ItemCode)
