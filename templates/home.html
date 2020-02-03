@@ -29,7 +29,7 @@
                         {% endif %}
                             <a class="nav-link" href="/home">Home</a>
                         </li>
-                        <!-- {% if 'session' in session %} -->
+                        {% if 'session' in session %}
                             {% if 'admin' in request.url_rule.rule %}
                             <li class="nav-item active">
                             {% else %}
@@ -37,7 +37,7 @@
                             {% endif %}
                                 <a class="nav-link" href="/admin">Admin Area</a>
                             </li>
-                        <!-- {% endif %} -->
+                        {% endif %}
                         {% if 'basket' in request.url_rule.rule %}
                         <li class="nav-item active">
                         {% else %}
