@@ -48,21 +48,21 @@
                 td.appendChild(productName);
             }
 
-            if (c ==  3) { //Unit Type
-                var items = ['Item(s)', 'Box(es)', 'Litre(s)', 'Bag(s)', 'Gram(s)', 'Kilogram(s)'];
-                var values = ['items', 'boxes', 'litres', 'bags', 'grams', 'kilograms'];
-                var sel = document.createElement('select');
-                sel.setAttribute('name', 'item[]');
-                sel.setAttribute('class', 'dropdownList tableInput');
-                sel.setAttribute('name', 'item[]');
-                for (var i = 0; i < items.length; i++) {
-                    var opt = document.createElement('option');
-                    opt.text = items[i];
-                    opt.value = items[i];
-                    sel.appendChild(opt);
-                }
-                td.appendChild(sel);
-            }
+            // if (c ==  3) { //Unit Type
+            //     var items = ['Item(s)', 'Box(es)', 'Litre(s)', 'Bag(s)', 'Gram(s)', 'Kilogram(s)'];
+            //     var values = ['items', 'boxes', 'litres', 'bags', 'grams', 'kilograms'];
+            //     var sel = document.createElement('select');
+            //     sel.setAttribute('name', 'item[]');
+            //     sel.setAttribute('class', 'dropdownList tableInput');
+            //     sel.setAttribute('name', 'item[]');
+            //     for (var i = 0; i < items.length; i++) {
+            //         var opt = document.createElement('option');
+            //         opt.text = items[i];
+            //         opt.value = items[i];
+            //         sel.appendChild(opt);
+            //     }
+            //     td.appendChild(sel);
+            // }
 
             if (c == 0 ) { //Product Code
                 // Function to add more text boxes.

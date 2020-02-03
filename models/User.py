@@ -3,20 +3,21 @@ from utils import Database
 class User:
     """ User Model """
 
-    @staticmethod
-    def get_all_users():
-        query = "SELECT * FROM [StoreManagement].[usr].[User]"
-        rows = Database.get_rows(query)
-        users = []
+    # @staticmethod
+    # def get_all_users():
+    #     query = "SELECT * FROM [StoreManagement].[usr].[User]"
+    #     rows = Database.get_rows(query)
+    #     users = []
 
-        for row in rows:
-            print(row)
+    #     for row in rows:
+    #         print(row)
             
-        return users
+    #     return users
 
     @staticmethod
     def get_user(id):
         user = User()
+        
         return user
 
     @staticmethod

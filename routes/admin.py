@@ -5,6 +5,9 @@ admin = Blueprint('admin', __name__)
 
 @admin.route('/admin')
 def Admin():
+    session['is_admin'] = ''
+    if 'is_admin' not in session:
+        return redirect(url_for('auth.Auth'))
     return render_template('admin.html')
 
 @admin.route('/admin/transactions')
@@ -19,10 +22,10 @@ def restock():
 def stocks():
     return redirect(url_for('admin.Admin'))
 
-@admin.route('/admin/add-product')
+@admin.route('/admin/product/add')
 def add_product():
-    return redirect(url_for('admin.Admin'))
+    return render_template('addItemToInventory.html')
 
-@admin.route('/admin/remove-product')
+@admin.route('/admin/product/remove')
 def remove_product():
-    return redirect(url_for('admin.Admin'))
+    return render_template('removeItemFromInventory.html')
