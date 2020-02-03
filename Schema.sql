@@ -122,7 +122,6 @@ CREATE TABLE [itm].[Item]
 (
 	Code VARCHAR(10) PRIMARY KEY,
 	[Name] VARCHAR(25),
-	Variant VARCHAR(25),
 	UnitName VARCHAR(50),
 	Risk BIT,
 	Price float
@@ -142,7 +141,6 @@ CREATE TABLE [itm].[Stock]
 	MaxThreshold VARCHAR(10)
 )
 GO
-
 
 CREATE TABLE [itm].[Transaction]
 (
@@ -169,3 +167,22 @@ ADD CONSTRAINT
 	pk_compositeOrderConstraint
 PRIMARY KEY
 	(TransactionID,ItemCode)
+GO
+
+CREATE VIEW [GenerateReport]
+AS
+
+SELECT
+	[DepartmentCode],
+	SUM([Price]) AS [Total Price]
+FROM
+	[itm].[Transaction]
+WHERE 
+	[TransactionDate] <= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()), 0) 
+	AND 
+	[TransactionDate] > DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) + 1, 0)
+GROUP BY
+	[DepartmentCode]
+
+GO
+
