@@ -9,25 +9,25 @@
     <br>
 	<br>
 	
-	<form action="">
+	<form action="/admin/stock" method="GET">
 		<div class="form-group">
 		  <label>Product ID:</label>
-		  <input type="text" class="form-control" id="productId" placeholder="Enter product ID" name="productId">
+		  <input type="text" class="form-control" placeholder="Enter product ID" name="productId">
 		</div>
 		<div class="form-group">
 		  <label>Product Name:</label>
-		  <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName">
+		  <input type="text" class="form-control" placeholder="Enter product name" name="productName">
 		</div>
 		<div class="form-group">
 			<label>Quantity:</label>
-			<input type="number" class="form-control" id="quantity" placeholder="Enter quantity" name="quantity">
+			<input type="number" class="form-control" placeholder="Enter quantity" name="quantity">
 		  </div>
 		  <div class="form-group">
 			<label>Risk Item:</label>
-			<input type="text" class="form-control" id="riskItem" placeholder="Enter yes/no" name="riskItem">
+			<input type="text" class="form-control" placeholder="Enter yes/no" name="riskItem">
 		  </div>
 		
-		  <a href="/admin/stock" type="submit">Add To Inventory</a>
+		  <button type="submit" class="btn btn-default">Add To Inventory</button>
 	</form>
     </div>
 </body>
