@@ -1,0 +1,24 @@
+{% extends "home.html" %}
+
+{% block content %}
+<br>
+<div class="container text-center">
+    <h2>Admin Area</h2>
+    <br>
+    <ul class="list-group">
+    <a href="/admin/transactions" class="adminAreaButton">View Orders & Generate Report</a>
+    <br>
+    <br>
+    <a href="" class="adminAreaButton">Generate Purchase Order</a>
+    <br>
+    <br>
+    <a href="" class="adminAreaButton">View Stock</a>
+    <br>
+    <br>
+    <a href="/admin/product/add" class="adminAreaButton">Add Product To Stock</a>
+    <br>
+    <br>
+    <a href="/admin/product/remove" class="adminAreaButton">Remove Product From Stock</a>
+    </ul>
+</div>
+{% endblock %}

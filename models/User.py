@@ -5,19 +5,53 @@ class User:
 
     @staticmethod
     def get_all_users():
-        query = "SELECT * FROM [StoreManagement].[usr].[User]"
-        rows = Database.get_rows(query)
+        query = """SELECT  
+                        [ID]
+                        ,[Email]
+                        ,[FirstName]
+                        ,[LastName] 
+                        ,[DepartmentCode]
+                        ,[isStaff]
+                    FROM
+                        [usr].[User]"""
+        rows = Database.execute_query(query)
         users = []
 
         for row in rows:
-            print(row)
+            user = User()
+            user.set_id(row[0])
+            user.set_email(row[1])
+            user.set_first_name(row[2])
+            user.set_last_name(row[3])
+            user.set_department_code(row[4])
+            user.set_user_level(row[5])
+            users.append(user)
             
         return users
 
     @staticmethod
     def get_user(id):
-        user = User()
+        user = None
+
+        query = """
+        SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode],
+        [isStaff] FROM [usr].[User] WHERE [ID] = '%s'
+        """ % id
+
+        rows = Database.execute_query(query)
+        
+        for row in rows:
+            user = User()
+            user.set_id(row[0])
+            user.set_email(row[1])
+            user.set_first_name(row[2])
+            user.set_last_name(row[3])
+            user.set_department_code(row[4])
+            user.set_user_level(row[5])
+
         return user
+
+
 
     @staticmethod
     def get_user_by(key, value):
@@ -64,9 +98,9 @@ class User:
     def get_department_code(self):
         return self.user['dept_code']
     
-    def set_account_type(self, acc_type):
+    def set_user_level(self, acc_type):
         self.user['acc_type'] = acc_type
         return self
     
-    def get_account_type(self):
+    def get_user_level(self):
         return self.user['acc_type']

@@ -2,6 +2,7 @@
 
 {% block content %}
 <div>
+
     <div class="container text-center">
         <br>
             <h2>Add Item to Basket</h2>
@@ -10,11 +11,13 @@
         <button id="addRow" class="addButton" onclick="addRow()"> Add Item </button> 
 
         <!--THE CONTAINER WHERE WE'll ADD THE DYNAMIC TABLE-->
-        <div id="cont" class="text-center"></div>
-        <br>
-        <br>
+        <!-- <form id="add-item-form" method="post" action="/basket/add"> -->
+            <div id="cont" class="text-center"></div>
+            <br>
+            <br>
 
-        <input type="button" id="bt" value="Confirm Items" onclick="submit()" />
+            <input type="button" id="bt" value="Confirm Items" onclick="submit()" />
+        <!-- </form> -->
     </div>
 
     <script type="text/javascript">
