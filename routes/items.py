@@ -2,6 +2,8 @@ from flask import Blueprint, request, render_template, redirect, session, url_fo
 from utils import Database
 from models.Item import Item as ItemModel
 
+import json
+
 items = Blueprint('items', __name__)
 
 @items.route('/api/items', methods=['GET'])
@@ -19,3 +21,5 @@ def get_item(code):
 
 @items.route('/api/items/codes', methods=['GET'])
 def get_codes():
+    codes = ItemModel.get_codes()
+    return jsonify(codes=codes)

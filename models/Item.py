@@ -50,13 +50,13 @@ class Item:
         codes = []
 
         query = """
-        SELECT [Codes] FROM [StoreManagement].[itm].[Item]
+        SELECT [Code] FROM [StoreManagement].[itm].[Item]
         """
 
         rows = Database.execute_query(query)
 
         for row in rows:
-            codes.append(row)
+            codes.append(row[0])
         
         return codes
 
