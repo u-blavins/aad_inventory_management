@@ -11,7 +11,7 @@
         <input type="text" placeholder="Search for items...">
         <br>
         <br>
-        <a href="/admin/addItem" id="addItem" class="addButton"> Add Item </a>
+        <a href="/admin/add-item" id="addItem" class="addButton"> Add Item </a>
         <br>
         <br>
         <table>
@@ -35,97 +35,9 @@
 </div>
 
 
+
+
 <script>
-//     window.onload = () => {
-//    display();
-//    //addRow();
-//    //add();
-// };
-
-function getQueryString() {
-  var result = {}, queryString = location.search.slice(1),
-      re = /([^&=]+)=([^&]*)/g, m;
-
-  while (m = re.exec(queryString)) {
-    result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-  }
-  return result;
-}
-
-var itemId = getQueryString()["productId"];
-var itemName = getQueryString()["productName"];
-var quantity = getQueryString()["quantity"];
-var riskItem = getQueryString()["riskItem"];
-
-function addRow() {
-        var table = document.getElementById('tbody');
-
-        var rowCnt = table.rows.length;
-        var tr = table.insertRow(rowCnt);
-        tr = table.insertRow(rowCnt);
-
-        for (var c = 0; c < 4; c++) {
-            var td = document.createElement('td');
-            td = tr.insertCell(c);
-
-            if (c == 0 ) { 
-                td.appendChild(itemId);
-            }
-            if (c == 1 ) { 
-                td.appendChild(itemName);    
-            }
-            if (c == 2 ) { 
-                td.appendChild(quantity);    
-            }
-            if (c == 3 ) { 
-                td.appendChild(riskItem);    
-        }
-    };
-
-
-var length = StockData.length;
-
-function add(length) {
-    var htmltext = "<tr id='table"+length+"'><td>"
-                +itemId+
-                "</td><td>"
-                +itemName+
-                "</td><td>"
-                +quantity+
-                "</td><td>"
-                +riskItem+
-                "</td><td><button onclick='edit("
-                +length+")'>Edit</button><button onclick='remove("
-                +length+")'>Remove</button></td></tr>";
-            document.getElementById("tbody").innerHTML = htmltext;
-}
-
-var StockData = [
-	  { "ProductId": "69-69", "ProductName": "200ml TestTubes", "Quantity": 3, "Location": "none of ur business", "RiskItem": "No" },
-	  { "ProductId": "8==D", "ProductName": "deez nuts", "Quantity": 2, "Location": "none of ur business", "RiskItem": "Yes" },
-	  { "ProductId": "KetSik1", "ProductName": "half a carrot", "Quantity": 1, "Location": "none of ur business", "RiskItem": "No" }, 
-  ];
-  
-  function display() {
-            var length = StockData.length;
-            var htmltext = "";
-
-            for (var i = 0; i < length; i++) {
-                htmltext += "<tr id='table"+i+"'><td>"
-                +StockData[i].ProductId+
-                "</td><td>"
-                +StockData[i].ProductName+
-                "</td><td>"
-                +StockData[i].Quantity+
-                "</td><td>"
-                +StockData[i].Location+
-                "</td><td>"
-                +StockData[i].RiskItem+
-                "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
-            }
-            document.getElementById("tbody").innerHTML = htmltext;
-        }
-
 
         function edit(indice) {
             var htmltext = "<tr><td><input id='inputProductId"+indice+"' type='text' value='"
@@ -178,7 +90,7 @@ var StockData = [
                 +indice+")'>Remove</button></td></tr>";
             document.getElementById("table"+indice).innerHTML = htmltext;
         }
-}
+
 
 
         function remove(indice) {
