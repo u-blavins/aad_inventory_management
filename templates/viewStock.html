@@ -31,7 +31,67 @@
 <script>
     window.onload = () => {
    display();
+   //addRow();
+   //add();
 };
+
+function getQueryString() {
+  var result = {}, queryString = location.search.slice(1),
+      re = /([^&=]+)=([^&]*)/g, m;
+
+  while (m = re.exec(queryString)) {
+    result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+  }
+  return result;
+}
+
+var itemId = getQueryString()["productId"];
+var itemName = getQueryString()["productName"];
+var quantity = getQueryString()["quantity"];
+var riskItem = getQueryString()["riskItem"];
+
+function addRow() {
+        var table = document.getElementById('tbody');
+
+        var rowCnt = table.rows.length;
+        var tr = table.insertRow(rowCnt);
+        tr = table.insertRow(rowCnt);
+
+        for (var c = 0; c < 4; c++) {
+            var td = document.createElement('td');
+            td = tr.insertCell(c);
+
+            if (c == 0 ) { 
+                td.appendChild(itemId);
+            }
+            if (c == 1 ) { 
+                td.appendChild(itemName);    
+            }
+            if (c == 2 ) { 
+                td.appendChild(quantity);    
+            }
+            if (c == 3 ) { 
+                td.appendChild(riskItem);    
+        }
+    };
+
+
+var length = StockData.length;
+
+function add(length) {
+    var htmltext = "<tr id='table"+length+"'><td>"
+                +itemId+
+                "</td><td>"
+                +itemName+
+                "</td><td>"
+                +quantity+
+                "</td><td>"
+                +riskItem+
+                "</td><td><button onclick='edit("
+                +length+")'>Edit</button><button onclick='remove("
+                +length+")'>Remove</button></td></tr>";
+            document.getElementById("tbody").innerHTML = htmltext;
+}
 
 var StockData = [
 	  { "ProductId": "69-69", "ProductName": "200ml TestTubes", "Quantity": 3, "RiskItem": "No" },
@@ -103,6 +163,7 @@ var StockData = [
                 +indice+")'>Remove</button></td></tr>";
             document.getElementById("table"+indice).innerHTML = htmltext;
         }
+}
 
 
         function remove(indice) {
