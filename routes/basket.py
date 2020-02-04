@@ -5,12 +5,16 @@ basket = Blueprint('basket', __name__)
 
 @basket.route('/basket')
 def Basket():
+    if 'user_id' not in session:
+        return redirect(url_for('auth.Auth'))
     if 'basket' not in session:
         session['basket'] = []
     return render_template('basket.html')
 
 @basket.route('/add-item')
 def add_item():
+    if 'user_id' not in session:
+        return redirect(url_for('auth.Auth'))
     return render_template('addItem.html')
 
 @basket.route('/basket/add', methods=['POST'])
@@ -22,8 +26,8 @@ def add_items_basket():
         if len(codes) == len(quantity):
             for i in range(len(codes)):
                 if codes[i] not in items:
-                    items[codes[i]] = quantity[i]
+                    items[codes[i]] = int(quantity[i])
                 else:
-                    items[codes[i]] += quantity
+                    items[codes[i]] += int(quantity[i])
     return jsonify(items=items)
 
