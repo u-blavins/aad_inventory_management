@@ -17,24 +17,30 @@
         <table>
             <thread>
                 <tr>
-                  <th>Item ID</th>
+                  <th>Item Code</th>
                   <th>Item Name</th>
                   <th>Quantity</th>
-                  <th>Location</th> 
                   <th>Risk Item</th>
                 </tr>
             </thread>
-            <tbody id="tbody"></tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.get_code() }}</td>
+                    <td>{{ item.get_name() }}</td>
+                    <td></td>
+                    <td>{{ item.get_risk() }}</td>
+                </tr>
+            {% endfor %}
         </table>
 </div>
 
 
 <script>
-    window.onload = () => {
-   display();
-   //addRow();
-   //add();
-};
+//     window.onload = () => {
+//    display();
+//    //addRow();
+//    //add();
+// };
 
 function getQueryString() {
   var result = {}, queryString = location.search.slice(1),
