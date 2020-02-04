@@ -3,9 +3,11 @@ from utils import Database
 
 auth = Blueprint('auth', __name__)
 
+
 @auth.route('/auth')
 def Auth():
     return render_template('auth.html')
+
 
 @auth.route('/auth/login', methods=['POST'])
 def login():
@@ -13,19 +15,20 @@ def login():
         sproc = "[usr].[UserLogin] @Email = ?, @Password= ?"
         user_email = request.form['email']
         params = (user_email, request.form['password'])
-        result = Database.execute_query(sproc, params)
+        result = Database.execute_sproc(sproc, params)
 
         if "Login successful" == result[0][0]:
             sproc = "[usr].[getUser] @Email = ?"
-            session['email'] = user_email
             params = user_email
-            result = Database.execute_query(sproc, params)
-            is_admin = result[0][4]
-            if is_admin:
-                return redirect('/admin')
-            else:
-                return redirect('/basket')
+            result = Database.execute_sproc(sproc, params)
+            session['user_id'] = result[0][0]
+            session['privilege'] = result[0][1]
+            if session['privilege'] in [0, 1]:
+                return redirect(url_for('basket.add_item'))
+            elif session['privilege'] in [2, 3]:
+                return redirect(url_for('admin.Admin'))
     return redirect('/auth')
+
 
 @auth.route('/auth/register', methods=['POST'])
 def register():
@@ -36,13 +39,15 @@ def register():
             request.form['regFirstname'],
             request.form['regLastname'],
             request.form['departmentCode'],
-            request.form['accountType'])
+            int(request.form['accountType']))
 
         sproc = """[usr].[CreateUser] @Email = ?, @Password= ?, @FirstName = ?, @LastName = ?, 
-        @DepartmentCode = ?, @isStaff = ?"""
-        Database.execute_query(sproc, params)
+        @DepartmentCode = ?, @privileges = ?"""
+        Database.execute_sproc(sproc, params)
     return redirect(url_for('auth.Auth'))
+
 
 @auth.route('/auth/logout')
 def logout():
+    session.clear()
     return redirect(url_for('auth.Auth'))

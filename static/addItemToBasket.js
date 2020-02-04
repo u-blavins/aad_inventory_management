@@ -1,6 +1,6 @@
 
     var arrHead = new Array();
-    arrHead = ['Product Code', 'Product Name', 'Quantity', 'Unit Type',''];
+    arrHead = ['Product Code', 'Quantity', ''];
 
     function createTable() {
         var empTable = document.createElement('table');
@@ -40,48 +40,27 @@
                 td.appendChild(button);
             }
 
-            if (c == 1) { //product name
-                var productName = document.createElement('input');
-                productName.setAttribute('type', 'text');
-                productName.setAttribute('value', '');
-                productName.setAttribute('class', 'tableInput');
-                td.appendChild(productName);
-            }
-
-            if (c ==  3) { //Unit Type
-                var items = ['Item(s)', 'Box(es)', 'Litre(s)', 'Bag(s)', 'Gram(s)', 'Kilogram(s)'];
-                var values = ['items', 'boxes', 'litres', 'bags', 'grams', 'kilograms'];
-                var sel = document.createElement('select');
-                sel.setAttribute('name', 'item[]');
-                sel.setAttribute('class', 'dropdownList tableInput');
-                sel.setAttribute('name', 'item[]');
-                for (var i = 0; i < items.length; i++) {
-                    var opt = document.createElement('option');
-                    opt.text = items[i];
-                    opt.value = items[i];
-                    sel.appendChild(opt);
-                }
-                td.appendChild(sel);
-            }
-
             if (c == 0 ) { //Product Code
                 // Function to add more text boxes.
                 var ele = document.createElement('input');
                 ele.setAttribute('type', 'text');
                 ele.setAttribute('value', '');
+                ele.setAttribute('name', 'codes[]');
                 ele.setAttribute('class', 'tableInput');
                 td.appendChild(ele);
             }
 
-            if (c == 2 ) { // quantity
+            if (c == 1 ) { // quantity
                 var ele = document.createElement('input');
                 ele.setAttribute('type', 'number');
                 ele.setAttribute('value', '');
+                ele.setAttribute('name', 'quantity[]');
                 ele.setAttribute('class', 'tableInput');
                 td.appendChild(ele);    
             }
         }
     }
+    
 
     // DELETE TABLE ROW.
     function removeRow(oButton) {
@@ -96,15 +75,22 @@
 
         // LOOP THROUGH EACH ROW OF THE TABLE.
         for (row = 1; row < myTab.rows.length - 1; row++) {
+            var item = new Array();
             for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
 
                 var element = myTab.rows.item(row).cells[c];
-                if (c < 4) {
-                    values.push("'" + element.childNodes[0].value + "'");
+                if (c <  myTab.rows.length - 1) {
+                    item.push("'" + element.childNodes[0].value + "'");
                 }
             }
+            if (item.length != 0) {
+                values.push(item);
+            }
+            
         }
         
+        var form = document.getElementById('add-item-form');
+        form.submit(values);
         // SHOW THE RESULT IN THE CONSOLE WINDOW.
         console.log(values);
     }

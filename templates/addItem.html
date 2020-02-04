@@ -1,0 +1,30 @@
+{% extends "home.html" %}
+
+{% block content %}
+<div>
+
+    <div class="container text-center">
+        <br>
+            <h2>Add Item to Basket</h2>
+        <br>
+        <br>
+        <button id="addRow" class="addButton" onclick="addRow()"> Add Item </button> 
+
+        <!-- <form id="add-item-form" method="post" action="/basket/add"> -->
+
+        <!--THE CONTAINER WHERE WE'll ADD THE DYNAMIC TABLE-->
+        <form id="add-item-form" method="post" action="/basket/add">
+            <div id="cont" class="text-center"></div>
+            <br>
+            <br>
+
+            <input type="button" id="bt" value="Confirm Items" onclick="submit()" />
+        </form>
+        <!-- </form> -->
+    </div>
+
+    <script type="text/javascript">
+        createTable();
+    </script>
+</div>
+{% endblock %}
