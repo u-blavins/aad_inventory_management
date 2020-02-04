@@ -31,6 +31,13 @@ def stocks():
             return render_template('viewStock.html')
     return redirect(url_for('admin.Admin'))
 
+@admin.route('/admin/addItem')
+def addStock():
+    if 'privilege' in session:
+        if session['privilege'] in [2, 3]:
+            return render_template('addItemToInventory.html')
+    return redirect(url_for('admin.Admin'))
+
 @admin.route('/admin/return')
 def return_items():
     if 'privilege' in session:

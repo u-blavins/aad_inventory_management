@@ -11,15 +11,16 @@
         <input type="text" placeholder="Search for items...">
         <br>
         <br>
-        <a href="/addItem" id="addItem" class="addButton"> Add Product </a>
+        <a href="/admin/addItem" id="addItem" class="addButton"> Add Item </a>
         <br>
         <br>
         <table>
             <thread>
                 <tr>
-                  <th>Product ID</th>
-                  <th>Product Name</th>
-                  <th>Quantity</th> 
+                  <th>Item ID</th>
+                  <th>Item Name</th>
+                  <th>Quantity</th>
+                  <th>Location</th> 
                   <th>Risk Item</th>
                 </tr>
             </thread>
@@ -94,9 +95,9 @@ function add(length) {
 }
 
 var StockData = [
-	  { "ProductId": "69-69", "ProductName": "200ml TestTubes", "Quantity": 3, "RiskItem": "No" },
-	  { "ProductId": "8==D", "ProductName": "deez nuts", "Quantity": 2, "RiskItem": "Yes" },
-	  { "ProductId": "KetSik1", "ProductName": "half a carrot", "Quantity": 1, "RiskItem": "No" }, 
+	  { "ProductId": "69-69", "ProductName": "200ml TestTubes", "Quantity": 3, "Location": "none of ur business", "RiskItem": "No" },
+	  { "ProductId": "8==D", "ProductName": "deez nuts", "Quantity": 2, "Location": "none of ur business", "RiskItem": "Yes" },
+	  { "ProductId": "KetSik1", "ProductName": "half a carrot", "Quantity": 1, "Location": "none of ur business", "RiskItem": "No" }, 
   ];
   
   function display() {
@@ -110,6 +111,8 @@ var StockData = [
                 +StockData[i].ProductName+
                 "</td><td>"
                 +StockData[i].Quantity+
+                "</td><td>"
+                +StockData[i].Location+
                 "</td><td>"
                 +StockData[i].RiskItem+
                 "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
@@ -127,6 +130,9 @@ var StockData = [
 
                 "'></td><td><input id='inputQuantity"+indice+"' type='number' value='"
                 +StockData[indice].Quantity+
+
+                "'></td><td><input id='inputLocation"+indice+"' type='number' value='"
+                +StockData[indice].Location+
 
                 "'></td><td><input id='inputRiskItem"+indice+"' type='text' value='"
                 +StockData[indice].RiskItem+
@@ -146,6 +152,9 @@ var StockData = [
 
             StockData[indice].Quantity = document.getElementById("inputQuantity"+indice).value;
             values.push("'" + StockData.Quantity + "'");
+
+            StockData[indice].Location = document.getElementById("inputLocation"+indice).value;
+            values.push("'" + StockData.Location + "'");
             
             StockData[indice].Price = document.getElementById("inputRiskItem"+indice).value;
             values.push("'" + StockData.RiskItem + "'");
