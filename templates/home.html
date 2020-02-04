@@ -29,15 +29,6 @@
                         {% endif %}
                             <a class="nav-link" href="/add-item">Add Items</a>
                         </li>
-                        {% if 'session' in session %}
-                            {% if 'admin' in request.url_rule.rule %}
-                            <li class="nav-item active">
-                            {% else %}
-                            <li class="nav-item">
-                            {% endif %}
-                                <a class="nav-link" href="/admin">Admin Area</a>
-                            </li>
-                        {% endif %}
                         {% if 'basket' in request.url_rule.rule %}
                         <li class="nav-item active">
                         {% else %}
@@ -45,6 +36,17 @@
                         {% endif %}
                             <a class="nav-link" href="/basket">View Basket</a>
                         </li>
+                        {% if 'privilege' in session %}
+                            {% if session['privilege'] in [2, 3]%}
+                                {% if 'admin' in request.url_rule.rule %}
+                                <li class="nav-item active">
+                                {% else %}
+                                <li class="nav-item">
+                                {% endif %}
+                                    <a class="nav-link" href="/admin">Admin Area</a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
                         {% if 'auth/logout' in request.url_rule.rule %}
                         <li class="nav-item active">
                         {% else %}

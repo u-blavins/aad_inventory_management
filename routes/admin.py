@@ -5,27 +5,23 @@ admin = Blueprint('admin', __name__)
 
 @admin.route('/admin')
 def Admin():
-    session['is_admin'] = ''
-    if 'is_admin' not in session:
-        return redirect(url_for('auth.Auth'))
-    return render_template('admin.html')
+    if 'privilege' in session:
+        if session['privilege'] in [2, 3]:
+            return render_template('admin.html')
+    return redirect(url_for('auth.Auth'))
 
 @admin.route('/admin/transactions')
 def transactions():
     return render_template('generateReport.html')
 
-@admin.route('/admin/restock')
-def restock():
+@admin.route('/admin/purchase-order')
+def purchase_order():
     return redirect(url_for('admin.Admin'))
 
-@admin.route('/admin/stocks')
+@admin.route('/admin/stock')
 def stocks():
-    return redirect(url_for('admin.Admin'))
+    return render_template('viewStock.html')
 
-@admin.route('/admin/product/add')
-def add_product():
-    return render_template('addItemToInventory.html')
-
-@admin.route('/admin/product/remove')
-def remove_product():
-    return render_template('removeItemFromInventory.html')
+@admin.route('/admin/return')
+def return_items():
+    return render_template('returnItems.html')
