@@ -8,7 +8,6 @@ class Item:
         query = """
             SELECT [Code],
             [Name],
-            [UnitName],
             [Risk],
             [Price]
             FROM [StoreManagement].[itm].[Item]
@@ -20,9 +19,8 @@ class Item:
             item = Item()
             item.set_code(row[0])
             item.set_name(row[1])
-            item.set_unit_name(row[2])
-            item.set_risk(row[3])
-            item.set_price(row[4])
+            item.set_risk(row[2])
+            item.set_price(row[3])
             items.append(item)
 
         return items
@@ -32,8 +30,8 @@ class Item:
         item = None
 
         query = """
-        SELECT [Code], [Name], [UnitName], [Risk], [Price] FROM
-        [StoreManagement].[itm].[Item] WHERE [Code] = '%s'
+        SELECT [Code], [Name], [Risk], [Price] FROM
+        [itm].[Item] WHERE [Code] = '%s'
         """ % code
 
         rows = Database.execute_query(query)
@@ -42,9 +40,8 @@ class Item:
             item = Item()
             item.set_code(row[0])
             item.set_name(row[1])
-            item.set_unit_name(row[2])
-            item.set_risk(row[3])
-            item.set_price(row[4])
+            item.set_risk(row[2])
+            item.set_price(row[3])
         
         return item
 
@@ -81,13 +78,6 @@ class Item:
 
     def get_name(self):
         return self.item['name']
-    
-    def set_unit_name(self, unit):
-        self.item['unit_name'] = unit
-        return self
-
-    def get_unit_name(self):
-        return self.item['unit_name']
 
     def set_risk(self, risk):
         self.item['risk'] = risk

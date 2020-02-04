@@ -1,6 +1,8 @@
 from flask import Blueprint, request, render_template, redirect, session, url_for
 from utils import Database
 
+from models.Item import Item as ItemModel
+
 admin = Blueprint('admin', __name__)
 
 @admin.route('/admin')
@@ -28,7 +30,15 @@ def purchase_order():
 def stocks():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
-            return render_template('viewStock.html')
+            items = ItemModel.get_all_items()
+            return render_template('viewStock.html', items=items)
+    return redirect(url_for('admin.Admin'))
+
+@admin.route('/admin/addItem')
+def addStock():
+    if 'privilege' in session:
+        if session['privilege'] in [2, 3]:
+            return render_template('addItemToInventory.html')
     return redirect(url_for('admin.Admin'))
 
 @admin.route('/admin/return')

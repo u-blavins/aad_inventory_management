@@ -80,7 +80,7 @@
 
                 var element = myTab.rows.item(row).cells[c];
                 if (c <  myTab.rows.length - 1) {
-                    item.push("'" + element.childNodes[0].value + "'");
+                    values.push("'" + element.childNodes[0].value + "'");
                 }
             }
             if (item.length != 0) {

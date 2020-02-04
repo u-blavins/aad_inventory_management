@@ -11,32 +11,99 @@
         <input type="text" placeholder="Search for items...">
         <br>
         <br>
-        <a href="/addItem" id="addItem" class="addButton"> Add Product </a>
+        <a href="/admin/addItem" id="addItem" class="addButton"> Add Item </a>
         <br>
         <br>
         <table>
             <thread>
                 <tr>
-                  <th>Product ID</th>
-                  <th>Product Name</th>
-                  <th>Quantity</th> 
+                  <th>Item Code</th>
+                  <th>Item Name</th>
+                  <th>Quantity</th>
                   <th>Risk Item</th>
                 </tr>
             </thread>
-            <tbody id="tbody"></tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.get_code() }}</td>
+                    <td>{{ item.get_name() }}</td>
+                    <td></td>
+                    <td>{{ item.get_risk() }}</td>
+                </tr>
+            {% endfor %}
         </table>
 </div>
 
 
 <script>
-    window.onload = () => {
-   display();
-};
+//     window.onload = () => {
+//    display();
+//    //addRow();
+//    //add();
+// };
+
+function getQueryString() {
+  var result = {}, queryString = location.search.slice(1),
+      re = /([^&=]+)=([^&]*)/g, m;
+
+  while (m = re.exec(queryString)) {
+    result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+  }
+  return result;
+}
+
+var itemId = getQueryString()["productId"];
+var itemName = getQueryString()["productName"];
+var quantity = getQueryString()["quantity"];
+var riskItem = getQueryString()["riskItem"];
+
+function addRow() {
+        var table = document.getElementById('tbody');
+
+        var rowCnt = table.rows.length;
+        var tr = table.insertRow(rowCnt);
+        tr = table.insertRow(rowCnt);
+
+        for (var c = 0; c < 4; c++) {
+            var td = document.createElement('td');
+            td = tr.insertCell(c);
+
+            if (c == 0 ) { 
+                td.appendChild(itemId);
+            }
+            if (c == 1 ) { 
+                td.appendChild(itemName);    
+            }
+            if (c == 2 ) { 
+                td.appendChild(quantity);    
+            }
+            if (c == 3 ) { 
+                td.appendChild(riskItem);    
+        }
+    };
+
+
+var length = StockData.length;
+
+function add(length) {
+    var htmltext = "<tr id='table"+length+"'><td>"
+                +itemId+
+                "</td><td>"
+                +itemName+
+                "</td><td>"
+                +quantity+
+                "</td><td>"
+                +riskItem+
+                "</td><td><button onclick='edit("
+                +length+")'>Edit</button><button onclick='remove("
+                +length+")'>Remove</button></td></tr>";
+            document.getElementById("tbody").innerHTML = htmltext;
+}
 
 var StockData = [
-	  { "ProductId": "69-69", "ProductName": "200ml TestTubes", "Quantity": 3, "RiskItem": "No" },
-	  { "ProductId": "8==D", "ProductName": "deez nuts", "Quantity": 2, "RiskItem": "Yes" },
-	  { "ProductId": "KetSik1", "ProductName": "half a carrot", "Quantity": 1, "RiskItem": "No" }, 
+	  { "ProductId": "69-69", "ProductName": "200ml TestTubes", "Quantity": 3, "Location": "none of ur business", "RiskItem": "No" },
+	  { "ProductId": "8==D", "ProductName": "deez nuts", "Quantity": 2, "Location": "none of ur business", "RiskItem": "Yes" },
+	  { "ProductId": "KetSik1", "ProductName": "half a carrot", "Quantity": 1, "Location": "none of ur business", "RiskItem": "No" }, 
   ];
   
   function display() {
@@ -50,6 +117,8 @@ var StockData = [
                 +StockData[i].ProductName+
                 "</td><td>"
                 +StockData[i].Quantity+
+                "</td><td>"
+                +StockData[i].Location+
                 "</td><td>"
                 +StockData[i].RiskItem+
                 "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
@@ -67,6 +136,9 @@ var StockData = [
 
                 "'></td><td><input id='inputQuantity"+indice+"' type='number' value='"
                 +StockData[indice].Quantity+
+
+                "'></td><td><input id='inputLocation"+indice+"' type='number' value='"
+                +StockData[indice].Location+
 
                 "'></td><td><input id='inputRiskItem"+indice+"' type='text' value='"
                 +StockData[indice].RiskItem+
@@ -86,6 +158,9 @@ var StockData = [
 
             StockData[indice].Quantity = document.getElementById("inputQuantity"+indice).value;
             values.push("'" + StockData.Quantity + "'");
+
+            StockData[indice].Location = document.getElementById("inputLocation"+indice).value;
+            values.push("'" + StockData.Location + "'");
             
             StockData[indice].Price = document.getElementById("inputRiskItem"+indice).value;
             values.push("'" + StockData.RiskItem + "'");
@@ -103,6 +178,7 @@ var StockData = [
                 +indice+")'>Remove</button></td></tr>";
             document.getElementById("table"+indice).innerHTML = htmltext;
         }
+}
 
 
         function remove(indice) {

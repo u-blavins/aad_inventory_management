@@ -9,8 +9,8 @@ def get_items():
     result = ItemModel.get_all_items()
     items = []
     for item in result:
-        items.append(item.__dict__)
-    return jsonify(items=items)
+        items.append(item)
+    return items
 
 @items.route('/api/items/item/<code>', methods=['GET'])
 def get_item(code):
