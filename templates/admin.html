@@ -7,9 +7,11 @@
     <br>
     <ul class="list-group">
     <a href="/admin/transactions" class="adminAreaButton">View Orders & Generate Report</a>
-    <br>
-    <br>
-    <a href="/admin/purchase-order" class="adminAreaButton">Generate Purchase Order</a>
+    {% if session['privilege'] == 3 %}    
+        <br>
+        <br>
+        <a href="/admin/purchase-order" class="adminAreaButton">Generate Purchase Order</a>
+    {% endif %}
     <br>
     <br>
     <a href="/admin/stock" class="adminAreaButton">Edit and add stock</a>

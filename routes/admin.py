@@ -12,16 +12,28 @@ def Admin():
 
 @admin.route('/admin/transactions')
 def transactions():
-    return render_template('generateReport.html')
+    if 'privilege' in session:
+        if session['privilege'] in [2, 3]:
+            return render_template('generateReport.html')
+    return redirect(url_for('admin.Admin'))
 
 @admin.route('/admin/purchase-order')
 def purchase_order():
+    if 'privilege' in session:
+        if session['privilege'] == 3:
+            return redirect(url_for('admin.Admin'))
     return redirect(url_for('admin.Admin'))
 
 @admin.route('/admin/stock')
 def stocks():
-    return render_template('viewStock.html')
+    if 'privilege' in session:
+        if session['privilege'] in [2, 3]:
+            return render_template('viewStock.html')
+    return redirect(url_for('admin.Admin'))
 
 @admin.route('/admin/return')
 def return_items():
-    return render_template('returnItems.html')
+    if 'privilege' in session:
+        if session['privilege'] in [2, 3]:
+            return render_template('returnItems.html')
+    return redirect(url_for('admin.Admin'))
