@@ -16,3 +16,6 @@ def get_items():
 def get_item(code):
     item = ItemModel.get_item(code)
     return jsonify(item=item.__dict__)
+
+@items.route('/api/items/codes', methods=['GET'])
+def get_codes():

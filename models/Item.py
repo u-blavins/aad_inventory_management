@@ -11,7 +11,7 @@ class Item:
             [UnitName],
             [Risk],
             [Price]
-            FROM [itm].[Item]
+            FROM [StoreManagement].[itm].[Item]
         """
         rows = Database.execute_query(query)
         items = []
@@ -33,7 +33,7 @@ class Item:
 
         query = """
         SELECT [Code], [Name], [UnitName], [Risk], [Price] FROM
-        [itm].[Item] WHERE [Code] = '%s'
+        [StoreManagement].[itm].[Item] WHERE [Code] = '%s'
         """ % code
 
         rows = Database.execute_query(query)
@@ -47,6 +47,21 @@ class Item:
             item.set_price(row[4])
         
         return item
+
+    @staticmethod
+    def get_codes():
+        codes = []
+
+        query = """
+        SELECT [Codes] FROM [StoreManagement].[itm].[Item]
+        """
+
+        rows = Database.execute_query(query)
+
+        for row in rows:
+            codes.append(row)
+        
+        return codes
 
     def __init__(self):
         self.code = None
