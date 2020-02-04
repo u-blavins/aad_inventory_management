@@ -9,10 +9,21 @@ def Basket():
         session['basket'] = []
     return render_template('basket.html')
 
+@basket.route('/add-item')
+def add_item():
+    return render_template('addItem.html')
+
 @basket.route('/basket/add', methods=['POST'])
 def add_items_basket():
     if request.method == 'POST':
-        items = request.form.getlist('item[]')
-        
-    return jsonify(basket=items)
+        items = {}
+        codes = request.form.getlist('codes[]')
+        quantity = request.form.getlist('quantity[]')
+        if len(codes) == len(quantity):
+            for i in range(len(codes)):
+                if codes[i] not in items:
+                    items[codes[i]] = quantity[i]
+                else:
+                    items[codes[i]] += quantity
+    return jsonify(items=items)
 

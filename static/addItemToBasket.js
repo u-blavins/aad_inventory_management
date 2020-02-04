@@ -45,6 +45,7 @@
                 var ele = document.createElement('input');
                 ele.setAttribute('type', 'text');
                 ele.setAttribute('value', '');
+                ele.setAttribute('name', 'codes[]');
                 ele.setAttribute('class', 'tableInput');
                 td.appendChild(ele);
             }
@@ -53,6 +54,7 @@
                 var ele = document.createElement('input');
                 ele.setAttribute('type', 'number');
                 ele.setAttribute('value', '');
+                ele.setAttribute('name', 'quantity[]');
                 ele.setAttribute('class', 'tableInput');
                 td.appendChild(ele);    
             }
@@ -73,15 +75,22 @@
 
         // LOOP THROUGH EACH ROW OF THE TABLE.
         for (row = 1; row < myTab.rows.length - 1; row++) {
+            var item = new Array();
             for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
 
                 var element = myTab.rows.item(row).cells[c];
                 if (c <  myTab.rows.length - 1) {
-                    values.push("'" + element.childNodes[0].value + "'");
+                    item.push("'" + element.childNodes[0].value + "'");
                 }
             }
+            if (item.length != 0) {
+                values.push(item);
+            }
+            
         }
         
+        var form = document.getElementById('add-item-form');
+        form.submit(values);
         // SHOW THE RESULT IN THE CONSOLE WINDOW.
         console.log(values);
     }

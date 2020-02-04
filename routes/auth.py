@@ -19,14 +19,14 @@ def login():
 
         if "Login successful" == result[0][0]:
             sproc = "[usr].[getUser] @Email = ?"
-            session['email'] = user_email
             params = user_email
             result = Database.execute_sproc(sproc, params)
-            is_admin = result[0][4]
-            if is_admin:
-                return redirect('/admin')
-            else:
-                return redirect('/basket')
+            session['user_id'] = result[0][0]
+            session['privilege'] = result[0][1]
+            if session['privilege'] in [0, 1]:
+                return redirect(url_for('basket.add_item'))
+            elif session['privilege'] in [2, 3]:
+                return redirect(url_for('admin.Admin'))
     return redirect('/auth')
 
 
@@ -39,10 +39,10 @@ def register():
             request.form['regFirstname'],
             request.form['regLastname'],
             request.form['departmentCode'],
-            request.form['accountType'])
+            int(request.form['accountType']))
 
         sproc = """[usr].[CreateUser] @Email = ?, @Password= ?, @FirstName = ?, @LastName = ?, 
-        @DepartmentCode = ?, @isStaff = ?"""
+        @DepartmentCode = ?, @privileges = ?"""
         Database.execute_sproc(sproc, params)
     return redirect(url_for('auth.Auth'))
 

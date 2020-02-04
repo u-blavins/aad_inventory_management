@@ -28,7 +28,7 @@ def customer():
         if session['is_admin'] != None:
             if session['is_admin'] == True:
                 return redirect('/admin')
-    return redirect(url_for('basket.Basket'))
+    return redirect(url_for('basket.add_item'))
 
 
 @app.route('/will')
