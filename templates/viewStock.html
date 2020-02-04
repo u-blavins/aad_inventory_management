@@ -11,18 +11,104 @@
         <input type="text" placeholder="Search for items...">
         <br>
         <br>
+        <a href="/addItem" id="addItem" class="addButton"> Add Product </a>
+        <br>
+        <br>
         <table>
             <thread>
                 <tr>
-                  <th>Product Code</th>
+                  <th>Product ID</th>
                   <th>Product Name</th>
                   <th>Quantity</th> 
                   <th>Risk Item</th>
                 </tr>
             </thread>
-            <tbody id="BasketData"></tbody>
+            <tbody id="tbody"></tbody>
         </table>
-
-    
 </div>
+
+
+<script>
+    window.onload = () => {
+   display();
+};
+
+var StockData = [
+	  { "ProductId": "69-69", "ProductName": "200ml TestTubes", "Quantity": 3, "RiskItem": "No" },
+	  { "ProductId": "8==D", "ProductName": "deez nuts", "Quantity": 2, "RiskItem": "Yes" },
+	  { "ProductId": "KetSik1", "ProductName": "half a carrot", "Quantity": 1, "RiskItem": "No" }, 
+  ];
+  
+  function display() {
+            var length = StockData.length;
+            var htmltext = "";
+
+            for (var i = 0; i < length; i++) {
+                htmltext += "<tr id='table"+i+"'><td>"
+                +StockData[i].ProductId+
+                "</td><td>"
+                +StockData[i].ProductName+
+                "</td><td>"
+                +StockData[i].Quantity+
+                "</td><td>"
+                +StockData[i].RiskItem+
+                "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
+            }
+            document.getElementById("tbody").innerHTML = htmltext;
+        }
+
+
+        function edit(indice) {
+            var htmltext = "<tr><td><input id='inputProductId"+indice+"' type='text' value='"
+                +StockData[indice].ProductId+
+
+                "'></td><td><input id='inputProductName"+indice+"' type='text' value='"
+                +StockData[indice].ProductName+
+
+                "'></td><td><input id='inputQuantity"+indice+"' type='number' value='"
+                +StockData[indice].Quantity+
+
+                "'></td><td><input id='inputRiskItem"+indice+"' type='text' value='"
+                +StockData[indice].RiskItem+
+
+                "'></td><td><button onclick='save("+indice+")'>Save</button><button onclick='remove("+indice+")'>Remove</button></td></tr>";
+            document.getElementById("table"+indice).innerHTML = htmltext;
+        }
+
+        function save(indice) {
+            var values = new Array();
+
+            //BasketData2[indice].ProductId = document.getElementById("inputProductId"+indice).value;
+            values.push("'" + StockData[indice].ProductId[0].value + "'");
+
+            StockData[indice].ProductName = document.getElementById("inputProductName"+indice).value;
+            values.push("'" + StockData[indice].ProductName + "'");
+
+            StockData[indice].Quantity = document.getElementById("inputQuantity"+indice).value;
+            values.push("'" + StockData.Quantity + "'");
+            
+            StockData[indice].Price = document.getElementById("inputRiskItem"+indice).value;
+            values.push("'" + StockData.RiskItem + "'");
+
+            var htmltext = "<tr id='table"+indice+"'><td>"
+                +StockData[indice].ProductId+
+                "</td><td>"
+                +StockData[indice].ProductName+
+                "</td><td>"
+                +StockData[indice].Quantity+
+                "</td><td>"
+                +StockData[indice].RiskItem+
+                "</td><td><button onclick='edit("
+                +indice+")'>Edit</button><button onclick='remove("
+                +indice+")'>Remove</button></td></tr>";
+            document.getElementById("table"+indice).innerHTML = htmltext;
+        }
+
+
+        function remove(indice) {
+            StockData.splice(indice, 1);
+            display();
+        }
+  
+  </script>
 {% endblock %}
