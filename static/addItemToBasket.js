@@ -1,6 +1,6 @@
 
     var arrHead = new Array();
-    arrHead = ['Product Code', 'Quantity', ''];
+    arrHead = ['Product Code', 'Quantity', 'Unit Type', ''];
 
     function createTable() {
         var empTable = document.createElement('table');
@@ -57,6 +57,20 @@
                 ele.setAttribute('name', 'quantity[]');
                 ele.setAttribute('class', 'tableInput');
                 td.appendChild(ele);    
+            }
+
+            if (c ==  2) { //Unit Type
+                var items = ['Item(s)', 'Box(es)', 'Litre(s)', 'Bag(s)', 'Gram(s)', 'Kilogram(s)'];
+                var sel = document.createElement('select');
+                sel.setAttribute('name', 'unitType[]');
+                sel.setAttribute('class', 'dropdownList tableInput');
+                for (var i = 0; i < items.length; i++) {
+                    var opt = document.createElement('option');
+                    opt.text = items[i];
+                    opt.value = items[i];
+                    sel.appendChild(opt);
+                }
+                td.appendChild(sel);
             }
         }
     }
