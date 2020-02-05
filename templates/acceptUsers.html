@@ -14,24 +14,31 @@
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Permissions Requested</th>
-                  <th></th>
                 </tr>
             </thread>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td><button>Accept</button>
-            <button>Deny</button></td>
-            
+            <td><button class="acceptUser">Accept</button></td>
+           <td><button class="rejectUser">Deny</button></td></td>
+
             <!-- {% for user in newUsers %}
                 <tr>
                     <td>{{ user.get_email() }}</td>
                     <td>{{ user.get_firstName() }}</td>
                     <td>{{ user.get_lastName() }}</td>
                     <td>{{ item.get_perms() }}</td>
+                    <td><button onclick= accept(user)>Accept</button>
+                        <button onclick= deny(user)>Deny</button></td>
                 </tr>
             {% endfor %} -->
         </table>
 </div>
+
+<script>
+function deny(user) {
+            newUsers.splice(indice, 1);
+    }
+</script>
 {% endblock %}

@@ -11,7 +11,7 @@
         <input type="text" placeholder="Search for items...">
         <br>
         <br>
-        <a href="/admin/add-item" id="addItem" class="addButton"> Add Item </a>
+        <a href="/admin/add-item" id="addItem" class="acceptUser"> Add Item </a>
         <br>
         <br>
         <table>
@@ -29,12 +29,12 @@
                     <td>{{ item.get_name() }}</td>
                     <td></td>
                     <td>{{ item.get_risk() }}</td>
+                    <td><button onclick= edit(item) class="acceptUser">Edit</button></td>
+                    <td><button onclick= remove(item) class="rejectUser">Remove</button></td>
                 </tr>
             {% endfor %}
         </table>
 </div>
-
-
 
 
 <script>
