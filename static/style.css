@@ -1,20 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
 
 @media (max-width: 992px) {
-
+  body{font-size: 16px;}
   }
 @media (max-width: 768px) {
-  
+  body{font-size: 14px;}
 }
 @media (max-width: 576px) {
-  
+  body{font-size: 10px;}
 }
 
+h3 {
+  font-size: 1.4em;
+}    
 
 [class*="col-"] {
     padding: 1rem;
 }
-
 
 ul.list-group {
   width: 70%;
@@ -32,25 +34,24 @@ ul.list-group {
 .dropdownGenerateReport {
   margin: 0 auto;
 }
-
+ 
 table, input[type=text], input[type=number], select {
   border-radius: 1px;
   width: 100%;
 }
 
-th{
+th {
   background-color: solid lightgrey;
 }
+
 tr:nth-child(odd){
   background-color: whitesmoke;
-  width: 100%;
 }
 
 tr:hover{
   background-color: rgb(255, 124, 192);
   color: white;
-} 
-
+}
 
 /* Admin Area */
 

@@ -9,6 +9,8 @@
         var tr = empTable.insertRow(-1);
 
         for (var h = 0; h < arrHead.length; h++) {
+            var div = document.createElement('div');
+            div.setAttribute('class', 'table-responsive');
             var th = document.createElement('th');          // TABLE HEADER.
             th.innerHTML = arrHead[h];
             tr.appendChild(th);
@@ -37,6 +39,7 @@
                 button.setAttribute('type', 'icon');
                 button.setAttribute('onclick', 'removeRow(this)');
                 button.setAttribute('class', 'fas fa-minus-circle');
+                button.setAttribute('style', 'cursor:pointer;');
 
                 td.appendChild(button);
             }
