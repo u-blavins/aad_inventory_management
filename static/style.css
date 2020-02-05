@@ -178,6 +178,8 @@ tr:hover{
   }
   .greenButton:hover {
     background-color:#5cb811;
+    color:#000000;
+    text-decoration:none;
   }
   .greenButton:active {
     position:relative;
