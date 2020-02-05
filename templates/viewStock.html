@@ -8,19 +8,20 @@
         <br>
         <br>
 
-        <input type="text" placeholder="Search for items...">
+        <input type="text" placeholder="Search for items..." class="inputShadowBox">
         <br>
         <br>
-        <a href="/admin/add-item" id="addItem" class="acceptUser"> Add Item </a>
+        <a href="/admin/add-stock" id="addItem" class="greenButton"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Item </a>
         <br>
         <br>
-        <table>
+        <table class="table">
             <thread>
                 <tr>
                   <th>Item Code</th>
                   <th>Item Name</th>
                   <th>Quantity</th>
                   <th>Risk Item</th>
+                  <th></th>
                 </tr>
             </thread>
             {% for item in items %}
@@ -29,13 +30,12 @@
                     <td>{{ item.get_name() }}</td>
                     <td></td>
                     <td>{{ item.get_risk() }}</td>
-                    <td><button onclick= edit(item) class="acceptUser">Edit</button></td>
-                    <td><button onclick= remove(item) class="rejectUser">Remove</button></td>
+                    <td><button onclick= edit(item) class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button>
+                    <button onclick= remove(item) class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
                 </tr>
             {% endfor %}
         </table>
 </div>
-
 
 <script>
 

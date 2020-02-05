@@ -5,10 +5,10 @@
 
     <div class="container text-center">
         <br>
-            <h2>Add Item to Basket</h2>
+            <h3>Add Items to Basket</h3>
         <br>
         <br>
-        <button id="addRow" class="acceptUser addButton" onclick="addRow()"> Add Item </button> 
+        <button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button> 
 
         <!-- <form id="add-item-form" method="post" action="/basket/add"> -->
         <form id="add-item-form" method="post" action="/basket/add">
@@ -16,7 +16,7 @@
             <br>
             <br>
 
-            <input type="button" class="acceptUser" id="bt" value="Confirm Items" onclick="submit()" />
+            <button class="editButton" id="bt" onclick="submit()">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
         </form>
     </div>
 
