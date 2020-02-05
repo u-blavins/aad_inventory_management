@@ -13,18 +13,6 @@
     <button onclick="search_transactions()">Search Transactions</button>
 
     
-    <script>
-    function search_transactions() { 
-        let input = document.getElementById('searchbar').value 
-        if (input != ""){
-            alert("You are searching: " + input);
-            display();
-        }
-        else{
-           alert("Enter Transaction Id"); 
-        } 
-    } 
-    </script>
 
   <div class="title">
   <h4>Return Item from History Below</h4>
@@ -101,6 +89,16 @@
 
     <script>
 
+    function search_transactions() { 
+        let input = document.getElementById('searchbar').value 
+        if (input != ""){
+            display(input);
+        }
+        else{
+           alert("Enter Transaction Id"); 
+        } 
+    } 
+
         let sortDirection = false;
 
         var myArray = [{ "productCode": "123", "productName": "Blue Pens", "quantity": "5", "timeStamp": "21-04-20" },
@@ -108,21 +106,26 @@
                        { "productCode": "678", "productName": "whiteboard", "quantity": "1", "timeStamp": "23-04-20" },
                                                         ];
 
-        function display() {
+        function display(input) {
             var length = myArray.length;
             var htmltext = "";
 
             for (var i = 0; i < length; i++) {
                 console.log(myArray[i]);
-                htmltext += "<tr id='table"+i+"'><td>"
-                +myArray[i].productCode+
-                "</td><td>"
-                +myArray[i].productName+
-                "</td><td>"
-                +myArray[i].quantity+
-                "</td><td>"
-                +myArray[i].timeStamp+
-                "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
+                console.log("window is searching for "+input);
+                if (input == myArray[i]) // ISSUE IS HERE WITH i
+                {
+                    htmltext += "<tr id='table"+i+"'><td>"
+                    +myArray[i].productCode+
+                    "</td><td>"
+                    +myArray[i].productName+
+                    "</td><td>"
+                    +myArray[i].quantity+
+                    "</td><td>"
+                    +myArray[i].timeStamp+
+                    "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
+                }
+                else{alert(input+" is not in database!");}
             }
             document.getElementById("tbody").innerHTML = htmltext;
         }
