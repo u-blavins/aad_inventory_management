@@ -21,10 +21,21 @@ def get_user(id):
     user = UserModel.get_user(id)
     return jsonify(user=user.__dict__)
 
-@users.route('/api/users/approval', methods=['GET'])
+@users.route('/users/approval')
 def get_user_approval():
+    if 'user_id' not in session:
+        return redirect(url_for('auth.Auth'))
+
     result = UserModel.get_user_approval()
-    users = []
-    for user in result:
-        users.append(user.__dict__)
-    return jsonify(users=users)
+    if result != 0:
+        users = []
+        for user in result:
+            userItem = {}
+            userItem['id'] = user.get_id()
+            userItem['email'] = user.get_email()
+            userItem['first_name'] = user.get_first_name()
+            userItem['last_name'] = user.get_last_name()
+            userItem['department'] = user.get_department_code()
+            userItem['privileges'] = user.get_user_level()
+            users.append(userItem)
+    return render_template('acceptUsers.html', users=users)

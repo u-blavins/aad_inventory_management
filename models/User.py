@@ -101,7 +101,7 @@ class User:
         return self
 
     def get_first_name(self):
-        return self['first_name']
+        return self.user['first_name']
 
     def set_last_name(self, lname):
         self.user['last_name'] = lname
