@@ -174,8 +174,8 @@
 	<table>
 		<thread>
 			<tr>
-				<th>ProductId</th>
-				<th>ProductName</th>
+				<th>Item Code</th>
+				<th>Item Name</th>
 				<th>Price Per Item</th>
 				<th>Unit Type</th>
 				<th>Quantity</th>  
@@ -184,11 +184,11 @@
 		<tbody id="BasketData2">
 		{% for item in basket %}
 			<tr>
-				<td>{{item}}</td>
-				<td></td>
-				<td></td>
-				<td>{{basket[item].unit}}</td>
-				<td>{{basket[item].quantity}}</td>
+				<td>{{item.code}}</td>
+				<td>{{item.name}}</td>
+				<td>{{item.price}}</td>
+				<td>{{item.unit}}</td>
+				<td>{{item.quantity}}</td>
 			</tr>
 		{% endfor %}
 		</tbody>

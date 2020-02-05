@@ -9,9 +9,17 @@ basket = Blueprint('basket', __name__)
 def Basket():
     if 'user_id' not in session:
         return redirect(url_for('auth.Auth'))
-    if 'basket' not in session:
-        session['basket'] = {}
-    basket = session['basket']
+    basket = []
+    if len(session['basket']) != 0:
+        for item in session['basket']:
+            item_model = ItemModel.get_item(item)
+            basket_item = {}
+            basket_item['code'] = item_model.get_code()
+            basket_item['name'] = item_model.get_name()
+            basket_item['price'] = item_model.get_price()
+            basket_item['unit'] = session['basket'][item]['unit']
+            basket_item['quantity'] = session['basket'][item]['quantity']
+            basket.append(basket_item)
     return render_template('basket.html', basket=basket)
 
 @basket.route('/add-item')
@@ -20,7 +28,17 @@ def add_item():
         return redirect(url_for('auth.Auth'))
     return render_template('addItem.html')
 
+@basket.route('/basket/remove/<code>', methods=['POST'])
+def remove_from_basket(code):
+    if request.method == 'POST':
+        if code in session['basket']:
+            del session['basket'][code]
+    return redirect(url_for('basket.Basket'))
+
 @basket.route('/basket/order', methods=['POST'])
+def order():
+    return 0
+
 
 @basket.route('/basket/add', methods=['POST'])
 def add_items_basket():
@@ -43,6 +61,5 @@ def add_items_basket():
                     else:
                         item[codes[i]]['quantity'] += int(quantity[i])
         session['basket'] = item
-    # return redirect(url_for('basket.add_item'))
     return jsonify(basket=session['basket'])
 
