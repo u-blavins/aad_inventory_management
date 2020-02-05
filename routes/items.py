@@ -1,6 +1,7 @@
 from flask import Blueprint, request, render_template, redirect, session, url_for, jsonify
 from utils import Database
 from models.Item import Item as ItemModel
+from models.Unit import Unit as UnitModel
 
 import json
 
@@ -37,3 +38,11 @@ def add_items():
     price = request.args.get('price')
     ItemModel.add_item(code, name, risk, price)
     return {"Message": "Added Item"}
+
+@items.route('/api/units')
+def units():
+    units = []
+    result = UnitModel.get_all_units()
+    for unit in result:
+        units.append(unit.__dict__)
+    return jsonify(units=units)

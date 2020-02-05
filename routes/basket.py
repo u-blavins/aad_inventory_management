@@ -64,5 +64,5 @@ def add_items_basket():
                     else:
                         item[codes[i]]['quantity'] += int(quantity[i])
         session['basket'] = item
-    return redirect(url_for('basket.add_item'))
+    return redirect(url_for('basket.Basket'))
 

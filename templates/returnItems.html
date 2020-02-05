@@ -92,7 +92,7 @@
     function search_transactions() { 
         let input = document.getElementById('searchbar').value 
         if (input != ""){
-            display(input);
+            search(String(input));
         }
         else{
            alert("Enter Transaction Id"); 
@@ -111,18 +111,36 @@
             var htmltext = "";
 
             for (var i = 0; i < length; i++) {
+                htmltext += "<tr id='table"+i+"'><td>"
+                +myArray[i]['productCode']+
+                "</td><td>"
+                +myArray[i]['productName']+
+                "</td><td>"
+                +myArray[i]['quantity']+
+                "</td><td>"
+                +myArray[i]['timeStamp']+
+                "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
+            }
+            document.getElementById("tbody").innerHTML = htmltext;
+        }
+
+        function search(input) {
+            var length = myArray.length;
+            var htmltext = "";
+
+            for (var i = 0; i < length; i++) {
                 console.log(myArray[i]);
                 console.log("window is searching for "+input);
-                if (input == myArray[i]) // ISSUE IS HERE WITH i
+                if (input == myArray[i]['productCode']) // ISSUE IS HERE WITH i
                 {
                     htmltext += "<tr id='table"+i+"'><td>"
-                    +myArray[i].productCode+
+                    +myArray[i]['productCode']+
                     "</td><td>"
-                    +myArray[i].productName+
+                    +myArray[i]['productName']+
                     "</td><td>"
-                    +myArray[i].quantity+
+                    +myArray[i]['quantity']+
                     "</td><td>"
-                    +myArray[i].timeStamp+
+                    +myArray[i]['timeStamp']+
                     "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
                 }
                 else{alert(input+" is not in database!");}
@@ -184,7 +202,12 @@
         function remove(indice) {
             console.log(myArray);
             myArray.splice(indice, 1);
-            display();
+            let input = document.getElementById('searchbar').value
+            if (input != "") {
+                search_transactions()
+            } else {
+                display()
+            }
         }
 
         function submit() {
