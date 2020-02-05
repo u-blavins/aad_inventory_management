@@ -60,14 +60,20 @@
             }
 
             if (c ==  2) { //Unit Type
-                var items = ['Item(s)', 'Box(es)', 'Litre(s)', 'Bag(s)', 'Gram(s)', 'Kilogram(s)'];
+                // var items = ['Item(s)', 'Box(es)', 'Litre(s)', 'Bag(s)', 'Gram(s)', 'Kilogram(s)'];
+                var items = {
+                    'Item(s)': 'Single',
+                    'Box(es)': 'Box', 
+                    'Litre(s)': 'Litre', 
+                    'Kilogram(s)': 'Kilogram'
+                }
                 var sel = document.createElement('select');
                 sel.setAttribute('name', 'unitType[]');
                 sel.setAttribute('class', 'dropdownList tableInput');
-                for (var i = 0; i < items.length; i++) {
+                for (prop in items) {
                     var opt = document.createElement('option');
-                    opt.text = items[i];
-                    opt.value = items[i];
+                    opt.text = prop;
+                    opt.value = items[prop];
                     sel.appendChild(opt);
                 }
                 td.appendChild(sel);

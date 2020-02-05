@@ -9,6 +9,8 @@ basket = Blueprint('basket', __name__)
 def Basket():
     if 'user_id' not in session:
         return redirect(url_for('auth.Auth'))
+    if 'basket' not in session:
+        session['basket'] = {}
     basket = []
     if len(session['basket']) != 0:
         for item in session['basket']:
@@ -28,11 +30,12 @@ def add_item():
         return redirect(url_for('auth.Auth'))
     return render_template('addItem.html')
 
-@basket.route('/basket/remove/<code>', methods=['POST'])
+@basket.route('/basket/remove/<code>')
 def remove_from_basket(code):
-    if request.method == 'POST':
-        if code in session['basket']:
-            del session['basket'][code]
+    basket = session['basket']
+    if code in basket:
+        del basket[code]
+    session['basket'] = basket
     return redirect(url_for('basket.Basket'))
 
 @basket.route('/basket/order', methods=['POST'])
@@ -52,7 +55,7 @@ def add_items_basket():
         units = request.form.getlist('unitType[]')
         if len(codes) == len(quantity):
             for i in range(len(codes)):
-                if codes[i] in present_codes:
+                if codes[i] in present_codes and units[i] in ItemModel.get_unit_types(codes[i]):
                     if codes[i] not in item:
                         item[codes[i]] = {
                             'quantity': int(quantity[i]),
@@ -61,5 +64,5 @@ def add_items_basket():
                     else:
                         item[codes[i]]['quantity'] += int(quantity[i])
         session['basket'] = item
-    return jsonify(basket=session['basket'])
+    return redirect(url_for('basket.add_item'))
 
