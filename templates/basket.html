@@ -136,13 +136,13 @@
   
 
   </script> -->
-
+  <div class="container text-center">
+	<br>
+	<h3>View Basket</h3>
+	<br>
 	{% if basket|length %}
-	<div class="container text-center">
-		<br>
-		<h3>View Basket</h3>
-		<br>
-	<table class="table">
+		<div class="table-responsive">
+		<table class="table">
 		<thread>
 			<tr>
 				<th>Item Code</th>
@@ -170,18 +170,22 @@
 		{% endfor %}
 		</tbody>
 	</table>
+	</div>
 	<br>
 	<br>
-		<h4>Total Cost:</h4>
+		<h3>Total Cost:</h3>
 		<br>
 		<br>
 	
 	<button class="greenButton" id="bt" onclick="submit()">Complete Checkout<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
-	</div>
+	
 	{% else %}
+	<br>
+		<h4>No items in basket</h4>
 		<br>
-		<h3>No items in basket</h3>
+	<br>
+		<a class="greenButton" href="/add-item"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Items </a> 
 	{% endif %}
-
+</div>
 {% endblock %}
 

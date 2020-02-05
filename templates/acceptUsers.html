@@ -7,6 +7,8 @@
             <h3>Accept/Deny Users</h3>
         <br>
         <br>
+        {% if users|length %}
+        <div class="table-responsive">
         <table class="table">
             <thread>
                 <tr>
@@ -38,6 +40,14 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    {% else %}
+    <br>
+        <h4>No new user requests</h4>
+        <br>
+        <br>
+		<a class="adminButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i>Admin Area </a> 
+	{% endif %}
 </div>
 
 <script>

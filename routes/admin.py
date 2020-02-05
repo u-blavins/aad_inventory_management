@@ -38,7 +38,7 @@ def stocks():
 @admin.route('/admin/add-stock')
 def add_stock():
     if 'privilege' in session:
-        if session['privilege'] in [2, 3]:
+        if session['privilege'] == 3:
             return render_template('addItemToInventory.html')
     return redirect(url_for('admin.Admin'))
 
