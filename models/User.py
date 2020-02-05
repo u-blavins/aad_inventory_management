@@ -51,7 +51,26 @@ class User:
 
         return user
 
+    @staticmethod
+    def get_user_approval():
+        query = """
+            SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode], [Privileges]
+            FROM [StoreManagement].[usr].[WaitingForApproval]                        
+            """
+        rows = Database.execute_query(query)
+        users = []
 
+        for row in rows:
+            user = User()
+            user.set_id(row[0])
+            user.set_email(row[1])
+            user.set_first_name(row[2])
+            user.set_last_name(row[3])
+            user.set_department_code(row[4])
+            user.set_user_level(row[5])
+            users.append(user)
+
+        return users
 
     @staticmethod
     def get_user_by(key, value):

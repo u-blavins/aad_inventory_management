@@ -20,3 +20,11 @@ def get_users():
 def get_user(id):
     user = UserModel.get_user(id)
     return jsonify(user=user.__dict__)
+
+@users.route('/api/users/approval', methods=['GET'])
+def get_user_approval():
+    result = UserModel.get_user_approval()
+    users = []
+    for user in result:
+        users.append(user.__dict__)
+    return jsonify(users=users)
