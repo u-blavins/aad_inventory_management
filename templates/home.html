@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>NTU Inventory Management</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -28,14 +29,14 @@
                         {% else %}
                         <li class="nav-item">
                         {% endif %}
-                            <a class="nav-link" href="/add-item">Add Items</a>
+                            <a class="nav-link" href="/add-item"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Items</a>
                         </li>
                         {% if 'basket' in request.url_rule.rule %}
                         <li class="nav-item active">
                         {% else %}
                         <li class="nav-item">
                         {% endif %}
-                            <a class="nav-link" href="/basket">View Basket</a>
+                            <a class="nav-link" href="/basket"><i class="fas fa-shopping-basket" style="margin-right:5px;"></i>View Basket</a>
                         </li>
                         {% if 'privilege' in session %}
                             {% if session['privilege'] in [2, 3]%}
@@ -44,7 +45,7 @@
                                 {% else %}
                                 <li class="nav-item">
                                 {% endif %}
-                                    <a class="nav-link" href="/admin">Admin Area</a>
+                                    <a class="nav-link" href="/admin"><i class="fas fa-cogs" style="margin-right:5px;"></i>Admin Area</a>
                                 </li>
                             {% endif %}
                         {% endif %}
@@ -53,7 +54,7 @@
                         {% else %}
                         <li class="nav-item">
                         {% endif %}
-                            <a class="nav-link" href="/auth/logout">Logout</a>
+                            <a class="nav-link" href="/auth/logout"><i class="fas fa-power-off" style="margin-right:5px;"></i>Logout</a>
                         </li>
                     </ul>
                 </div>

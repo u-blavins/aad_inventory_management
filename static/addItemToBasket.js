@@ -1,10 +1,11 @@
 
     var arrHead = new Array();
-    arrHead = ['Product Code', 'Quantity', 'Unit Type', ''];
+    arrHead = ['Item Code', 'Quantity', 'Unit Type', ''];
 
     function createTable() {
         var empTable = document.createElement('table');
         empTable.setAttribute('id', 'empTable');
+        empTable.setAttribute('class', 'table');
         var tr = empTable.insertRow(-1);
 
         for (var h = 0; h < arrHead.length; h++) {
@@ -35,7 +36,7 @@
 
                 button.setAttribute('type', 'icon');
                 button.setAttribute('onclick', 'removeRow(this)');
-                button.setAttribute('class', 'fa fa-trash');
+                button.setAttribute('class', 'fas fa-minus-circle');
 
                 td.appendChild(button);
             }
