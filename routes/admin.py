@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, redirect, session, url_fo
 from utils import Database
 
 from models.Item import Item as ItemModel
+from  models.User import User as UserModel
 
 admin = Blueprint('admin', __name__)
 
@@ -52,5 +53,17 @@ def return_items():
 def accept_users():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
-            return render_template('acceptUsers.html')
+            result = UserModel.get_user_approval()
+            if result != 0:
+                users = []
+                for user in result:
+                    userItem = {}
+                    userItem['id'] = user.get_id()
+                    userItem['email'] = user.get_email()
+                    userItem['first_name'] = user.get_first_name()
+                    userItem['last_name'] = user.get_last_name()
+                    userItem['department'] = user.get_department_code()
+                    userItem['privileges'] = user.get_user_level()
+                    users.append(userItem)
+            return render_template('acceptUsers.html', users=users)
     return redirect(url_for('admin.Admin'))
