@@ -4,36 +4,36 @@
 <div>
     <div class="container text-center">
         <br>
-            <h2>Accept/Deny Users</h2>
+            <h3>Accept/Deny Users</h3>
         <br>
         <br>
-        <table>
+        <table class="table">
             <thread>
                 <tr>
-                  <th>ID</th>
                   <th>Email</th>
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Department Code</th>
                   <th>Permissions Requested</th>
+                  <th></th>
                 </tr>
             </thread>
             <tbody>
             {% for user in users %}
                 <tr>
-                    <td>{{ user.id }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.first_name }}</td>
                     <td>{{ user.last_name }}</td>
                     <td>{{ user.department }}</td>
                     <td>{{ user.privileges }}</td>
                     <td><form method="post" action="/admin/accept/{{user.id}}">
-						    <button type="submit">Accept</button>
+						    <button class = "greenButton" type="submit"><i class="fas fa-check-circle" style="margin-right: 5px;"></i>Accept</button>
 					    </form>
                         <form method = "post" action="/admin/deny/{{user.id}}">
-                            <button type="submit">Deny</button>
+                            <button class = "redButton" type="submit"><i class="fas fa-times-circle" style="margin-right: 5px;"></i>Deny</button>
                         </form>
                     </td>
+
                 </tr>
             {% endfor %}
             </tbody>
@@ -42,7 +42,7 @@
 
 <script>
 function deny(user) {
-            newUsers.splice(indice, 1);
+            users.splice(user, 1);
     }
 </script>
 {% endblock %}

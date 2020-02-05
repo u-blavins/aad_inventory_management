@@ -8,36 +8,6 @@
 	<h4><ul>Your Credentials</ul></h4>
 
   </div> -->
-
-
-  <style>
-	table{
-	  border-collapse: collapse;
-	  width: 50%;
-	  margin: auto;
-	}
-	td, th{
-		border: 3px solid lightgrey;
-		padding: 10px;
-	}
-	th{
-		font-family: Arial, Verdana, sans-serif;
-		font-weight: bold;
-		text-shadow: 3px ;
-	}
-	.cost{
-		width:20%;
-		outline-width: 1px black;
-	}
-  
-	tr:nth-child(odd){
-		background-color: whitesmoke;
-	}
-	tr:hover{
-	  background-color: pink;
-		color: white;
-	}
-	</style>
   
 	<!-- <script>
  	  window.onload = () => {
@@ -168,11 +138,11 @@
   </script> -->
 
 	{% if basket|length %}
-	<div class="container">
+	<div class="container text-center">
 		<br>
-		<h4><ul>Products in Basket</ul></h4>
-	</div>
-	<table>
+		<h3>View Basket</h3>
+		<br>
+	<table class="table">
 		<thread>
 			<tr>
 				<th>Item Code</th>
@@ -180,6 +150,7 @@
 				<th>Price Per Item</th>
 				<th>Unit Type</th>
 				<th>Quantity</th>  
+				<th></th>
 			</tr>
 		</thread>
 		<tbody id="BasketData2">
@@ -192,7 +163,7 @@
 				<td>{{item.quantity}}</td>
 				<td>
 					<form action="/basket/remove/{{item.code}}">
-						<button type="submit">Remove</button>
+						<button type="submit" class="redButton"><i class="fas fa-minus-circle"></i></button>
 					</form>
 				</td>
 			</tr>
@@ -200,20 +171,16 @@
 		</tbody>
 	</table>
 	<br>
-	<div class="container">
-		<h4><ul>Total Cost</ul></h4>
-		</div>
+	<br>
+		<h4>Total Cost:</h4>
+		<br>
+		<br>
 	
-	<table>
-		<tbody id="Cost"></tbody>
-	</table>
-	
-	<div class="container"><ul>
-	<input type="button" id="addButton" value="Complete Checkout" onclick="submit()" />
-	</ul></div>
+	<button class="greenButton" id="bt" onclick="submit()">Complete Checkout<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
+	</div>
 	{% else %}
 		<br>
-		<h1><ul>No items in basket</ul></h1>
+		<h3>No items in basket</h3>
 	{% endif %}
 
 {% endblock %}
