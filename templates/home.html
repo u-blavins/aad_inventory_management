@@ -19,6 +19,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                {% if '/auth' != request.url_rule.rule %}
                 {% block nav %}
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
@@ -57,6 +58,7 @@
                     </ul>
                 </div>
                 {% endblock nav %}
+                {% endif %}
             </div>
         </nav>
         {% block content %}{% endblock %}
