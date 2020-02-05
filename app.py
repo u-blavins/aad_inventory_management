@@ -33,6 +33,14 @@ def home():
 def will():
     return render_template('will.html')
 
+@app.route('/returnItems')
+def returnItems():
+    return render_template('returnItems.html')
+
+@app.route('/viewStock')
+def viewStock():
+    return render_template('viewStock.html')
+
 
 if __name__ == '__main__':
     app.run()
