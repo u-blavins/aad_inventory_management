@@ -67,3 +67,29 @@ def accept_users():
                     users.append(userItem)
             return render_template('acceptUsers.html', users=users)
     return redirect(url_for('admin.Admin'))
+
+@admin.route('/admin/accept/<id>', methods=['POST'])
+def accept(id):
+    if request.method == 'POST':
+        query = """
+                    UPDATE
+                        [StoreManagement].[usr].[User]
+                    SET
+                        [isApproved] = 1
+                    WHERE
+                        [ID] = '%s'
+                """ % id
+        Database.execute(query)
+    return redirect(url_for('admin.accept_users'))
+
+@admin.route('/admin/deny/<id>', methods=['POST'])
+def deny(id):
+    if request.method == 'POST':
+        query = """
+                        DELETE FROM
+                            [StoreManagement].[usr].[User]
+                        WHERE
+                            [ID] = '%s'
+                    """ % id
+        Database.execute(query)
+    return redirect(url_for('admin.accept_users'))

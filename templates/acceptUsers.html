@@ -27,8 +27,13 @@
                     <td>{{ user.last_name }}</td>
                     <td>{{ user.department }}</td>
                     <td>{{ user.privileges }}</td>
-                    <td><button onclick= accept(user)>Accept</button>
-                        <button onclick= deny(user)>Deny</button></td>
+                    <td><form method="post" action="/admin/accept/{{user.id}}">
+						    <button type="submit">Accept</button>
+					    </form>
+                        <form method = "post" action="/admin/deny/{{user.id}}">
+                            <button type="submit">Deny</button>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
