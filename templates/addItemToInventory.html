@@ -5,22 +5,21 @@
 
 <div class="container text-center">
     <br>
-    <h3><ul>Add New Product To Stock</ul></h3>
+    <h3><ul>Add New Item To Stock</ul></h3>
     <br>
-	<br>
 	
 	<form action="/admin/stock" method="GET">
 		<div class="form-group">
-		  <label>Item ID:</label>
-		  <input type="text" class="form-control" placeholder="Enter item ID" name="productId">
+		  <label>Item Code:</label>
+		  <input type="text" class="form-control inputShadowBox" placeholder="Enter item code" name="productId" required>
 		</div>
 		<div class="form-group">
 		  <label>Item Name:</label>
-		  <input type="text" class="form-control" placeholder="Enter item name" name="productName">
+		  <input type="text" class="form-control inputShadowBox" placeholder="Enter item name" name="productName" required>
 		</div>
 		<div class="form-group">
 			<label>Quantity:</label>
-			<input type="number" class="form-control" placeholder="Enter quantity" name="quantity">
+			<input type="number" class="form-control inputShadowBox" placeholder="Enter quantity" name="quantity" required>
 		  </div>
 		  <label>Unit Type:</label>
 		  <select name="departmentCode" id="department_Code" class="select-box" required>
@@ -34,11 +33,13 @@
 		  </select>  
 		  <div class="form-group">
 			<label>Risk Item:</label>
-			<input type="text" class="form-control" placeholder="Enter yes/no" name="riskItem">
+			<input type="text" class="form-control inputShadowBox" placeholder="Enter yes/no" name="riskItem">
 			<br>
 		  </div>
 		
-		  <button type="submit" class="acceptUser" value="submit">Add To Inventory</button>
+		  <button type="submit" class="greenButton" value="submit">Add To Inventory</button>
+		  <br>
+		  <br>
 	</form>
 </div>
 {% endblock %}

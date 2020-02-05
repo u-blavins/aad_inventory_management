@@ -34,35 +34,22 @@ ul.list-group {
 }
 
 table, input[type=text], input[type=number], select {
-  border-collapse: collapse;
-  margin: auto;
+  border-radius: 1px;
   width: 100%;
-  resize: vertical;
-}
-
-.tableInput {
-  border-radius: 2px;
-}
-
-td, th{
-  border: 3px solid lightgrey;
-  padding: 10px;
 }
 
 th{
-  font-family: Arial, Verdana, sans-serif;
-  font-weight: bold;
+  background-color: solid lightgrey;
 }
-
 tr:nth-child(odd){
   background-color: whitesmoke;
+  width: 100%;
 }
 
 tr:hover{
   background-color: rgb(255, 124, 192);
   color: white;
-}
-
+} 
 
 
 /* Admin Area */
@@ -80,6 +67,9 @@ tr:hover{
   text-decoration: none;
 }
 
+.inputShadowBox {
+  border: 2px solid lightgrey;
+}
 
 /* Register/Login Styles */
 
@@ -171,7 +161,7 @@ tr:hover{
 
 /* Button Styles */
 
-.acceptUser {
+.greenButton {
   box-shadow:inset 0px 1px 0px 0px #caefab;
 	background-color:#77d42a;
 	border-radius:6px;
@@ -183,10 +173,10 @@ tr:hover{
 	text-decoration:none;
   text-shadow:0px 1px 0px #aade7c;
   }
-  .acceptUser:hover {
+  .greenButton:hover {
     background-color:#5cb811;
   }
-  .acceptUser:active {
+  .greenButton:active {
     position:relative;
     top:1px;
   }
@@ -197,7 +187,7 @@ tr:hover{
   margin-bottom: 10px;
 }
 
-.rejectUser {
+.redButton {
     box-shadow:inset 0px 1px 0px 0px #f29c93;
     background-color:#fe1a00;
     border-radius:6px;
@@ -208,10 +198,29 @@ tr:hover{
     padding:4px 14px;
     text-decoration:none;
   }
-  .rejectUser:hover {
+  .redButton:hover {
     background-color:#ce0100;
   }
-  .rejectUser:active {
+  .redButton:active {
+    position:relative;
+    top:1px;
+  }
+  
+  .editButton {
+    box-shadow:inset 0px 1px 3px 0px #91b8b3;
+    background-color:#768d87;
+    border-radius:6px;
+    border:1px solid #000000;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    padding:4px 14px;
+    text-decoration:none;
+  }
+  .editButton:hover {
+    background-color:#6c7c7c;
+  }
+  .editButton:active {
     position:relative;
     top:1px;
   }
