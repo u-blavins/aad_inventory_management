@@ -7,7 +7,24 @@
 <div class="container">
     <h2>Return Items</h2>
 
+    <input id="searchbar" type="text" placeholder="Enter Transacation ID">
+    <br>
+    <br>
+    <button onclick="search_transactions()">Search Transactions</button>
 
+    
+    <script>
+    function search_transactions() { 
+        let input = document.getElementById('searchbar').value 
+        if (input != ""){
+            alert("You are searching: " + input);
+            display();
+        }
+        else{
+           alert("Enter Transaction Id"); 
+        } 
+    } 
+    </script>
 
   <div class="title">
   <h4>Return Item from History Below</h4>
@@ -42,14 +59,8 @@
 	}
 	</style>
 
-	<script>
-	  let sortDirection = false;
 
-      window.onload = () => {
-      display();
-  };
-
-  </script>
+<script type="text/javascript" src="returnItems.html"></script>
 
 
 	  <tbody id="historyData"></tbody>
@@ -68,18 +79,20 @@
             <table cellspacing=1 cellpadding=1 id="mytable">
                 <thead>
                     <tr>
-                        <th>Order ID</th>
-                        <th>Time Stamp</th>
-                        <th>Basket</th>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
                         <th>Quantity</th>
+                        <th>Time Stamp</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
                 </tbody>
             </table>
+            <br>
             <button onclick="submit()">Submit Changes</button>
         </div>
+        <br>
         <p>work in progress</p>
     </body>
 
@@ -87,9 +100,12 @@
 
 
     <script>
-        var myArray = [{ "transactionCode": "123", "timeStamp": "18:45", "basket": "Blue Pens" + ", " + "Paper", "quantity": "5" + ", " + "1 "},
-                       { "transactionCode": "345", "timeStamp": "21:00", "basket": "300ml Tubes", "quantity": "10 " },
-                       { "transactionCode": "678", "timeStamp": "21:30", "basket": "whiteboard", "quantity": "1 " },
+
+        let sortDirection = false;
+
+        var myArray = [{ "productCode": "123", "productName": "Blue Pens", "quantity": "5", "timeStamp": "21-04-20" },
+                       { "productCode": "123", "productName": "300ml Pyrex Flask", "quantity": "6", "timeStamp": "21-04-20" },
+                       { "productCode": "678", "productName": "whiteboard", "quantity": "1", "timeStamp": "23-04-20" },
                                                         ];
 
         function display() {
@@ -99,30 +115,30 @@
             for (var i = 0; i < length; i++) {
                 console.log(myArray[i]);
                 htmltext += "<tr id='table"+i+"'><td>"
-                +myArray[i].transactionCode+
+                +myArray[i].productCode+
                 "</td><td>"
-                +myArray[i].timeStamp+
-                "</td><td>"
-                +myArray[i].basket+
+                +myArray[i].productName+
                 "</td><td>"
                 +myArray[i].quantity+
+                "</td><td>"
+                +myArray[i].timeStamp+
                 "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
             }
             document.getElementById("tbody").innerHTML = htmltext;
         }
 
         function edit(indice) {
-            var htmltext = "<tr><td><input id='inputTransactionCode"+indice+"' type='text' value='"
-                +myArray[indice].transactionCode+
+            var htmltext = "<tr><td><input id='inputproductCode"+indice+"' type='text' value='"
+                +myArray[indice].productCode+
 
-                "'></td><td><input id='inputTimeStamp"+indice+"' type='text' value='"
-                +myArray[indice].timeStamp+
+                "'></td><td><input id='inputproductName"+indice+"' type='text' value='"
+                +myArray[indice].productName+
 
-                "'></td><td><input id='inputBasket"+indice+"' type='text' value='"
-                +myArray[indice].basket+
-
-                "'></td><td><input id='inputQuantity"+indice+"' type='text' value='"
+                "'></td><td><input id='inputquantity"+indice+"' type='text' value='"
                 +myArray[indice].quantity+
+
+                "'></td><td><input id='inputtimeStamp"+indice+"' type='text' value='"
+                +myArray[indice].timeStamp+
 
                 "'></td><td><button onclick='save("+indice+")'>Save</button><button onclick='remove("+indice+")'>Remove</button></td></tr>";
             document.getElementById("table"+indice).innerHTML = htmltext;
@@ -132,29 +148,29 @@
         function save(indice) {
             var values = new Array();
 
-            //myArray[indice].transactionCode = document.getElementById("inputTransactionCode"+indice).value;
-            values.push("'" + myArray[indice].transactionCode[0].value + "'");
+            //myArray[indice].productCode = document.getElementById("inputproductCode"+indice).value;
+            values.push("'" + myArray[indice].productCode[0].value + "'");
 
-            myArray[indice].timeStamp = document.getElementById("inputTimeStamp"+indice).value;
-            values.push("'" + myArray[indice].timeStamp + "'");
+            //myArray[indice].productName = document.getElementById("inputproductName"+indice).value;
+            values.push("'" + myArray[indice].productName + "'");
 
-            myArray[indice].basket = document.getElementById("inputBasket"+indice).value;
-            values.push("'" + myArray.basket + "'");
-            
-            myArray[indice].quantity = document.getElementById("inputQuantity"+indice).value;
+            myArray[indice].quantity = document.getElementById("inputquantity"+indice).value;
             values.push("'" + myArray.quantity + "'");
+            
+            myArray[indice].timeStamp = document.getElementById("inputtimeStamp"+indice).value;
+            values.push("'" + myArray.timeStamp + "'");
 
             console.log(values);
             /*push to database here*/
 
             var htmltext = "<tr id='table"+indice+"'><td>"
-                +myArray[indice].transactionCode+
+                +myArray[indice].productCode+
                 "</td><td>"
-                +myArray[indice].timeStamp+
-                "</td><td>"
-                +myArray[indice].basket+
+                +myArray[indice].productName+
                 "</td><td>"
                 +myArray[indice].quantity+
+                "</td><td>"
+                +myArray[indice].timeStamp+
                 "</td><td><button onclick='edit("
                 +indice+")'>Edit</button><button onclick='remove("
                 +indice+")'>Remove</button></td></tr>";
@@ -175,8 +191,6 @@
         }
         
     </script>
-<h5>edit button is for small changes</h5>
-<h5>remove button is to basically revert the entire order</h5>
 
 </div>
 {% endblock %}
