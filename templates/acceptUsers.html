@@ -10,7 +10,6 @@
         <table>
             <thread>
                 <tr>
-                  <th>ID</th>
                   <th>Email</th>
                   <th>First Name</th>
                   <th>Last Name</th>
@@ -21,14 +20,13 @@
             <tbody>
             {% for user in users %}
                 <tr>
-                    <td>{{ user.id }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.first_name }}</td>
                     <td>{{ user.last_name }}</td>
                     <td>{{ user.department }}</td>
                     <td>{{ user.privileges }}</td>
-                    <td><button onclick= accept(user)>Accept</button>
-                        <button onclick= deny(user)>Deny</button></td>
+                    <td><button class="acceptUser" onclick= accept(user)>Accept</button>
+                        <button class="rejectUser" onclick= deny(user)>Deny</button></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -37,7 +35,7 @@
 
 <script>
 function deny(user) {
-            newUsers.splice(indice, 1);
+            users.splice(user, 1);
     }
 </script>
 {% endblock %}

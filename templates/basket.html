@@ -16,27 +16,6 @@
 	  width: 50%;
 	  margin: auto;
 	}
-	td, th{
-		border: 3px solid lightgrey;
-		padding: 10px;
-	}
-	th{
-		font-family: Arial, Verdana, sans-serif;
-		font-weight: bold;
-		text-shadow: 3px ;
-	}
-	.cost{
-		width:20%;
-		outline-width: 1px black;
-	}
-  
-	tr:nth-child(odd){
-		background-color: whitesmoke;
-	}
-	tr:hover{
-	  background-color: pink;
-		color: white;
-	}
 	</style>
   
 	<!-- <script>
@@ -168,10 +147,10 @@
   </script> -->
 
 	{% if basket|length %}
-	<div class="container">
+	<div class="container text-center">
 		<br>
-		<h4><ul>Products in Basket</ul></h4>
-	</div>
+		<h4>Products in Basket</h4>
+		<br>
 	<table>
 		<thread>
 			<tr>
@@ -192,7 +171,7 @@
 				<td>{{item.quantity}}</td>
 				<td>
 					<form action="/basket/remove/{{item.code}}">
-						<button type="submit">Remove</button>
+						<button type="submit" class="rejectUser">Remove</button>
 					</form>
 				</td>
 			</tr>
@@ -200,15 +179,13 @@
 		</tbody>
 	</table>
 	<br>
-	<div class="container">
-		<h4><ul>Total Cost</ul></h4>
-		</div>
+		<h4>Total Cost:</h4>
+		<br>
 	
 	<table>
 		<tbody id="Cost"></tbody>
 	</table>
 	
-	<div class="container"><ul>
 	<input type="button" id="addButton" value="Complete Checkout" onclick="submit()" />
 	</ul></div>
 	{% else %}
