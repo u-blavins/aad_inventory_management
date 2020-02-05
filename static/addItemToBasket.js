@@ -64,8 +64,8 @@
                 var items = {
                     'Item(s)': 'Single',
                     'Box(es)': 'Box', 
-                    'Litre(s)': 'Litre', 
-                    'Kilogram(s)': 'Kilogram'
+                    'Litre(s)': 'Single', 
+                    'Kilogram(s)': 'Single'
                 }
                 var sel = document.createElement('select');
                 sel.setAttribute('name', 'unitType[]');
