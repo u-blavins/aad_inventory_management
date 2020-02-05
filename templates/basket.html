@@ -8,15 +8,6 @@
 	<h4><ul>Your Credentials</ul></h4>
 
   </div> -->
-
-
-  <style>
-	table{
-	  border-collapse: collapse;
-	  width: 50%;
-	  margin: auto;
-	}
-	</style>
   
 	<!-- <script>
  	  window.onload = () => {
@@ -149,9 +140,9 @@
 	{% if basket|length %}
 	<div class="container text-center">
 		<br>
-		<h4>Products in Basket</h4>
+		<h3>View Basket</h3>
 		<br>
-	<table>
+	<table class="table">
 		<thread>
 			<tr>
 				<th>Item Code</th>
@@ -159,6 +150,7 @@
 				<th>Price Per Item</th>
 				<th>Unit Type</th>
 				<th>Quantity</th>  
+				<th></th>
 			</tr>
 		</thread>
 		<tbody id="BasketData2">
@@ -171,7 +163,7 @@
 				<td>{{item.quantity}}</td>
 				<td>
 					<form action="/basket/remove/{{item.code}}">
-						<button type="submit" class="rejectUser">Remove</button>
+						<button type="submit" class="redButton"><i class="fas fa-minus-circle"></i></button>
 					</form>
 				</td>
 			</tr>
@@ -179,18 +171,16 @@
 		</tbody>
 	</table>
 	<br>
+	<br>
 		<h4>Total Cost:</h4>
 		<br>
+		<br>
 	
-	<table>
-		<tbody id="Cost"></tbody>
-	</table>
-	
-	<input type="button" id="addButton" value="Complete Checkout" onclick="submit()" />
-	</ul></div>
+	<button class="greenButton" id="bt" onclick="submit()">Complete Checkout<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
+	</div>
 	{% else %}
 		<br>
-		<h1><ul>No items in basket</ul></h1>
+		<h3>No items in basket</h3>
 	{% endif %}
 
 {% endblock %}
