@@ -9,7 +9,9 @@ class Item:
             SELECT [Code],
             [Name],
             [Risk],
-            [Price]
+            [Price],
+            [Quantity],
+            [MinThreshold]
             FROM [StoreManagement].[itm].[Item]
         """
         rows = Database.execute_query(query)
@@ -21,6 +23,8 @@ class Item:
             item.set_name(row[1])
             item.set_risk(row[2])
             item.set_price(row[3])
+            item.set_quantity(row[4])
+            item.set_threshold(row[5])
             items.append(item)
 
         return items
@@ -30,7 +34,9 @@ class Item:
         item = None
 
         query = """
-        SELECT [Code], [Name], [Risk], [Price] FROM
+        SELECT [Code], [Name], [Risk], [Price],
+            [Quantity],
+            [MinThreshold] FROM
         [itm].[Item] WHERE [Code] = '%s'
         """ % code
 
@@ -42,6 +48,8 @@ class Item:
             item.set_name(row[1])
             item.set_risk(row[2])
             item.set_price(row[3])
+            item.set_quantity(row[4])
+            item.set_threshold(row[5])
         
         return item
 
@@ -59,6 +67,38 @@ class Item:
             codes.append(row[0])
         
         return codes
+
+    @staticmethod
+    def add_item(code, name, risk, price):
+        query = """
+        INSERT INTO [StoreManagement].[itm].[Item]
+        ([Code], [Name], [Risk], [Price])
+        VALUES
+        ('%s', '%s', '%s', '%s')
+        """ % (code, name, risk, price)
+
+        rows = Database.execute(query)
+
+    @staticmethod
+    def get_unit_types(code):
+        units = []
+
+        query = """
+        SELECT [UnitName] FROM 
+        [StoreManagement].[itm].[ItemAssociatedUnitType] WHERE
+        [ItemCode] = '%s'
+        """ % code
+
+        rows = Database.execute_query(query)
+
+        for row in rows:
+            units.append(row[0])
+        
+        return units
+
+    @staticmethod
+    def update_item(code):
+        return 0
 
     def __init__(self):
         self.code = None
@@ -92,3 +132,17 @@ class Item:
     
     def get_price(self):
         return self.item['price']
+
+    def set_quantity(self, quantity):
+        self.item['quantity'] = quantity
+        return self
+
+    def get_quantity(self):
+        return self.item['quantity']
+    
+    def set_threshold(self, threshold):
+        self.item['threshold'] = threshold
+        return self
+    
+    def get_threshold(self):
+        return self.item['threshold']

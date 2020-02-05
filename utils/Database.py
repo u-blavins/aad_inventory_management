@@ -41,3 +41,10 @@ def execute_query(query):
     cursor.commit()
     conn.close()
     return result
+
+def execute(query):
+    conn = connect()
+    cursor = conn.cursor()
+    cursor.execute(query)
+    cursor.commit()
+    conn.close()

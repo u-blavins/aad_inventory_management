@@ -11,8 +11,8 @@ def get_items():
     result = ItemModel.get_all_items()
     items = []
     for item in result:
-        items.append(item)
-    return items
+        items.append(item.__dict__)
+    return jsonify(items=items)
 
 @items.route('/api/items/item/<code>', methods=['GET'])
 def get_item(code):
@@ -23,3 +23,17 @@ def get_item(code):
 def get_codes():
     codes = ItemModel.get_codes()
     return jsonify(codes=codes)
+
+@items.route('/api/items/<code>/units', methods=['GET'])
+def get_units(code):
+    units = ItemModel.get_unit_types(code)
+    return jsonify(units=units)
+
+@items.route('/api/items/add')
+def add_items():
+    code = request.args.get('code')
+    name = request.args.get('name')
+    risk = request.args.get('risk')
+    price = request.args.get('price')
+    ItemModel.add_item(code, name, risk, price)
+    return {"Message": "Added Item"}

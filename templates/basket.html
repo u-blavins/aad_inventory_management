@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<div class="container">
+<!-- <div class="container">
 	<h2>Your Basket</h2>
 	<br>
 	<h4><ul>Your Credentials</ul></h4>
 
-  </div>
+  </div> -->
 
 
   <style>
@@ -39,7 +39,7 @@
 	}
 	</style>
   
-	<script>
+	<!-- <script>
  	  window.onload = () => {
 	  loadidData(idData);
 	  totalPrice(BasketData2);	
@@ -165,54 +165,50 @@
         }
   
 
-  </script>
-
-
-  
-  <table>
-	  <thread>
-		  <tr>
-			<th>Full Name</th>
-			<th>Department</th>
-			<th>Id</th>   
-		  </tr>
-	  </thread>
-	  <tbody id="idData"></tbody>
-  </table>
+  </script> -->
 
   <div class="container">
-  <h4><ul>Products in Basket</ul></h4>
   </div>
-
-  <table>
-	<thread>
-		<tr>
-		  <th>ProductId</th>
-		  <th>ProductName</th>
-		  <th>Price Per Item</th> 
-		  <th>Quantity</th>  
-		</tr>
-	</thread>
-	<tbody id="BasketData2"></tbody>
-	<tbody id="tbody"></tbody>
-</table>
-
-<div class="container">
-	<h4><ul>Total Cost</ul></h4>
-	</div>
-
-<table>
-	<tbody id="Cost"></tbody>
-</table>
-
-<div class="container"><ul>
-<input type="button" id="addButton" value="Complete Checkout" onclick="submit()" />
-</ul></div>
-
-
-<p>gets the total price of basket</p>
-<p>could you make a nice box around the total cost</p>
-
+	{% if basket|length %}
+	<h4><ul>Products in Basket</ul></h4>
+	<table>
+		<thread>
+			<tr>
+				<th>ProductId</th>
+				<th>ProductName</th>
+				<th>Price Per Item</th>
+				<th>Unit Type</th>
+				<th>Quantity</th>  
+			</tr>
+		</thread>
+		<tbody id="BasketData2">
+		{% for item in basket %}
+			<tr>
+				<td>{{item}}</td>
+				<td></td>
+				<td></td>
+				<td>{{basket[item].unit}}</td>
+				<td>{{basket[item].quantity}}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	<br>
+	<div class="container">
+		<h4><ul>Total Cost</ul></h4>
+		</div>
+	
+	<table>
+		<tbody id="Cost"></tbody>
+	</table>
+	
+	<div class="container"><ul>
+	<input type="button" id="addButton" value="Complete Checkout" onclick="submit()" />
+	</ul></div>
+	{% else %}
+		<br>
+		<h1><ul>No items in basket</ul></h1>
+	{% endif %}
 
 {% endblock %}
 
