@@ -167,10 +167,11 @@
 
   </script> -->
 
-  <div class="container">
-  </div>
 	{% if basket|length %}
-	<h4><ul>Products in Basket</ul></h4>
+	<div class="container">
+		<br>
+		<h4><ul>Products in Basket</ul></h4>
+	</div>
 	<table>
 		<thread>
 			<tr>
@@ -189,6 +190,11 @@
 				<td>{{item.price}}</td>
 				<td>{{item.unit}}</td>
 				<td>{{item.quantity}}</td>
+				<td>
+					<form action="/basket/remove/{{item.code}}">
+						<button type="submit">Remove</button>
+					</form>
+				</td>
 			</tr>
 		{% endfor %}
 		</tbody>
