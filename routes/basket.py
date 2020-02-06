@@ -101,10 +101,10 @@ def checkout():
                 for unit in basket[item]['units']:
                     sproc = """
                         [itm].[createTransactionInfo] @ItemCode = ?, @TransactionID = ?, @UnitName = ?,
-                        @Qunatity = ?
+                        @Quantity = ?
                     """
                     params = (
-                        item, trans_id, unit, session['basket'][item]['units'][unit]
+                        item, trans_id[0][0], unit, basket[item]['units'][unit]
                     )
                     info = Database.execute_sproc(sproc, params)
     return {"Info": info}
