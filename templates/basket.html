@@ -138,7 +138,7 @@
   </script> -->
   <div class="container text-center">
 	<br>
-	<h3>View Basket</h3>
+	<h2>View Basket</h2>
 	<br>
 	{% if basket|length %}
 		<div class="table-responsive">
@@ -162,7 +162,7 @@
 				<td>{{item.unit}}</td>
 				<td>{{item.quantity}}</td>
 				<td>
-					<form action="/basket/remove/{{item.code}}">
+					<form action="/basket/remove/{{item.code}}/{{item.unit}}/{{item.quantity}}">
 						<button type="submit" class="redButton"><i class="fas fa-minus-circle"></i></button>
 					</form>
 				</td>
@@ -175,9 +175,11 @@
 	<br>
 		<h3>Total Cost:</h3>
 		<br>
+		<h4>£{{ price.total }}</h4>
 		<br>
-	
-	<button class="greenButton" id="bt" onclick="submit()">Complete Checkout<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
+	<form action="/basket/check-out">
+		<button class="greenButton" id="bt" onclick="submit()">Complete Checkout<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
+	</form>
 	
 	{% else %}
 	<br>
