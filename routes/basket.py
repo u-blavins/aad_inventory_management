@@ -5,6 +5,7 @@ from models.Item import Item as ItemModel
 
 basket = Blueprint('basket', __name__)
 
+
 @basket.route('/basket')
 def Basket():
     if 'user_id' not in session:
@@ -24,11 +25,13 @@ def Basket():
             basket.append(basket_item)
     return render_template('basket.html', basket=basket)
 
+
 @basket.route('/add-item')
 def add_item():
     if 'user_id' not in session:
         return redirect(url_for('auth.Auth'))
     return render_template('addItem.html')
+
 
 @basket.route('/basket/remove/<code>')
 def remove_from_basket(code):
@@ -37,6 +40,7 @@ def remove_from_basket(code):
         del basket[code]
     session['basket'] = basket
     return redirect(url_for('basket.Basket'))
+
 
 @basket.route('/basket/order', methods=['POST'])
 def order():
