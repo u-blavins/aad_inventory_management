@@ -6,7 +6,12 @@ class Unit:
     @staticmethod
     def getAllUnits():
         query = "SELECT * FROM [StoreManagement].[itm].[Unit]"
-        rows = Database.get_rows(query)
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+
         unit = []
 
         for row in rows:

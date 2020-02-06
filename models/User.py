@@ -1,4 +1,5 @@
-from utils import Database
+from utils.Database import Database
+
 
 class User:
     """ User Model """
@@ -14,7 +15,10 @@ class User:
                         ,[isStaff]
                     FROM
                         [usr].[User]"""
-        rows = Database.execute_query(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
         users = []
 
         for row in rows:
@@ -37,8 +41,10 @@ class User:
         SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode],
         [isStaff] FROM [usr].[User] WHERE [ID] = '%s'
         """ % id
-
-        rows = Database.execute_query(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
         
         for row in rows:
             user = User()
@@ -57,7 +63,12 @@ class User:
             SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode], [Privileges]
             FROM [StoreManagement].[usr].[WaitingForApproval]                        
             """
-        rows = Database.execute_query(query)
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+
         users = []
 
         for row in rows:

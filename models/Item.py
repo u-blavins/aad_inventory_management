@@ -1,4 +1,5 @@
-from utils import Database
+from utils.Database import Database
+
 
 class Item:
     """ Item Model """
@@ -14,7 +15,11 @@ class Item:
             [MinThreshold]
             FROM [StoreManagement].[itm].[Item]
         """
-        rows = Database.execute_query(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+
         items = []
 
         for row in rows:
@@ -40,7 +45,10 @@ class Item:
         [itm].[Item] WHERE [Code] = '%s'
         """ % code
 
-        rows = Database.execute_query(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
 
         for row in rows:
             item = Item()
@@ -61,11 +69,13 @@ class Item:
         SELECT [Code] FROM [StoreManagement].[itm].[Item]
         """
 
-        rows = Database.execute_query(query)
-
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
         for row in rows:
             codes.append(row[0])
-        
+
         return codes
 
     @staticmethod
@@ -77,7 +87,11 @@ class Item:
         ('%s', '%s', '%s', '%s')
         """ % (code, name, risk, price)
 
-        rows = Database.execute(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        Database.execute_non_query(query, cursor)
+        cursor.commit()
+        conn.close()
 
     @staticmethod
     def get_unit_types(code):
@@ -89,11 +103,14 @@ class Item:
         [ItemCode] = '%s'
         """ % code
 
-        rows = Database.execute_query(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
 
         for row in rows:
             units.append(row[0])
-        
+
         return units
 
     @staticmethod
