@@ -3,6 +3,7 @@ from utils import Database
 from utils import Basket as BasketControl
 
 from models.Item import Item as ItemModel
+from models.Basket import Basket as BasketModel
 
 basket = Blueprint('basket', __name__)
 
@@ -89,8 +90,7 @@ def add_items_basket():
 
 @basket.route('/basket/check-out')
 def checkout():
-    # [itm].[createTransaction] ([UserID], [Department], [Price])
-    info = 'Transaction not made'
+    info = {'info': 'Transaction not made'}
     if 'user_id' in session and 'basket' in session:
         if session['basket'] != {}:
             basket = session['basket']
@@ -106,5 +106,32 @@ def checkout():
                     params = (
                         item, trans_id[0][0], unit, basket[item]['units'][unit]
                     )
-                    info = Database.execute_sproc(sproc, params)
-    return {"Info": info}
+                    result = Database.execute_sproc(sproc, params)
+                    info['info'] = result[0][0]
+            return redirect('/basket/receipt/%s' % trans_id[0][0])
+    return redirect(url_for('basket.Basket'))
+
+@basket.route('/basket/receipt/<trans_id>')
+def receipt(trans_id):
+    if 'user_id' not in session:
+        return redirect(url_for('auth.Auth'))
+    if 'basket' not in session:
+        session['basket'] = {}
+    basket = []
+    price = {'total': 0.00}
+    transaction = {'id': trans_id}
+    if len(session['basket']) != 0:
+        for item in session['basket']:
+            for unit in session['basket'][item]['units']:
+                item_model = ItemModel.get_item(item)
+                basket_item = {}
+                basket_item['code'] = item_model.get_code()
+                basket_item['name'] = item_model.get_name()
+                basket_item['price'] = item_model.get_price()
+                basket_item['unit'] = unit
+                basket_item['quantity'] = session['basket'][item]['units'][unit]
+                basket.append(basket_item)
+        price['total'] = BasketControl.get_price(session['basket'])
+    session['basket'] = {}
+    return render_template('receipt.html', basket=basket, price=price, transaction=transaction)
+    
