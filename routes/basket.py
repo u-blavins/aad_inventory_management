@@ -1,11 +1,12 @@
 from flask import Blueprint, request, render_template, redirect, session, url_for, jsonify, flash
-from utils import Database
+from utils.Database import Database
 from utils import Basket as BasketControl
 
 from models.Item import Item as ItemModel
 from models.Basket import Basket as BasketModel
 
 basket = Blueprint('basket', __name__)
+
 
 @basket.route('/basket')
 def Basket():
@@ -28,6 +29,7 @@ def Basket():
                 basket.append(basket_item)
         price['total'] = BasketControl.get_price(session['basket'])
     return render_template('basket.html', basket=basket, price=price)
+
 
 @basket.route('/add-item')
 def add_item():
@@ -93,10 +95,13 @@ def checkout():
     info = {'info': 'Transaction not made'}
     if 'user_id' in session and 'basket' in session:
         if session['basket'] != {}:
+            conn = Database.connect()
+            cursor = conn.cursor()
             basket = session['basket']
             sproc = "[itm].[createTransaction] @UserID = ?, @Price = ?, @isRefund = ?"
             params = (session['user_id'], BasketControl.get_price(basket), 0)
-            trans_id = Database.execute_sproc(sproc, params)
+            trans_id = Database.execute_sproc(sproc, params, cursor)
+            cursor.commit()
             for item in basket:
                 for unit in basket[item]['units']:
                     sproc = """
@@ -106,9 +111,11 @@ def checkout():
                     params = (
                         item, trans_id[0][0], unit, basket[item]['units'][unit]
                     )
-                    result = Database.execute_sproc(sproc, params)
+                    result = Database.execute_sproc(sproc, params, cursor)
+                    cursor.commit()
                     info['info'] = result[0][0]
             return redirect('/basket/receipt/%s' % trans_id[0][0])
+            conn.close()
     return redirect(url_for('basket.Basket'))
 
 @basket.route('/basket/receipt/<trans_id>')

@@ -1,4 +1,4 @@
-from utils import Database
+from utils.Database import Database
 from models.Item import Item as ItemModel
 
 class Basket:

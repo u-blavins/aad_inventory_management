@@ -1,50 +1,33 @@
 import pyodbc
 
 
-def connect():
-    conn = pyodbc.connect(
-            'Driver={ODBC Driver 17 for SQL Server};'
-            'Server=secretsasquatchsociety.chefvdjywstx.eu-west-2.rds.amazonaws.com,1433;'
-            'Database=StoreManagement;'
-            'uid=admin;'
-            'pwd=letsusefirebase;')
-    return conn
+class Database:
 
+    @staticmethod
+    def connect():
+        conn = pyodbc.connect(
+                'Driver={ODBC Driver 17 for SQL Server};'
+                'Server=secretsasquatchsociety.chefvdjywstx.eu-west-2.rds.amazonaws.com,1433;'
+                'Database=StoreManagement;'
+                'uid=admin;'
+                'pwd=letsusefirebase;')
+        return conn
 
-def execute_sproc(sproc, params):
-    conn = connect()
-    sql = """
-        DECLARE @out nvarchar(max);
-        EXEC %s ,@responseMessage = @out OUTPUT;
-        SELECT @out AS the_output;         
-        """ % sproc
+    @staticmethod
+    def execute_sproc(query, params, cursor):
+        query = """
+            DECLARE @out nvarchar(max);
+            EXEC %s ,@responseMessage = @out OUTPUT;
+            SELECT @out AS the_output;         
+            """ % query
+        cursor.execute(query, params)
+        return cursor.fetchall()
 
-    cursor = conn.cursor()
-    cursor.execute(sql, params)
-    if cursor is not None:
-        result = cursor.fetchall()
-    else:
-        result = None
-    cursor.commit()
-    conn.close()
-    return result
+    @staticmethod
+    def execute_query(query, cursor):
+        cursor.execute(query)
+        return cursor.fetchall()
 
-
-def execute_query(query):
-    conn = connect()
-    cursor = conn.cursor()
-    cursor.execute(query)
-    if cursor is not None:
-        result = cursor.fetchall()
-    else:
-        result = None
-    cursor.commit()
-    conn.close()
-    return result
-
-def execute(query):
-    conn = connect()
-    cursor = conn.cursor()
-    cursor.execute(query)
-    cursor.commit()
-    conn.close()
+    @staticmethod
+    def execute_non_query(query, cursor):
+        cursor.execute(query)

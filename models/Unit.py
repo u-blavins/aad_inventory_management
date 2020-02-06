@@ -1,4 +1,4 @@
-from utils import Database
+from utils.Database import Database
 
 class Unit:
     """ Unit Model """
@@ -10,7 +10,10 @@ class Unit:
         query = """
         SELECT * FROM [StoreManagement].[itm].[Unit]
         """
-        rows = Database.execute_query(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
 
         for row in rows:
             unit = Unit()
@@ -29,7 +32,10 @@ class Unit:
         [UnitName] = '%s'
         """ % name
 
-        rows = Database.execute_query(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
 
         for row in rows:
             unit = Unit()
