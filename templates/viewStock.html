@@ -31,7 +31,7 @@
                 <tr>
                     <td>{{ item.get_code() }}</td>
                     <td>{{ item.get_name() }}</td>
-                    <td></td>
+                    <td>{{ item.get_quantity() }}</td>
                     <td>{{ item.get_risk() }}</td>
                     <td><button onclick= edit(item) class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button></td>
                     <td><button onclick= remove(item) class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
