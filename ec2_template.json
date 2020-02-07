@@ -1,0 +1,77 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "CloudFormation template to be run through AWS CloudFormation to build a server",
+    "Resources": {
+        "WebAppSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Security Group for AAD Web Application",
+                "GroupName": "sss-sg-webserver",
+                "SecurityGroupIngress":[
+                    {
+                        "IpProtocol": "TCP",
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": 22,
+                        "ToPort": 22,
+                        "Description": "SSH Access"
+                    },
+                    {
+                        "IpProtocol": "TCP",
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "Description": "Web Application Access"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Owner",
+                        "Value": "wajstaff"
+                    },
+                    {
+                        "Key": "Description",
+                        "Value": "Security group for web server"
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": "sss-sg-webserver"
+                    },
+                    {
+                        "Key": "Team",
+                        "Value": "SecretSasquatchSociety"
+                    }
+                ]
+            }
+        },
+        "WebAppWebServer": {
+            "Type": "AWS::EC2::Instance",
+            "Properties":{
+                "ImageId": "ami-035966e8adab4aaad",
+                "InstanceInitiatedShutdownBehavior": "stop",
+                "InstanceType": "t2.micro",
+                "KeyName": "ssh key",
+                "SecurityGroups": [
+                    {"Ref": "WebAppSecurityGroup"}
+                ],
+                "Tags": [
+                    {
+                        "Key": "Owner",
+                        "Value": "wajstaff"
+                    },
+                    {
+                        "Key": "Description",
+                        "Value": "Web server for inventory store management web application"
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": "sss-ec2-webserver"
+                    },
+                    {
+                        "Key": "Team",
+                        "Value": "SecretSasquatchSociety"
+                    }
+                ]
+            }
+        }
+    }
+}
