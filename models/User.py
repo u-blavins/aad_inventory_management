@@ -12,7 +12,7 @@ class User:
                         ,[FirstName]
                         ,[LastName] 
                         ,[DepartmentCode]
-                        ,[isStaff]
+                        ,[Privileges]
                     FROM
                         [usr].[User]"""
         conn = Database.connect()
@@ -39,7 +39,7 @@ class User:
 
         query = """
         SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode],
-        [isStaff] FROM [usr].[User] WHERE [ID] = '%s'
+        [Privileges] FROM [usr].[User] WHERE [ID] = '%s'
         """ % id
         conn = Database.connect()
         cursor = conn.cursor()
@@ -82,6 +82,13 @@ class User:
             users.append(user)
 
         return users
+
+    @staticmethod
+    def update_user_password(id, password):
+        user = User.get_user(id)
+        if user != None:
+            return 'Updated user'
+        return 0
 
     @staticmethod
     def get_user_by(key, value):
