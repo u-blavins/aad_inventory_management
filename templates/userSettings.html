@@ -2,39 +2,73 @@
 {% block content %}
 
 <div class="container text-center">
+    {% for message in get_flashed_messages() %}
+      <div class="container">
+        <div class="alert alert-success">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ message }}
+        </div>
+      </div>
+    {% endfor %}
+  <br>
+  <h3>My Account</h3>
+  <hr>
+  <div class="form-group">
+    <label>User ID: {{ data.id }}</label>
+  </div>
+  <div class="form-group">
+    <label>First Name: {{ data.f_name }}</label>
+  </div>
+  <div class="form-group">
+    <label>Last Name: {{ data.l_name }}</label>
+  </div>
+  <div class="form-group">
+    <label>Email: {{ data.email }}</label>
+  </div>
+  <div class="form-group">
+    <label>Deptartment Code: {{ data.dept_code }}</label>
+  </div>
+  <br>
+  <button id="changePasswordBtn" onclick="showChangePasswordField()" class="editButton" value="submit" type="button"><i class="fa fa-edit" style="margin-right: 5px;"></i>Change Password</button>
+  <h3 id="changePasswordHeading" style="display: none;">Change Password</h3>
+  <br>
+  <form action='/user/reset/{{data.id}}' method='post'>
+    <input id="passwordField" type="password" class="form-control inputShadowBox" style="display: none;" placeholder="Enter new password" name="password">
     <br>
-    <h3>My Account</h3>
-    <hr>
-	<form action="/users/account" method="GET">
-		<div class="form-group">
-		  <label>First Name: my name is</label>
-		</div>
-		<div class="form-group">
-		  <label>Last Name: jeff</label>
-		</div>
-		<div class="form-group">
-			<label>Email:</label>
-        </div>
-        <div class="form-group">
-			<label>Privileges:</label>
-		</div>
-		<br>
-          <button id="changePasswordBtn" onclick="showChangePasswordField()" class="editButton" value="submit" type="button"><i class="fa fa-edit" style="margin-right: 5px;"></i>Change Password</button>
-        
-
-          <h3 id="changePasswordHeading" style="display: none;">Change Password</h3>
-        <br>
-          <input id="passwordField" type="password" class="form-control inputShadowBox" style="display: none;" placeholder="Enter new password" name="password">
-          <br>
-          <button id="confirmPasswordBtn" type="submit" class="greenButton" style="display: none;" value="submit">Confirm<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
-          <br>
-          <br>
-		  <button id="cancelBtn" onclick="hideChangePasswordField()" type="button" class="redButton" style="display: none;">Cancel<i class="fas fa-times-circle" style="margin-left: 5px;"></i></button>
-		  <br>
-          <br>
-        </div>
-	</form>
+    <button id="confirmPasswordBtn" type="submit" class="greenButton" style="display: none;" value="submit">Confirm<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
+    <br>
+    <br>
+  </form>
+  <button id="cancelBtn" onclick="hideChangePasswordField()" type="button" class="redButton" style="display: none;">Cancel<i class="fas fa-times-circle" style="margin-left: 5px;"></i></button>
+  <br>
+  <br>
+  {% if transactions|length %}
+    <div class="table-responsive">
+      <table class="table">
+        <thread>
+          <tr>
+            <th>Transaction ID</th>
+            <th>Item Code</th>
+            <th>Quantity</th>
+            <th>Unit Name</th> 
+          </tr>
+        </thread>
+        <tbody id="BasketData2">
+          {% for transaction in transactions %}
+            <tr>
+              <td>{{transaction.get_transaction_id()}}</td>
+              <td>{{transaction.get_item_code()}}</td>
+              <td>{{transaction.get_quantity()}}</td>
+              <td>{{transaction.get_unit_name()}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
 </div>
+<br>
+
 
 <script>
     var changePasswordHeading = document.getElementById('changePasswordHeading');

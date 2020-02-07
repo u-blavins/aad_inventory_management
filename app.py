@@ -28,11 +28,6 @@ def index():
 def home():
     return redirect(url_for('basket.add_item'))
 
-
-@app.route('/will')
-def will():
-    return render_template('will.html')
-
 @app.route('/returnItems')
 def returnItems():
     return render_template('returnItems.html')
