@@ -23,3 +23,6 @@ def get_user(id):
     user = UserModel.get_user(id)
     return jsonify(user=user.__dict__)
 
+@users.route('/user/account')
+def user_account():
+    return render_template('userSettings.html')
