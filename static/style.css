@@ -86,11 +86,11 @@ tr:hover{
   overflow: hidden;
 }
 .button-box{
-  width: 225px;
-  margin: 35px auto;
+  width: 232px;
+  margin: 40px auto;
   position: relative;
   box-shadow: 0px 0px 48px -5px rgba(236,29,133,0.47);
-  border-radius: 30px;
+  border-radius: 28px;
 }
 .toggle-btn{
   padding: 10px 30px;
@@ -108,7 +108,7 @@ tr:hover{
   top: 0;
   left: 0;
   position: absolute;
-  width:110px;
+  width:123px;
   height: 100%;
   background: linear-gradient(to right, rgb(255, 124, 192), #ec1d85);
   border-radius: 30px;
