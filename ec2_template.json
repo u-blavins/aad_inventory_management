@@ -33,7 +33,7 @@
                 "Tags": [
                     {
                         "Key": "Owner",
-                        "Value": "wajstaff"
+                        "Value": "Name"
                     },
                     {
                         "Key": "Description",
@@ -63,7 +63,7 @@
                 "Tags": [
                     {
                         "Key": "Owner",
-                        "Value": "wajstaff"
+                        "Value": "Name"
                     },
                     {
                         "Key": "Description",
