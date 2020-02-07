@@ -8,36 +8,43 @@
     <h3><ul>Add New Item To Stock</ul></h3>
     <br>
 	
-	<form action="/admin/stock" method="GET">
+	<form action="/api/items/add" method="POST">
 		<div class="form-group">
 		  <label>Item Code:</label>
-		  <input type="text" class="form-control inputShadowBox" placeholder="Enter item code" name="productId" required>
+		  <input type="text" class="form-control inputShadowBox" placeholder="Enter item code" name="code" required>
 		</div>
 		<div class="form-group">
 		  <label>Item Name:</label>
-		  <input type="text" class="form-control inputShadowBox" placeholder="Enter item name" name="productName" required>
+		  <input type="text" class="form-control inputShadowBox" placeholder="Enter item name" name="name" required>
 		</div>
 		<div class="form-group">
 			<label>Quantity:</label>
 			<input type="number" class="form-control inputShadowBox" placeholder="Enter quantity" name="quantity" required>
 		  </div>
-		  <label>Unit Type:</label>
-		  <select name="departmentCode" id="department_Code" class="select-box" required>
-			<option value="">Select One</option>
-			<option value="Item(s)" >Item(s)</option>
-			<option value="Box(es)" >Box(es)</option>
-			<option value="Litre(s)" >Litre(s)</option>
-			<option value="Bag(s)" >Bag(s)</option>
-			<option value="Gram(s)" >Gram(s)</option>
-			<option value="Kilogram(s)" >Kilogram(s)</option>
-		  </select>  
 		  <div class="form-group">
-			<label>Risk Item:</label>
-			<input type="text" class="form-control inputShadowBox" placeholder="Enter yes/no" name="riskItem">
-			<br>
+			<label>Price Per Item:</label>
+			<input type="number" class="form-control inputShadowBox" placeholder="Enter price per item" name="price" required>
 		  </div>
-		
-		  <button type="submit" class="greenButton" value="submit">Add To Inventory</button>
+		  <div class="form-group">
+			<label>Minimum Threshold:</label>
+			<input type="number" class="form-control inputShadowBox" placeholder="Enter the min stock level this item should have" name="threshold" required>
+		  </div>
+		  <div class="form-group">
+			  <br>
+			<label>Risk Item:</label>
+			<br>
+			<input type="radio" name="risk" value="1"> True
+			<input type="radio" name="risk" value="0"> False
+		  </div>
+		  <div class="form-group">
+			<br>
+		  <label>Automatic Purchase Order:</label>
+		  <br>
+		  <input type="radio" name="purchase" value="1"> Yes
+		  <input type="radio" name="purchase" value="0"> No
+		</div>
+		  <br>
+		  <button type="submit" class="greenButton" value="submit" onclick="submit()">Add To Inventory</button>
 		  <br>
 		  <br>
 	</form>
