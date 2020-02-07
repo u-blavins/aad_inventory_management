@@ -1,0 +1,63 @@
+{% extends "home.html" %}
+{% block content %}
+
+<div class="container text-center">
+    <br>
+    <h3>My Account</h3>
+    <br>
+	<form action="/users/account" method="GET">
+		<div class="form-group">
+		  <label>First Name: my name is</label>
+		</div>
+		<div class="form-group">
+		  <label>Last Name: jeff</label>
+		</div>
+		<div class="form-group">
+			<label>Email:</label>
+        </div>
+        <div class="form-group">
+			<label>Privileges:</label>
+		</div>
+		<br>
+          <button id="changePasswordBtn" onclick="showChangePasswordField()" class="editButton" value="submit" type="button"><i class="fa fa-edit" style="margin-right: 5px;"></i>Change Password</button>
+        
+
+          <h3 id="changePasswordHeading" style="display: none;">Change Password</h3>
+        <br>
+          <input id="passwordField" type="password" class="form-control inputShadowBox" style="display: none;" placeholder="Enter new password" name="password">
+          <br>
+          <button id="confirmPasswordBtn" type="submit" class="greenButton" style="display: none;" value="submit">Confirm<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
+          <br>
+          <br>
+		  <button id="cancelBtn" onclick="hideChangePasswordField()" type="button" class="redButton" style="display: none;">Cancel<i class="fas fa-times-circle" style="margin-left: 5px;"></i></button>
+		  <br>
+          <br>
+        </div>
+	</form>
+</div>
+
+<script>
+    var changePasswordHeading = document.getElementById('changePasswordHeading');
+    var changePasswordBtn = document.getElementById('changePasswordBtn');
+    var passwordField = document.getElementById('passwordField');
+    var confirmPasswordBtn = document.getElementById('confirmPasswordBtn');
+    var cancelBtn = document.getElementById('cancelBtn');
+
+    function showChangePasswordField() {
+        changePasswordHeading.removeAttribute('style', 'display: none;');
+        changePasswordBtn.setAttribute('style', 'display: none;');
+        passwordField.removeAttribute('style', 'display: none;');
+        confirmPasswordBtn.removeAttribute('style', 'display: none;');
+        cancelBtn.removeAttribute('style', 'display: none;');
+    }
+
+    function hideChangePasswordField() {
+        changePasswordHeading.setAttribute('style', 'display: none;');
+        changePasswordBtn.removeAttribute('style', 'display: none;');
+        passwordField.setAttribute('style', 'display: none;');
+        confirmPasswordBtn.setAttribute('style', 'display: none;');
+        cancelBtn.setAttribute('style', 'display: none;');
+    }
+</script>
+{% endblock %}
+
