@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, session, url_for
+from flask import Blueprint, request, render_template, redirect, session, url_for, flash
 from utils.Database import Database
 
 auth = Blueprint('auth', __name__)
@@ -30,6 +30,8 @@ def login():
                 return redirect(url_for('basket.add_item'))
             elif session['privilege'] in [2, 3]:
                 return redirect(url_for('admin.Admin'))
+        else:
+            flash(result[0][0])
     return redirect('/auth')
 
 
@@ -40,6 +42,9 @@ def register():
             department_code = 'ST4FF'
         else:
             department_code = request.form['departmentCode']
+        if request.form['regPassword'] != request.form['regPassword2']:
+            flash('Error: Password does not match')
+            return redirect(url_for('auth.Auth'))
         params = (
             request.form['regEmail'],
             request.form['regPassword'],
@@ -52,9 +57,10 @@ def register():
         @DepartmentCode = ?, @privileges = ?"""
         conn = Database.connect()
         cursor = conn.cursor()
-        Database.execute_sproc(sproc, params, cursor)
+        info = Database.execute_sproc(sproc, params, cursor)
         cursor.commit()
         conn.close()
+        flash(info[0][0])
     return redirect(url_for('auth.Auth'))
 
 

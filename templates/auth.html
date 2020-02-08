@@ -1,6 +1,19 @@
 {% extends "home.html" %}
 
 {% block content %}
+      {% for message in get_flashed_messages() %}
+        {% if 'successfully' in message %}
+        <div class="container">
+          <div class="alert alert-success">
+        {% else %}
+        <div class="container">
+          <div class="alert alert-danger">
+        {% endif %}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+          </div>
+        </div>
+      {% endfor %}
       <div class="form-box">
           <div class="button-box">
               <div id="btn"></div>
@@ -70,18 +83,13 @@
             document.getElementById("department_Code").required = false;
           }
         }
-          function notStaffMember() {
-          if(document.getElementById('accountType').value === "0" || document.getElementById('accountType').value === "1"){
-            department_Code.removeAttribute('style', 'display: none;');
-            DeptCode.removeAttribute('style', 'display: none;');
-            }
+
+        function notStaffMember() {
+        if(document.getElementById('accountType').value === "0" || document.getElementById('accountType').value === "1"){
+          department_Code.removeAttribute('style', 'display: none;');
+          DeptCode.removeAttribute('style', 'display: none;');
           }
-      function checkPass(regPassword, regPassword2, event) {
-        if(regPassword.value != regPassword2.value) {
-          alert("Passwords Do Not Match !");
-          event.preventDefault();
         }
-      }
 
       </script>
 {% endblock %}
