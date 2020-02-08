@@ -1,18 +1,32 @@
 {% extends "home.html" %}
 {% block content %}
-
+    {% for message in get_flashed_messages() %}
+    <div class="container">
+        {% if 'Success' in message %}
+            <div class="alert alert-success">
+        {% else %}
+            <div class="alert alert-danger">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+        </div>
+    </div>
+    {% endfor %}
     <div class="container text-center">
         <br>
-            <h3>View & edit stock</h3>
+        <h3>View & edit stock</h3>
         <br>
         <br>
-
         <input type="text" placeholder="Search for items..." class="inputShadowBox">
         <br>
         <br>
-        <a href="/admin/add-stock" id="addItem" class="greenButton"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Item </a>
+        {% if 'privilege' in session %}
+            {% if session['privilege'] == 3 %}
+                <a href="/admin/add-stock" id="addItem" class="greenButton"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Item </a>
+            {% else %}
+            {% endif %}
+        {% endif %}
         <br>
-
         <br>
         <div class="table-responsive">
         <table class="table">
@@ -23,24 +37,40 @@
                   <th>Quantity</th>
                   <th>Risk Item</th>
                   <th></th>
-                  <th></th>
+                {% if 'privilege' in session %}
+                    {% if session['privilege'] == 3 %}
+                        <th></th>
+                    {% else %}
+                    {% endif %}
+                {% endif %}
                 </tr>
             </thread>
             {% for item in items %}
-                <tr>
-                    <td>{{ item.get_code() }}</td>
-                    <td>{{ item.get_name() }}</td>
-                    <td>{{ item.get_quantity() }}</td>
-                    <td>{{ item.get_risk() }}</td>
-                    <td><button onclick= edit(item) class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button></td>
-                    <td><button onclick= remove(item) class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
-                </tr>
+                {% if item.get_threshold() >= item.get_quantity() %}
+                    <tr bgcolor="#FF6464">
+                {% else %}
+                    <tr>
+                {% endif %}
+                        <td>{{ item.get_code() }}</td>
+                        <td>{{ item.get_name() }}</td>
+                        <td>{{ item.get_quantity() }}</td>
+                        <td>{{ item.get_risk() }}</td>
+                        <td><button onclick= edit(item) class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button></td>
+                        {% if 'privilege' in session %}
+                            {% if session['privilege'] == 3 %}
+                            <form action="/items/remove/{{ item.get_code() }}" method="POST">
+                            <td><button type="submit" class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
+                            </form>
+                            {% else %}
+                            {% endif %}
+                        {% endif %}
+                    </tr> 
             {% endfor %}
         </table>
     </div>
 </div>
 
-<script>
+<!-- <script>
 
         function edit(indice) {
             var htmltext = "<tr><td><input id='inputProductId"+indice+"' type='text' value='"
@@ -101,5 +131,5 @@
             display();
         }
   
-  </script>
+  </script> -->
 {% endblock %}
