@@ -29,8 +29,6 @@ def user_account():
     data = {}
     if 'user_id' in session:
         user = UserModel.get_user(session['user_id'])
-
-        data['id'] = user.get_id()
         data['email'] = user.get_email()
         data['f_name'] = user.get_first_name()
         data['l_name'] = user.get_last_name()
