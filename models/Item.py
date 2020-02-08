@@ -82,7 +82,7 @@ class Item:
         return codes
 
     @staticmethod
-    def add_item(code, name, quantity, price, threshold, unitTypes, risk, purchase):
+    def add_item(code, name, quantity, price, threshold, unit_types, risk, purchase):
         query = """
         INSERT INTO [StoreManagement].[itm].[Item]
         ([Code], [Name], [Quantity], [Price], [MinThreshold], [Risk], [AutoPurchaseOrder])
@@ -94,7 +94,7 @@ class Item:
         cursor = conn.cursor()
         Database.execute_non_query(query, cursor)
 
-        for unit in unitTypes:
+        for unit in unit_types:
             query = """
             INSERT INTO 
                 [itm].[ItemAssociatedUnitType]([ItemCode],[UnitName])

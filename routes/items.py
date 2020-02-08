@@ -41,7 +41,7 @@ def add_items():
         quantity = request.form['quantity']
         price = request.form['price']
         threshold = request.form['threshold']
-        unitTypes = request.form.getlist('unitTypes[]')
+        unit_types = request.form.getlist('unitTypes[]')
         risk = request.form['risk']
         purchase = request.form['purchase']
         if code in ItemModel.get_codes():
@@ -52,7 +52,7 @@ def add_items():
             return render_template('addItemToInventory.html')
         else:
             flash('Success: "' + str(code) + '" added to stock')
-            ItemModel.add_item(code, name, quantity, price, threshold, unitTypes, risk, purchase)
+            ItemModel.add_item(code, name, quantity, price, threshold, unit_types, risk, purchase)
             return redirect(url_for('admin.stocks'))
 
 @items.route('/items/remove/<code>', methods=['POST'])
