@@ -21,6 +21,7 @@
             <input name = regLastname type="text" class="input-field" id="regLastname" placeholder="Last Name" required>
             <input name = regEmail type="email" class="input-field" id="regEmail" placeholder="Email" required>
             <input name = regPassword type="password" class="input-field" id="regPassword" placeholder="Password" required>
+            <input name = regPassword2 type="password" class="input-field" id="regPassword2" placeholder="Re-Enter Password" required>
             
             <br>
 
@@ -41,7 +42,7 @@
               <option value="33333" >Maths</option>
             </select>        
 
-            <button type="submit" class="submit-btn">Register</button>
+            <button type="submit" class="submit-btn" onclick="checkPass(regPassword, regPassword2, event)" >Register</button>
           </form>
       </div>
 
@@ -71,12 +72,16 @@
         }
           function notStaffMember() {
           if(document.getElementById('accountType').value === "0" || document.getElementById('accountType').value === "1"){
-            console.log("customer account chosen")
             department_Code.removeAttribute('style', 'display: none;');
             DeptCode.removeAttribute('style', 'display: none;');
             }
           }
-
+      function checkPass(regPassword, regPassword2, event) {
+        if(regPassword.value != regPassword2.value) {
+          alert("Passwords Do Not Match !");
+          event.preventDefault();
+        }
+      }
 
       </script>
 {% endblock %}
