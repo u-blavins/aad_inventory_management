@@ -4,9 +4,13 @@
 <div class="container text-center">
     {% for message in get_flashed_messages() %}
       <div class="container">
+        {% if 'successfully' in message %}
         <div class="alert alert-success">
+        {% else %}
+        <div class="alert alert-danger">
+        {% endif %}
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          {{ message }}
+            {{ message }}
         </div>
       </div>
     {% endfor %}
