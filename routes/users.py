@@ -47,6 +47,5 @@ def reset_password(id):
             if session['user_id'] == id:
                 password = request.form['password']
                 info = UserModel.update_user_password(id, password)
-                print(info[0][0])
                 flash(info[0][0])
     return redirect(url_for('users.user_account'))
