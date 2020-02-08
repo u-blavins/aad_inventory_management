@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, url_for
+from flask import Blueprint, request, jsonify, redirect, url_for, flash, render_template
 from models.Item import Item as ItemModel
 from models.Unit import Unit as UnitModel
 
@@ -42,8 +42,12 @@ def add_items():
         threshold = request.form['threshold']
         risk = request.form['risk']
         purchase = request.form['purchase']
-        ItemModel.add_item(code, name, quantity, price, threshold, risk, purchase)
-    return redirect(url_for('admin.stocks'))
+        if code in ItemModel.get_codes():
+            flash('Error: Item code already exists')
+            return render_template('addItemToInventory.html')
+        else:
+            ItemModel.add_item(code, name, quantity, price, threshold, risk, purchase)     
+            return redirect(url_for('admin.stocks'))
 
 
 @items.route('/api/units')

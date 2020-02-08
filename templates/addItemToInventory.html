@@ -1,13 +1,18 @@
 {% extends "home.html" %}
-
 {% block content %}
 
-
 <div class="container text-center">
+	{% for message in get_flashed_messages() %}
+        <div class="container">
+        <div class="alert alert-danger">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ message }}
+		</div>
+	</div>
+    {% endfor %}
     <br>
-    <h3><ul>Add New Item To Stock</ul></h3>
+    <h3>Add New Item To Stock</h3>
     <br>
-	
 	<form action="/api/items/add" method="POST">
 		<div class="form-group">
 		  <label>Item Code:</label>
@@ -34,19 +39,20 @@
 			<label>Risk Item:</label>
 			<br>
 			<input type="radio" name="risk" value="1"> True
-			<input type="radio" name="risk" value="0"> False
+			<input type="radio" name="risk" value="0" checked> False
 		  </div>
 		  <div class="form-group">
 			<br>
 		  <label>Automatic Purchase Order:</label>
 		  <br>
 		  <input type="radio" name="purchase" value="1"> Yes
-		  <input type="radio" name="purchase" value="0"> No
+		  <input type="radio" name="purchase" value="0" checked> No
 		</div>
 		  <br>
-		  <button type="submit" class="greenButton" value="submit" onclick="submit()">Add To Inventory</button>
+		  <button type="submit" class="greenButton">Add To Inventory</button>
 		  <br>
 		  <br>
 	</form>
 </div>
+		
 {% endblock %}
