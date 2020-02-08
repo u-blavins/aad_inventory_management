@@ -66,12 +66,13 @@ def add_items_basket():
 
         if len(codes) == len(quantity):
             for i in range(len(codes)):
-                if codes[i] in present_codes:
-                    if units[i] in ItemModel.get_unit_types(codes[i]):
-                        if codes[i] not in item:
-                            resp = BasketControl.get_quantity(codes[i], units[i], int(quantity[i]), 0)
+                code = codes[i].upper()
+                if code in present_codes:
+                    if units[i] in ItemModel.get_unit_types(code):
+                        if code not in item:
+                            resp = BasketControl.get_quantity(code, units[i], int(quantity[i]), 0)
                             if resp['Status'] == 200:
-                                item[codes[i]] = \
+                                item[code] = \
                                     {
                                         'units': {
                                             units[i]: int(quantity[i])
@@ -80,13 +81,13 @@ def add_items_basket():
                                     }
                         else:
                             resp = BasketControl.get_quantity(
-                                codes[i], units[i], int(quantity[i]), item[codes[i]]['quantity'])
+                                code, units[i], int(quantity[i]), item[codes[i]]['quantity'])
                             if resp['Status'] == 200:
-                                if units[i] not in item[codes[i]]['units']:
-                                    item[codes[i]]['units'][units[i]] = int(quantity[i])
+                                if units[i] not in item[code]['units']:
+                                    item[code]['units'][units[i]] = int(quantity[i])
                                 else:
-                                    item[codes[i]]['units'][units[i]] += int(quantity[i])
-                                item[codes[i]]['quantity'] = resp['Info']
+                                    item[codes]['units'][units[i]] += int(quantity[i])
+                                item[code]['quantity'] = resp['Info']
             session['basket'] = item
     return redirect(url_for('basket.Basket'))
 
