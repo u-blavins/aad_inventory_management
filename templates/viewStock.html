@@ -3,16 +3,19 @@
 
     <div class="container text-center">
         <br>
-            <h3>View & edit stock</h3>
+        <h3>View & edit stock</h3>
         <br>
         <br>
-
         <input type="text" placeholder="Search for items..." class="inputShadowBox">
         <br>
         <br>
-        <a href="/admin/add-stock" id="addItem" class="greenButton"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Item </a>
+        {% if 'privilege' in session %}
+            {% if session['privilege'] == 3 %}
+                <a href="/admin/add-stock" id="addItem" class="greenButton"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Item </a>
+            {% else %}
+            {% endif %}
+        {% endif %}
         <br>
-
         <br>
         <div class="table-responsive">
         <table class="table">
@@ -23,11 +26,15 @@
                   <th>Quantity</th>
                   <th>Risk Item</th>
                   <th></th>
-                  <th></th>
+                {% if 'privilege' in session %}
+                    {% if session['privilege'] == 3 %}
+                        <th></th>
+                    {% else %}
+                    {% endif %}
+                {% endif %}
                 </tr>
             </thread>
             {% for item in items %}
-
                 {% if item.get_threshold() >= item.get_quantity() %}
                     <tr bgcolor="#FF6464">
                 {% else %}
@@ -38,7 +45,12 @@
                         <td>{{ item.get_quantity() }}</td>
                         <td>{{ item.get_risk() }}</td>
                         <td><button onclick= edit(item) class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button></td>
-                        <td><button onclick= remove(item) class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
+                        {% if 'privilege' in session %}
+                            {% if session['privilege'] == 3 %}
+                            <td><button onclick= remove(item) class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
+                            {% else %}
+                            {% endif %}
+                        {% endif %}
                     </tr> 
             {% endfor %}
         </table>
