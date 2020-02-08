@@ -79,13 +79,13 @@ class Item:
         return codes
 
     @staticmethod
-    def add_item(code, name, risk, price):
+    def add_item(code, name, quantity, price, threshold, risk, purchase):
         query = """
         INSERT INTO [StoreManagement].[itm].[Item]
-        ([Code], [Name], [Risk], [Price])
+        ([Code], [Name], [Quantity], [Price], [MinThreshold], [Risk], [AutoPurchaseOrder])
         VALUES
-        ('%s', '%s', '%s', '%s')
-        """ % (code, name, risk, price)
+        ('%s', '%s', %s, %s, %s, %s, %s)
+        """ % (code, name, quantity, price, threshold, risk, purchase)
 
         conn = Database.connect()
         cursor = conn.cursor()

@@ -36,12 +36,16 @@ def login():
 @auth.route('/auth/register', methods=['POST'])
 def register():
     if request.method == 'POST':
+        if (int(request.form['accountType']) > 1):
+            department_code = 'ST4FF'
+        else:
+            department_code = request.form['departmentCode']
         params = (
             request.form['regEmail'],
             request.form['regPassword'],
             request.form['regFirstname'],
             request.form['regLastname'],
-            request.form['departmentCode'],
+            department_code,
             int(request.form['accountType']))
 
         sproc = """[usr].[CreateUser] @Email = ?, @Password= ?, @FirstName = ?, @LastName = ?, 

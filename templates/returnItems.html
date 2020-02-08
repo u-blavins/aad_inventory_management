@@ -1,67 +1,22 @@
 {% extends "home.html" %}
-
 {% block content %}
 
+<div class="container text-center">
+    <br>
+    <h3>Return Items</h3>
+    <br>
 
-
-<div class="container">
-    <h2>Return Items</h2>
-
-    <input id="searchbar" type="text" placeholder="Enter Transacation ID">
+    <div class="search-container">
+    <input id="searchbar" type="text" placeholder="Enter Transaction ID">
+    </div>
+    <br>
+    <button onclick="search_transactions()" class="editButton">Search Transactions <i class="fa fa-search" style="margin-left: 5px;"></i></button>
     <br>
     <br>
-    <button onclick="search_transactions()">Search Transactions</button>
-
-    
-
-  <div class="title">
-  <h4>Return Item from History Below</h4>
-  </div>
-  </div>
-  <style>
-    table{
-	  border-collapse: collapse;
-	  margin: auto;
-	  width: 75%;
-	}
-	td, th{
-		border: 3px solid lightgrey;
-		padding-top: 1%;
-		padding-bottom: 1%;
-	}
-	th{
-		font-family: Arial, Verdana, sans-serif;
-		font-weight: bold;
-		text-shadow: 3px ;
-	}
-    .title{
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-	tr:nth-child(odd){
-		background-color: whitesmoke;
-	}
-	tr:hover{
-	  background-color: pink;
-		color: white;
-	}
-	</style>
-
+  <h3>Return Item from History Below</h3>
+  <br>
 
 <script type="text/javascript" src="returnItems.html"></script>
-
-
-	  <tbody id="historyData"></tbody>
-  </table>
-
-  <html>
-
-    <head>
-        <meta charset="UTF-8">
-
-    </head>
-
-    <body id="body">
 
         <div id="wrapper">
             <table cellspacing=1 cellpadding=1 id="mytable">
@@ -71,23 +26,18 @@
                         <th>Product Name</th>
                         <th>Quantity</th>
                         <th>Time Stamp</th>
-                        <th>Action</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
                 </tbody>
             </table>
             <br>
-            <button onclick="submit()">Submit Changes</button>
+            <br>
+            <button onclick="submit()" class="greenButton">Submit Changes<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
         </div>
         <br>
-        <p>work in progress</p>
-    </body>
-
-    </html>
-
-
-    <script>
+<script>
 
     function search_transactions() { 
         let input = document.getElementById('searchbar').value 
@@ -217,6 +167,5 @@
         }
         
     </script>
-
 </div>
 {% endblock %}
