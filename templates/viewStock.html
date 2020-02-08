@@ -1,6 +1,17 @@
 {% extends "home.html" %}
 {% block content %}
-
+    {% for message in get_flashed_messages() %}
+    <div class="container">
+        {% if 'Success' in message %}
+            <div class="alert alert-success">
+        {% else %}
+            <div class="alert alert-danger">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+        </div>
+    </div>
+    {% endfor %}
     <div class="container text-center">
         <br>
         <h3>View & edit stock</h3>
@@ -47,7 +58,9 @@
                         <td><button onclick= edit(item) class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button></td>
                         {% if 'privilege' in session %}
                             {% if session['privilege'] == 3 %}
-                            <td><button onclick= remove(item) class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
+                            <form action="/items/remove/{{ item.get_code() }}" method="POST">
+                            <td><button type="submit" class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
+                            </form>
                             {% else %}
                             {% endif %}
                         {% endif %}

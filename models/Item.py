@@ -94,6 +94,18 @@ class Item:
         conn.close()
 
     @staticmethod
+    def delete_item(code):
+        query = """
+        DELETE FROM [StoreManagement].[itm].[Item] WHERE [Code] = '%s'
+        """ % code
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        Database.execute_non_query(query, cursor)
+        cursor.commit()
+        conn.close()
+
+    @staticmethod
     def get_unit_types(code):
         units = []
 

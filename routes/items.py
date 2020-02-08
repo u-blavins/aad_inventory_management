@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, url_for, flash, render_template
+from flask import Blueprint, request, jsonify, redirect, url_for, flash, render_template, session
 from models.Item import Item as ItemModel
 from models.Unit import Unit as UnitModel
 
@@ -32,7 +32,7 @@ def get_units(code):
     return jsonify(units=units_collection)
 
 
-@items.route('/api/items/add', methods=['POST'])
+@items.route('/items/add', methods=['POST'])
 def add_items():
     if request.method == 'POST':
         code = request.form['code']
@@ -48,6 +48,17 @@ def add_items():
         else:
             ItemModel.add_item(code, name, quantity, price, threshold, risk, purchase)     
             return redirect(url_for('admin.stocks'))
+
+@items.route('/items/remove/<code>', methods=['POST'])
+def remove_item(code):
+    if request.method == 'POST':
+        if session['privilege'] == 3:
+            if code in ItemModel.get_codes():
+                ItemModel.delete_item(code)
+                flash('Success: Deleted item')
+            else:
+                flash('Error: Item does not exist')
+    return redirect(url_for('admin.stocks'))
 
 
 @items.route('/api/units')
