@@ -64,12 +64,13 @@
             }
 
             if (c ==  2) { //Unit Type
-                // var items = ['Item(s)', 'Box(es)', 'Litre(s)', 'Bag(s)', 'Gram(s)', 'Kilogram(s)'];
                 var items = {
                     'Item(s)': 'Single',
-                    'Box(es)': 'Box', 
-                    'Litre(s)': 'Single', 
-                    'Kilogram(s)': 'Single'
+                    'Box(es)': 'Box',
+                    'Millilitre(s)': 'ml',
+                    'Litre(s)': 'Litre',
+                    'Gram(s)': 'G',
+                    'Kilogram(s)': 'Kg'
                 }
                 var sel = document.createElement('select');
                 sel.setAttribute('name', 'unitType[]');

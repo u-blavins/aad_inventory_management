@@ -36,6 +36,7 @@ def get_units(code):
 def add_items():
     if request.method == 'POST':
         code = request.form['code']
+        code = code.upper()
         name = request.form['name']
         quantity = request.form['quantity']
         price = request.form['price']
