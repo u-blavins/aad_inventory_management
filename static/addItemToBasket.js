@@ -69,8 +69,8 @@
                     'Box(es)': 'Box',
                     'Millilitre(s)': 'ml',
                     'Litre(s)': 'Litre',
-                    'Gram(s)': 'G',
-                    'Kilogram(s)': 'Kg'
+                    'Gram(s)': 'Gram',
+                    'Kilogram(s)': 'Kilogram'
                 }
                 var sel = document.createElement('select');
                 sel.setAttribute('name', 'unitType[]');
