@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, redirect, url_for
 from models.Item import Item as ItemModel
 from models.Unit import Unit as UnitModel
 
@@ -32,14 +32,18 @@ def get_units(code):
     return jsonify(units=units_collection)
 
 
-@items.route('/api/items/add')
+@items.route('/api/items/add', methods=['POST'])
 def add_items():
-    code = request.args.get('code')
-    name = request.args.get('name')
-    risk = request.args.get('risk')
-    price = request.args.get('price')
-    ItemModel.add_item(code, name, risk, price)
-    return {"Message": "Added Item"}
+    if request.method == 'POST':
+        code = request.form['code']
+        name = request.form['name']
+        quantity = request.form['quantity']
+        price = request.form['price']
+        threshold = request.form['threshold']
+        risk = request.form['risk']
+        purchase = request.form['purchase']
+        ItemModel.add_item(code, name, quantity, price, threshold, risk, purchase)
+    return redirect(url_for('admin.stocks'))
 
 
 @items.route('/api/units')
