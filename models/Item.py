@@ -14,6 +14,7 @@ class Item:
             [Quantity],
             [MinThreshold]
             FROM [StoreManagement].[itm].[Item]
+            WHERE [onDisplay] = 1
         """
         conn = Database.connect()
         cursor = conn.cursor()
@@ -43,6 +44,7 @@ class Item:
             [Quantity],
             [MinThreshold] FROM
         [itm].[Item] WHERE [Code] = '%s'
+        AND [onDisplay] = 1
         """ % code
 
         conn = Database.connect()
@@ -58,7 +60,7 @@ class Item:
             item.set_price(row[3])
             item.set_quantity(row[4])
             item.set_threshold(row[5])
-        
+    
         return item
 
     @staticmethod
@@ -67,6 +69,7 @@ class Item:
 
         query = """
         SELECT [Code] FROM [StoreManagement].[itm].[Item]
+        WHERE [onDisplay] = 1
         """
 
         conn = Database.connect()
@@ -79,7 +82,7 @@ class Item:
         return codes
 
     @staticmethod
-    def add_item(code, name, quantity, price, threshold, risk, purchase):
+    def add_item(code, name, quantity, price, threshold, unitTypes, risk, purchase):
         query = """
         INSERT INTO [StoreManagement].[itm].[Item]
         ([Code], [Name], [Quantity], [Price], [MinThreshold], [Risk], [AutoPurchaseOrder])
@@ -90,13 +93,23 @@ class Item:
         conn = Database.connect()
         cursor = conn.cursor()
         Database.execute_non_query(query, cursor)
+
+        for unit in unitTypes:
+            query = """
+            INSERT INTO 
+                [itm].[ItemAssociatedUnitType]([ItemCode],[UnitName])
+            VALUES
+                ('%s','%s')
+            """ % (code, unit)
+            Database.execute_non_query(query,cursor)
+
         cursor.commit()
         conn.close()
 
     @staticmethod
     def delete_item(code):
         query = """
-        DELETE FROM [StoreManagement].[itm].[Item] WHERE [Code] = '%s'
+        UPDATE [StoreManagement].[itm].[Item] SET [onDisplay] = 0 WHERE [Code] = '%s'
         """ % code
 
         conn = Database.connect()

@@ -35,17 +35,28 @@
 			<input type="number" class="form-control inputShadowBox" placeholder="Enter the min stock level this item should have" name="threshold" required>
 		  </div>
 		  <div class="form-group">
+			<br>
+		  <label>Available Unit Types for this item:</label>
+		  <br>
+		  <input type="checkbox" name="unitTypes[]" value="Single"> Single Item &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="Box"> Box &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="Gram"> Grams (g) &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="Kilogram"> Kilogram (kg) &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="Litre"> Litre (l) &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="ml"> Millilitre (ml)
+		</div>
+		  <div class="form-group">
 			  <br>
 			<label>Risk Item:</label>
 			<br>
-			<input type="radio" name="risk" value="1"> True
+			<input type="radio" name="risk" value="1"> True &nbsp;
 			<input type="radio" name="risk" value="0" checked> False
 		  </div>
 		  <div class="form-group">
 			<br>
 		  <label>Automatic Purchase Order:</label>
 		  <br>
-		  <input type="radio" name="purchase" value="1"> Yes
+		<input type="radio" name="purchase" value="1"> Yes &nbsp;
 		  <input type="radio" name="purchase" value="0" checked> No
 		</div>
 		  <br>

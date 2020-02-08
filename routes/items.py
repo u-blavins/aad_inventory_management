@@ -40,13 +40,18 @@ def add_items():
         quantity = request.form['quantity']
         price = request.form['price']
         threshold = request.form['threshold']
+        unitTypes = request.form.getlist('unitTypes[]')
         risk = request.form['risk']
         purchase = request.form['purchase']
         if code in ItemModel.get_codes():
-            flash('Error: Item code already exists')
+            flash('Error: Item code "' + str(code) + '" already exists')
+            return render_template('addItemToInventory.html')
+        if len(unitTypes) == 0:
+            flash('Error: At least one unit type required')
             return render_template('addItemToInventory.html')
         else:
-            ItemModel.add_item(code, name, quantity, price, threshold, risk, purchase)     
+            flash('Success: "' + str(code) + '" added to stock')
+            ItemModel.add_item(code, name, quantity, price, threshold, unitTypes, risk, purchase)
             return redirect(url_for('admin.stocks'))
 
 @items.route('/items/remove/<code>', methods=['POST'])
@@ -55,9 +60,9 @@ def remove_item(code):
         if session['privilege'] == 3:
             if code in ItemModel.get_codes():
                 ItemModel.delete_item(code)
-                flash('Success: Deleted item')
+                flash('Success: Deleted item "' + str(code) + '" ')
             else:
-                flash('Error: Item does not exist')
+                flash('Error: "' + str(code) + '" does not exist')
     return redirect(url_for('admin.stocks'))
 
 
