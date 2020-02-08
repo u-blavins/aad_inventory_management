@@ -4,18 +4,19 @@
 <div class="container text-center">
     {% for message in get_flashed_messages() %}
       <div class="container">
+        {% if 'successfully' in message %}
         <div class="alert alert-success">
+        {% else %}
+        <div class="alert alert-danger">
+        {% endif %}
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          {{ message }}
+            {{ message }}
         </div>
       </div>
     {% endfor %}
   <br>
   <h3>My Account</h3>
   <hr>
-  <div class="form-group">
-    <label>User ID: {{ data.id }}</label>
-  </div>
   <div class="form-group">
     <label>First Name: {{ data.f_name }}</label>
   </div>
@@ -50,7 +51,8 @@
             <th>Transaction ID</th>
             <th>Item Code</th>
             <th>Quantity</th>
-            <th>Unit Name</th> 
+            <th>Unit Name</th>
+            <th>Transaction Date</th>
           </tr>
         </thread>
         <tbody id="BasketData2">
@@ -60,6 +62,7 @@
               <td>{{transaction.get_item_code()}}</td>
               <td>{{transaction.get_quantity()}}</td>
               <td>{{transaction.get_unit_name()}}</td>
+              <td>{{transaction.get_transaction_date()}}</td>
             </tr>
           {% endfor %}
         </tbody>

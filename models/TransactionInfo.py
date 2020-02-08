@@ -8,19 +8,16 @@ class TransactionInfo:
         trans_info = []
 
         query = """
-        SELECT 
-            ti.[TransactionID],
-            ti.[ItemCode],
-            ti.[Quantity],
-            ti.[UnitName],
-            t.[TransactionDate]
-            FROM [itm].[TransactionInfo] ti
-            INNER JOIN [itm].[Transaction] t ON
-                ti.[TransactionID] = t.[TransactionID]
-            WHERE 
-                t.[isRefund] = 0
-            AND
-                t.[UserID] = '%s'
+            SELECT 
+                [TransactionID],
+                [ItemCode],
+                [Quantity],
+                [UnitName],
+                [TransactionDate]
+            FROM
+                [itm].[getUserTransactionInfo]('%s')
+            ORDER BY
+                [TransactionID], [TransactionDate] DESC
         """ % id
 
         conn = Database.connect()
@@ -34,6 +31,7 @@ class TransactionInfo:
             info.set_item_code(row[1])
             info.set_quantity(row[2])
             info.set_unit_name(row[3])
+            info.set_transaction_date(row[4])
             trans_info.append(info)
         
         return trans_info
@@ -69,3 +67,10 @@ class TransactionInfo:
     
     def get_unit_name(self):
         return self.transactions['unit']
+
+    def set_transaction_date(self, transaction_date):
+        self.transactions['transaction_date'] = transaction_date
+        return self
+
+    def get_transaction_date(self):
+        return self.transactions['transaction_date']

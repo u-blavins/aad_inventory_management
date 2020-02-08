@@ -85,15 +85,17 @@ class User:
 
     @staticmethod
     def update_user_password(id, password):
+        result = "Error with server"
         user = User.get_user(id)
         if user != None:
-            return 'Updated user'
-        return 0
-
-    @staticmethod
-    def get_user_by(key, value):
-        users = []
-        return users
+            sproc = """ [usr].[updatePassword] @UserID = ?, @Password = ?"""
+            params = (id, password)
+            conn = Database.connect()
+            cursor = conn.cursor()
+            result = Database.execute_sproc(sproc, params, cursor)
+            cursor.commit()
+            conn.close()
+        return result
 
     def __init__(self):
         self.id = None
