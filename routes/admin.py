@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, session, url_for, flash
+from flask import Blueprint, request, render_template, redirect, session, url_for, flash, jsonify
 from utils.Database import Database
 
 from models.Item import Item as ItemModel
@@ -52,9 +52,19 @@ def add_stock():
 def return_items():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
+<<<<<<< HEAD
             return render_template('nathan.html')
+=======
+            items = ItemModel.get_all_items()
+            return render_template('nathan.html', items = items)
+>>>>>>> 65bdf3b34a8724eb63edfb692676890e962565bd
     return redirect(url_for('admin.Admin'))
 
+@admin.route('/api/nathan')
+def nathan():
+    codes = request.form.getList("productCodes[]")
+    
+    return {'codes': codes}
 
 @admin.route('/admin/accept-users')
 def accept_users():
