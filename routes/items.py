@@ -55,6 +55,7 @@ def add_items():
             ItemModel.add_item(code, name, quantity, price, threshold, unit_types, risk, purchase)
             return redirect(url_for('admin.stocks'))
 
+
 @items.route('/items/remove/<code>', methods=['POST'])
 def remove_item(code):
     if request.method == 'POST':
@@ -64,6 +65,33 @@ def remove_item(code):
                 flash('Success: Deleted item "' + str(code) + '" ')
             else:
                 flash('Error: "' + str(code) + '" does not exist')
+    return redirect(url_for('admin.stocks'))
+
+
+@items.route('/items/edit/<code>', methods=['POST'])
+def Edit(code):
+    if session['privilege'] in [2, 3]:
+        item = ItemModel.get_item(code)
+        return render_template('editStock.html', item=item)
+    return redirect(url_for('admin.stocks'))
+
+
+@items.route('/edit/item/<code>', methods=['POST'])
+def edit_item(code):
+    if request.method == 'POST':
+         if session['privilege'] in [2, 3]:
+            if code in ItemModel.get_codes():
+                name = request.form['name']
+                quantity = request.form['quantity']
+                price = request.form['price']
+                threshold = request.form['threshold']
+                risk = request.form['risk']
+                purchase_order = request.form['purchase']
+
+                ItemModel.edit_item(code, name, quantity, price, threshold, risk, purchase_order)
+                flash('Success: Edited item "' + str(code) + '" ')
+            else:
+                flash('Error: Could not edit "' + str(code) + '"')
     return redirect(url_for('admin.stocks'))
 
 
