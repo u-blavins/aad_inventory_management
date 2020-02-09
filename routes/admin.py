@@ -61,7 +61,7 @@ def purchase_order_info(id):
                     info = {'item_code': result.get_item_code(), 'quantity': result.get_quantity(),
                             'is_complete': result.get_is_complete(), 'completion_date': result.get_completion_date()}
                     order_info.append(info)
-                return render_template('purchaseorderinfo.html', order_info = order_info)
+                return render_template('purchaseorderinfo.html', order_info=order_info)
 
     return redirect(url_for('admin.Admin'))
 
