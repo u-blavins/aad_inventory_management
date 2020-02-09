@@ -21,6 +21,15 @@
     <br>
     <br>
     <a href="/admin/accept-users" class="adminAreaButton">Accept/Deny Users</a>
+    {% if session['privilege'] in [2, 3] %}    
+        <br>
+        <br>
+        {% if session['privilege'] == 2 %}
+            <a href="/admin/view-users" class="adminAreaButton">View Users</a>
+        {% elif session['privilege'] == 3 %}
+            <a href="/admin/view-users" class="adminAreaButton">View and Update Users</a>
+        {% endif %}
+    {% endif %}
     </ul>
 </div>
 {% endblock %}

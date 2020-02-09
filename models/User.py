@@ -84,8 +84,30 @@ class User:
         return users
 
     @staticmethod
+    def update_user_privilege(id, privilege):
+        message = 'Unable to update user level'
+        user = User.get_user(id)
+        if user != None:
+            if privilege != user.get_user_level():
+                query = """
+                UPDATE [StoreManagement].[usr].[User] SET [Privileges] = '%s' WHERE [ID] = '%s'
+                """ % (privilege, id)
+                conn = Database.connect()
+                try:
+                    cursor = conn.cursor()
+                    Database.execute_non_query(query, cursor)
+                    cursor.commit()
+                    message = "Successfully updated user privilege"
+                except Exception as ex:
+                    message = "Error updating user privilege"
+                conn.close()
+            else:
+                message = "User privilege is already set as selected privilege"
+        return message
+
+    @staticmethod
     def update_user_password(id, password):
-        result = "Error with server"
+        result = 'Error with server'
         user = User.get_user(id)
         if user != None:
             sproc = """ [usr].[updatePassword] @UserID = ?, @Password = ?"""
