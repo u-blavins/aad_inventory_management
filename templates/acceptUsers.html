@@ -18,6 +18,7 @@
                   <th>Department Code</th>
                   <th>Permissions Requested</th>
                   <th></th>
+                  <th></th>
                 </tr>
             </thread>
             <tbody>
@@ -27,11 +28,19 @@
                     <td>{{ user.first_name }}</td>
                     <td>{{ user.last_name }}</td>
                     <td>{{ user.department }}</td>
-                    <td>{{ user.privileges }}</td>
+                    {% if user.privileges == 0 %}
+                        <td>Customer</td>
+                    {% elif user.privileges == 1 %}
+                        <td>Privileged Customer</td>
+                    {% elif user.privileges == 2 %}
+                        <td>Staff</td>
+                    {% else %}
+                        <td>Admin</td>
+                    {% endif %}
                     <td><form method="post" action="/admin/accept/{{user.id}}">
 						    <button class = "greenButton" type="submit"><i class="fas fa-check-circle" style="margin-right: 5px;"></i>Accept</button>
-					    </form>
-                        <form method = "post" action="/admin/deny/{{user.id}}">
+					    </form></td>
+                    <td><form method = "post" action="/admin/deny/{{user.id}}">
                             <button class = "redButton" type="submit"><i class="fas fa-times-circle" style="margin-right: 5px;"></i>Deny</button>
                         </form>
                     </td>
