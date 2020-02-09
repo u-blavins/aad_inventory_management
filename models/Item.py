@@ -140,6 +140,18 @@ class Item:
         conn.close()
 
     @staticmethod
+    def is_risk_item(code):
+        query = f"""
+        SELECT [Risk] FROM [StoreManagement].[itm].[Item] WHERE [Code] = '{code}'
+        """ 
+        conn = Database.connect()
+        cursor = conn.cursor()
+        result = Database.execute_query(query, cursor)
+        cursor.commit()
+        conn.close()
+        return result[0][0]
+
+    @staticmethod
     def get_unit_types(code):
         units = []
 
