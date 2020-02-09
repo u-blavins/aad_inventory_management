@@ -19,7 +19,20 @@
                 <th>Broken Item</th>
                 </tr>
             </thread>
+            {% for item in items %}
+            <form action="/api/nathan">
+            <tr>
+                <td><input name="productCodes[]" value="{{item.get_code()}}">{{item.get_code()}}</input></td>
+                <td>{{item.get_quantity()}}</td>
+                <td>Return</td>
+                <td>Broken Item</td>
+                </tr>
+            
+            {% endfor %}
         </table>
+        <button id="submitForm" type="submit">button</button>
+        </form>
+        
     </th>
 </div>
 {% endblock %}
