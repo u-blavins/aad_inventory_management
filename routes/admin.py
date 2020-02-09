@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, session, url_for
+from flask import Blueprint, request, render_template, redirect, session, url_for, flash
 from utils.Database import Database
 
 from models.Item import Item as ItemModel
@@ -72,6 +72,26 @@ def accept_users():
             return render_template('acceptUsers.html', users=users)
     return redirect(url_for('admin.Admin'))
 
+@admin.route('/admin/view-users')
+def view_users():
+    if 'privilege' in session:
+        if session['privilege'] in [2, 3]:
+            users = UserModel.get_all_users()
+            if len(users) != 0:
+                return render_template('users.html', users=users)
+    return redirect(url_for('admin.Admin'))
+
+@admin.route('/admin/update-privilege/<id>', methods=['POST'])
+def update_user_privilege(id):
+    if 'privilege' in session:
+        privilege = int(request.form['privilege'])
+        if session['privilege'] == 3:
+            if privilege in [0, 1, 2, 3]:
+                response = UserModel.update_user_privilege(id, privilege)
+                flash(response)
+            else:
+                flash('Please select a privilege level to update to')
+    return redirect(url_for('admin.view_users'))
 
 @admin.route('/admin/accept/<id>', methods=['POST'])
 def accept(id):
