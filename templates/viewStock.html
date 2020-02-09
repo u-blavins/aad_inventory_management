@@ -55,9 +55,11 @@
                         <td>{{ item.get_name() }}</td>
                         <td>{{ item.get_quantity() }}</td>
                         <td>{{ item.get_risk() }}</td>
-                        <td><button onclick= edit(item) class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button></td>
                         {% if 'privilege' in session %}
                             {% if session['privilege'] == 3 %}
+                            <form action="/items/edit/{{ item.get_code() }}" method="POST">
+                                <td><button type="submit" class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button></td>
+                            </form>
                             <form action="/items/remove/{{ item.get_code() }}" method="POST">
                             <td><button type="submit" class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
                             </form>
@@ -69,6 +71,7 @@
         </table>
     </div>
 </div>
+{% endblock %}
 
 <!-- <script>
 
@@ -132,4 +135,3 @@
         }
   
   </script> -->
-{% endblock %}

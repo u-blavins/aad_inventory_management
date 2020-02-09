@@ -42,7 +42,7 @@ class Item:
         query = """
         SELECT [Code], [Name], [Risk], [Price],
             [Quantity],
-            [MinThreshold] FROM
+            [MinThreshold], [AutoPurchaseOrder] FROM
         [itm].[Item] WHERE [Code] = '%s'
         AND [onDisplay] = 1
         """ % code
@@ -60,6 +60,7 @@ class Item:
             item.set_price(row[3])
             item.set_quantity(row[4])
             item.set_threshold(row[5])
+            item.set_purchase_order(row[6])
     
         return item
 
@@ -111,6 +112,24 @@ class Item:
         query = """
         UPDATE [StoreManagement].[itm].[Item] SET [onDisplay] = 0 WHERE [Code] = '%s'
         """ % code
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        Database.execute_non_query(query, cursor)
+        cursor.commit()
+        conn.close()
+
+    
+    @staticmethod
+    def edit_item(code, name, quantity, price, threshold, risk, purchase):
+        query = f"""
+        UPDATE 
+            [StoreManagement].[itm].[Item]
+        SET 
+            [Name] = '{name}', [Quantity] = {quantity}, [Price] = {price}, [MinThreshold] = {threshold}, [Risk] = {risk}, [AutoPurchaseOrder] = {purchase}
+        WHERE 
+            [Code] = '{code}'
+        """
 
         conn = Database.connect()
         cursor = conn.cursor()
@@ -188,3 +207,10 @@ class Item:
     
     def get_threshold(self):
         return self.item['threshold']
+
+    def set_purchase_order(self, purchase):
+        self.item['purchase'] = purchase
+        return self
+
+    def get_purchase_order(self):
+        return self.item['purchase']
