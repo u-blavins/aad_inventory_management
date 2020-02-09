@@ -1,17 +1,26 @@
-<br>
-<input type="text" placeholder="Search by email..." class="inputShadowBox">
-<br>
+{% extends "home.html" %}
 
-<th class="table-responsive">
-    <table class="table">
-        <thread>
-            <tr>
-              <th>Email</th>
-              <th>Product Code</th>
-              <th>Specify Quantity</th>
-              <th>Return</th>
-              <th>Broken Item</th>
-            </tr>
-        </thread>
-    </table>
-</th>
+{% block content %}
+
+<div>
+    <div class="container text-center">
+        <br>
+        <h3>Return Items</h3>
+        <hr>
+        <br>
+        <button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item</button> 
+
+        <!-- <form id="add-item-form" method="post" action="/basket/add"> -->
+        <div id="cont" class="text-center"></div>
+        <br>
+        <br>
+
+        <button class="editButton" onclick="submit()" href="/basket">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
+        <!-- </form> -->
+    </div>
+
+    <script type="text/javascript">
+        createTable();
+    </script>
+</div>
+{% endblock %}
