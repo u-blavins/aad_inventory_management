@@ -1,17 +1,25 @@
-<br>
-<input type="text" placeholder="Search by email..." class="inputShadowBox">
-<br>
+{% extends "home.html" %}
+{% block content %}
+<div class="container text-center">
+    <br>
+    <h3>Return Items</h3>
+    <br>
+        <input type="text" placeholder="Enter Email..." class="inputShadowBox" style="width: 40%; float:left">
+        <button id="submitEmail" class="greenButton" style="float:left; margin-left: 10px">Submit</button>
+    <br>
+    <br>
 
-<th class="table-responsive">
-    <table class="table">
-        <thread>
-            <tr>
-              <th>Email</th>
-              <th>Product Code</th>
-              <th>Specify Quantity</th>
-              <th>Return</th>
-              <th>Broken Item</th>
-            </tr>
-        </thread>
-    </table>
-</th>
+    <th class="table-responsive">
+        <table class="table">
+            <thread>
+                <tr>
+                <th>Product Code</th>
+                <th>Specify Quantity</th>
+                <th>Return</th>
+                <th>Broken Item</th>
+                </tr>
+            </thread>
+        </table>
+    </th>
+</div>
+{% endblock %}

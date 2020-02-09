@@ -52,7 +52,7 @@ def add_stock():
 def return_items():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
-            return render_template('returnItems.html')
+            return render_template('nathan.html')
     return redirect(url_for('admin.Admin'))
 
 
