@@ -28,7 +28,7 @@
         {% endif %}
         <br>
         <br>
-        <div class="table-responsive">
+        <th class="table-responsive">
         <table class="table">
             <thread>
                 <tr>
@@ -36,13 +36,12 @@
                   <th>Item Name</th>
                   <th>Quantity</th>
                   <th>Risk Item</th>
+                  {% if session['privilege'] in [2, 3]%}
                   <th></th>
-                {% if 'privilege' in session %}
-                    {% if session['privilege'] == 3 %}
-                        <th></th>
-                    {% else %}
-                    {% endif %}
-                {% endif %}
+                  {% endif %}
+                  {% if session['privilege'] == 3 %}
+                  <th></th>
+                  {% endif %}
                 </tr>
             </thread>
             {% for item in items %}
@@ -56,14 +55,15 @@
                         <td>{{ item.get_quantity() }}</td>
                         <td>{{ item.get_risk() }}</td>
                         {% if 'privilege' in session %}
-                            {% if session['privilege'] == 3 %}
+                            {% if session['privilege'] in [2, 3]%}
                             <form action="/items/edit/{{ item.get_code() }}" method="POST">
                                 <td><button type="submit" class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button></td>
                             </form>
+                            {% endif %}
+                            {% if session['privilege'] == 3 %}
                             <form action="/items/remove/{{ item.get_code() }}" method="POST">
                             <td><button type="submit" class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
                             </form>
-                            {% else %}
                             {% endif %}
                         {% endif %}
                     </tr> 
