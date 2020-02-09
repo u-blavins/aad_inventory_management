@@ -52,12 +52,7 @@ def add_stock():
 def return_items():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
-<<<<<<< HEAD
-            return render_template('nathan.html')
-=======
-            items = ItemModel.get_all_items()
-            return render_template('nathan.html', items = items)
->>>>>>> 65bdf3b34a8724eb63edfb692676890e962565bd
+            return render_template('returnItems.html')
     return redirect(url_for('admin.Admin'))
 
 @admin.route('/api/nathan')
