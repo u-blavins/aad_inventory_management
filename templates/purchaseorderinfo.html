@@ -11,9 +11,7 @@
 		        <tr>
 			        <th>ItemCode</th>
 			        <th>Quantity</th>
-			        <th>Completed</th>
-                    <th>Completion Date</th>
-			        <th></th>
+                    <th>Delivered</th>
 		        </tr>
 	        </thread>
 	        <tbody id="Info">
@@ -21,16 +19,16 @@
 				<tr>
 					<th>{{info.item_code}}</th>
 					<th>{{info.quantity}}</th>
-					<th>{{info.is_complete}}</th>
-					<th>{{info.completion_date}}</th>
-                    <th>
-                        <form action="">
-                            <button type="submit" class="editButton"><i class="fas fa-check-circle"></i></button>
-                        </form>
-                    </th>
+					<th>
+						{% if info.get('completion_date') == 'Pending': %}
+							<form action="">
+								<button type="submit" class="greenButton"><i class="fas fa-check-circle"></i>Confirm</button>
+							</form>
+						{% else %}{{info.completion_date}}{% endif %}
+					</th>
                 </tr>
 			{% endfor %}
-		        </tbody>
+			</tbody>
 	        </table>
 	    </div>
 	</div>

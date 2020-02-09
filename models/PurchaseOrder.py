@@ -13,6 +13,8 @@ class PurchaseOrder:
                 [GeneratedDate]
             FROM
                 [itm].[PendingPurchaseOrders]
+            ORDER BY
+                [GeneratedDate]
         """
         conn = Database.connect()
         cursor = conn.cursor()
@@ -40,6 +42,8 @@ class PurchaseOrder:
                 [CompletionDate]
             FROM
                 [itm].[PurchaseOrdersHistory]
+            ORDER BY
+                [CompletionDate] DESC
         """
         conn = Database.connect()
         cursor = conn.cursor()
@@ -90,3 +94,4 @@ class PurchaseOrder:
 
     def get_completion_date(self):
         return self.purchase_order['completion_date']
+

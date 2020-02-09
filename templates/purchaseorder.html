@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container text-center">
 		<br>
-	    <h3>Generate Purchase Order</h3>
+	    <h3>Create Purchase Order</h3>
 	    <hr>
 		<button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
         <div class="table-responsive">
@@ -39,7 +39,7 @@
 						<th>{{purchase_order.generated_date}}</th>
                         <th>
                             <form method="GET" action="/admin/purchase-order/{{purchase_order.purchase_order_id}}">
-                                <button type="submit" class="editButton"><i class="fas fa-search"></i></button>
+                                <button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
                             </form>
                         </th>
 					</tr>
@@ -48,7 +48,7 @@
 	        </table>
 	    </div>
 		<br>
-	    <h3>Purchase Order History</h3>
+	    <h3>Completed Purchase Orders</h3>
 	    <hr>
         <div class="table-responsive">
 		    <table class="table">
@@ -70,7 +70,7 @@
 							<th>{{purchase_order.completion_date}}</th>
 							<th>
 								<form method="GET" action="/admin/purchase-order/{{purchase_order.purchase_order_id}}">
-									<button type="submit" class="editButton"><i class="fas fa-search"></i></button>
+									<button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
 								</form>
 							</th>
 					</tr>
