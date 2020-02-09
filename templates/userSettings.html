@@ -36,7 +36,7 @@
   <form action='/user/reset/{{data.id}}' method='post'>
     <input id="passwordField" type="password" class="form-control inputShadowBox" style="display: none;" placeholder="Enter new password" name="password">
     <br>
-    <button id="confirmPasswordBtn" type="submit" class="greenButton" style="display: none;" value="submit">Confirm<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
+    <button id="confirmPasswordBtn" type="submit" class="greenButton" style="display: none;" onclick="emptyPass(event, passwordField)" value="submit">Confirm<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
     <br>
     <br>
   </form>
@@ -94,6 +94,14 @@
         passwordField.setAttribute('style', 'display: none;');
         confirmPasswordBtn.setAttribute('style', 'display: none;');
         cancelBtn.setAttribute('style', 'display: none;');
+    }
+
+    function emptyPass(event, passwordField) {
+      if(document.getElementById('passwordField').value == ""){
+        event.preventDefault();
+        alert("Password cannot be empty!")
+      }
+      else{return 0;} 
     }
 </script>
 {% endblock %}
