@@ -1,0 +1,38 @@
+{% extends "home.html" %}
+
+{% block content %}
+    <div class="container text-center">
+        <br>
+	    <h3>Purchase Order Info</h3>
+	    <hr>
+    </div>
+    <div class="table-responsive">
+	    <table class="table">
+	        <thread>
+		        <tr>
+			        <th>ItemCode</th>
+			        <th>Quantity</th>
+			        <th>isComplete</th>
+                    <th>completionDate</th>
+			        <th></th>
+		        </tr>
+	        </thread>
+	        <tbody id="Info">
+			{% for info in order_info %}
+				<tr>
+					<th>{{info.item_code}}</th>
+					<th>{{info.quantity}}</th>
+					<th>{{info.is_complete}}</th>
+					<th>{{info.completion_date}}</th>
+                    <th>
+                        <form action="">
+                            <button type="submit" class="editButton"><i class="fas fa-check-circle"></i></button>
+                        </form>
+                    </th>
+                </tr>
+			{% endfor %}
+		        </tbody>
+	        </table>
+	    </div>
+
+{% endblock %}

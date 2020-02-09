@@ -4,7 +4,7 @@ from utils.Database import Database
 from models.Item import Item as ItemModel
 from models.User import User as UserModel
 from models.PurchaseOrder import PurchaseOrder as PurchaseOrderModel
-
+from models.PurchaseOrderInfo import PurchaseOrderInfo as PurchaseOrderInfoModel
 admin = Blueprint('admin', __name__)
 
 
@@ -27,7 +27,7 @@ def transactions():
 @admin.route('/admin/purchase-order')
 def purchase_order():
     if 'privilege' in session:
-        if session['privilege'] == 3:
+        if session['privilege'] in [2, 3]:
             purchase_orders_pending = PurchaseOrderModel.get_purchase_orders_pending()
             pending = []
             for order in purchase_orders_pending:
@@ -47,6 +47,22 @@ def purchase_order():
 
             return render_template('purchaseOrder.html', pending=pending,
                                    history=history)
+    return redirect(url_for('admin.Admin'))
+
+
+@admin.route('/admin/purchase-order/<id>', methods=['GET'])
+def purchase_order_info(id):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                results = PurchaseOrderInfoModel.get_purchase_order_info(id)
+                order_info = []
+                for result in results:
+                    info = {'item_code': result.get_item_code(), 'quantity': result.get_quantity(),
+                            'is_complete': result.get_is_complete(), 'completion_date': result.get_completion_date()}
+                    order_info.append(info)
+                return render_template('purchaseorderinfo.html', order_info = order_info)
+
     return redirect(url_for('admin.Admin'))
 
 

@@ -2,8 +2,24 @@
 
 {% block content %}
     <div class="container text-center">
-        <br>
-	    <h3>Pending Purchase Orders</h3>
+		<br>
+	    <h3>Generate Purchase Order</h3>
+	    <hr>
+		<button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
+        <div class="table-responsive">
+		    <table class="table">
+		        <thread>
+			        <tr>
+				        <th>Item Code</th>
+				        <th>Quantity</th>
+			        </tr>
+		        </thread>
+		        <tbody id="empTable">
+		        </tbody>
+	        </table>
+	    </div>
+		<br>
+		<h3>Pending Purchase Orders</h3>
 	    <hr>
         <div class="table-responsive">
 		    <table class="table">
@@ -22,7 +38,7 @@
 						<th>{{purchase_order.generated_by}}</th>
 						<th>{{purchase_order.generated_date}}</th>
                         <th>
-                            <form action="">
+                            <form method="GET" action="/admin/purchase-order/{{purchase_order.purchase_order_id}}">
                                 <button type="submit" class="editButton"><i class="fas fa-search"></i></button>
                             </form>
                         </th>
@@ -53,7 +69,7 @@
 							<th>{{purchase_order.generated_date}}</th>
 							<th>{{purchase_order.completion_date}}</th>
 							<th>
-								<form action="">
+								<form method="GET" action="/admin/purchase-order/{{purchase_order.purchase_order_id}}">
 									<button type="submit" class="editButton"><i class="fas fa-search"></i></button>
 								</form>
 							</th>
