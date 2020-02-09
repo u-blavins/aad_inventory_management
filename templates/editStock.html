@@ -20,7 +20,7 @@
         <h3>{{ item.get_code() }}</h3>
         <hr>
 
-        <form action="/edit/{{ item.get_code() }}" method="POST">
+        <form action="/edit/item/{{ item.get_code() }}" method="POST">
             <div class="form-group">
               <label>Item Name:</label>
               <input type="text" class="form-control inputShadowBox" value={{item.get_name()}} name="name" required>

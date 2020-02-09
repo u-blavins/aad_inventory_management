@@ -12,7 +12,8 @@ class Item:
             [Risk],
             [Price],
             [Quantity],
-            [MinThreshold]
+            [MinThreshold],
+            [AutoPurchaseOrder]
             FROM [StoreManagement].[itm].[Item]
             WHERE [onDisplay] = 1
         """
@@ -31,6 +32,7 @@ class Item:
             item.set_price(row[3])
             item.set_quantity(row[4])
             item.set_threshold(row[5])
+            item.set_purchase_order(row[6])
             items.append(item)
 
         return items
@@ -156,10 +158,6 @@ class Item:
             units.append(row[0])
 
         return units
-
-    @staticmethod
-    def update_item(code):
-        return 0
 
     def __init__(self):
         self.code = None

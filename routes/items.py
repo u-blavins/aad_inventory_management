@@ -70,16 +70,16 @@ def remove_item(code):
 
 @items.route('/items/edit/<code>', methods=['POST'])
 def Edit(code):
-    if session['privilege'] == 3:
+    if session['privilege'] in [2, 3]:
         item = ItemModel.get_item(code)
         return render_template('editStock.html', item=item)
     return redirect(url_for('admin.stocks'))
 
 
-@items.route('/edit/<code>', methods=['POST'])
+@items.route('/edit/item/<code>', methods=['POST'])
 def edit_item(code):
     if request.method == 'POST':
-         if session['privilege'] == 3:
+         if session['privilege'] in [2, 3]:
             if code in ItemModel.get_codes():
                 name = request.form['name']
                 quantity = request.form['quantity']
