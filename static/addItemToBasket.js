@@ -51,6 +51,7 @@
                 ele.setAttribute('value', '');
                 ele.setAttribute('name', 'codes[]');
                 ele.setAttribute('class', 'tableInput');
+                ele.required = true;
                 td.appendChild(ele);
             }
 
@@ -60,6 +61,7 @@
                 ele.setAttribute('value', '');
                 ele.setAttribute('name', 'quantity[]');
                 ele.setAttribute('class', 'tableInput');
+                ele.required = true;
                 td.appendChild(ele);    
             }
 
