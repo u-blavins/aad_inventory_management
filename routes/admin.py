@@ -50,19 +50,29 @@ def purchase_order():
     return redirect(url_for('admin.Admin'))
 
 
-@admin.route('/admin/purchase-order/<id>', methods=['GET'])
-def purchase_order_info(id):
+@admin.route('/admin/purchase-order/<order_id>', methods=['GET'])
+def purchase_order_info(order_id):
     if request.method == 'GET':
         if 'privilege' in session:
             if session['privilege'] in [2, 3]:
-                results = PurchaseOrderInfoModel.get_purchase_order_info(id)
+                results = PurchaseOrderInfoModel.get_purchase_order_info(order_id)
                 order_info = []
                 for result in results:
                     info = {'item_code': result.get_item_code(), 'quantity': result.get_quantity(),
                             'is_complete': result.get_is_complete(), 'completion_date': result.get_completion_date()}
                     order_info.append(info)
-                return render_template('purchaseorderinfo.html', order_info=order_info)
+                return render_template('purchaseorderinfo.html', order_info=order_info, order_id=order_id)
     return redirect(url_for('admin.purchase_order'))
+
+
+@admin.route('/admin/purchase-order/<order_id>/<item_code>', methods=['POST'])
+def confirm_item_delivery(order_id, item_code):
+    if request.method == 'POST':
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                PurchaseOrderInfoModel.confirm_delivery(order_id, item_code)
+                return redirect(f'/admin/purchase-order/{order_id}')
+    return redirect(url_for('admin.Admin'))
 
 
 @admin.route('/admin/stock')

@@ -5,7 +5,7 @@ class PurchaseOrderInfo:
     """Purchase Order Info Model"""
 
     @staticmethod
-    def get_purchase_order_info(id):
+    def get_purchase_order_info(order_id):
         query = f"""
             SELECT
                 [ItemCode],
@@ -13,7 +13,7 @@ class PurchaseOrderInfo:
                 [isComplete],
                 [completionDate]
             FROM
-                [itm].[viewPurchaseOrderInfo]('{id}')
+                [itm].[viewPurchaseOrderInfo]('{order_id}')
         """
 
         conn = Database.connect()
@@ -35,6 +35,25 @@ class PurchaseOrderInfo:
             items.append(item)
 
         return items
+
+    @staticmethod
+    def confirm_delivery(order_id, item_code):
+        query = f"""
+            UPDATE
+                [itm].[PurchaseOrderInfo]
+            SET
+                [isComplete] = 1
+            WHERE
+                [PurchaseOrderID] = '{order_id}'
+                AND
+                [ItemCode] = '{item_code}'
+        """
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        Database.execute_non_query(query, cursor)
+        cursor.commit()
+        conn.close()
 
     def __init__(self):
         self.item_code = None

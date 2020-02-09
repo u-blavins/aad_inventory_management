@@ -2,20 +2,23 @@
 
 {% block content %}
     <div class="container text-center">
-		<br>
-	    <h3>Create Purchase Order</h3>
-	    <hr>
-		<button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
-		
-		<!-- THE CHANGES BELOW / ADD UR OWN FORM action/BUTTON-->
-		<form id="" method="post" action="">
-            <div id="cont" class="text-center"></div>
-            <br>
+		{% if 'privilege' in session %}
+			{% if session['privilege'] == 3 %}
+				<br>
+				<h3>Create Purchase Order</h3>
+				<hr>
+				<button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
 
-            <button class="editButton" onclick="submit()" href="">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
-			<br>
-		</form>
-		
+				<!-- THE CHANGES BELOW / ADD UR OWN FORM action/BUTTON-->
+				<form id="" method="post" action="">
+					<div id="cont" class="text-center"></div>
+					<br>
+
+					<button class="editButton" onclick="submit()" href="">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
+					<br>
+				</form>
+			{% endif %}
+		{% endif %}
 		<!-- ^^ -->
 
 		<br>

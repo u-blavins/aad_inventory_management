@@ -21,7 +21,7 @@
 					<th>{{info.quantity}}</th>
 					<th>
 						{% if info.get('completion_date') == 'Pending': %}
-							<form action="">
+							<form method= "POST" action="/admin/purchase-order/{{order_id}}/{{info.item_code}}">
 								<button type="submit" class="greenButton"><i class="fas fa-check-circle"></i>Confirm</button>
 							</form>
 						{% else %}{{info.completion_date}}{% endif %}

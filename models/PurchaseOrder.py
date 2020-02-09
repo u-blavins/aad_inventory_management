@@ -14,7 +14,7 @@ class PurchaseOrder:
             FROM
                 [itm].[PendingPurchaseOrders]
             ORDER BY
-                [GeneratedDate]
+                [GeneratedDate] DESC
         """
         conn = Database.connect()
         cursor = conn.cursor()
@@ -43,7 +43,7 @@ class PurchaseOrder:
             FROM
                 [itm].[PurchaseOrdersHistory]
             ORDER BY
-                [CompletionDate] DESC
+                [CompletionDate], [GeneratedDate] DESC
         """
         conn = Database.connect()
         cursor = conn.cursor()
