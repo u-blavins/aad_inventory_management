@@ -133,7 +133,9 @@ function returnSubmit() {
         }
         
     }
-    console.log(values);
+    // console.log(values);
+    var emailForm = document.getElementById('return-email');
+    emailForm.submit(document.getElementById('email').value);
     var form = document.getElementById('remove-item-form');
     form.submit(values);
     // SHOW THE RESULT IN THE CONSOLE WINDOW.

@@ -45,27 +45,28 @@ class ReturnItems:
     def get_returns(self):
         return self.returns
 
-    def handle_return(self, user_id, staff_id):
+    def return_items(self, user_id, staff_id):
         message = ''
         for option in self.returns:
             if option == 'refund':
-                self.refund(user_id, self.returns[option])
+                self.handle_returns(user_id, self.returns[option], 1)
                 message = 'Successfully refunded items'
             if option == 'broken':
-                self.broken(staff_id, user_id, self.returns[option])
-                message = 'Successfully refunded items'
+                self.handle_returns(user_id, self.returns[option], 1)
+                self.handle_returns(staff_id, self.returns[option], 0)
+                message = 'Successfully refunded broken items'
         if 'refund' in self.returns and 'broken' in self.returns:
             message = 'Successfully returned item(s) and broken item(s)'
         return message
-        
-    def refund(self, user_id, items):
+
+    def handle_returns(self, user_id, items, is_return):
         if items != {}:
             conn = Database.connect()
             cursor = conn.cursor()
             price = ReturnControl.get_price(items)
             sproc = """
             [itm].[createTransaction] @UserID = ?, @Price = ?, @isRefund = ?"""
-            params = (user_id, price, 1)
+            params = (user_id, price, is_return)
             trans_id = Database.execute_sproc(sproc, params, cursor)
             cursor.commit()
             for item in items:
@@ -80,30 +81,3 @@ class ReturnItems:
                     result = Database.execute_sproc(sproc, params, cursor)
                     cursor.commit()
             conn.close()
-
-
-    def broken(self, staff_id, user_id, items):
-        if items != {}:
-            self.refund(user_id, items)
-            conn = Database.connect()
-            cursor = conn.cursor()
-            price = ReturnControl.get_price(items)
-            sproc = """
-            [itm].[createTransaction] @UserID = ?, @Price = ?, @isRefund = ?"""
-            params = (staff_id, price, 0)
-            trans_id = Database.execute_sproc(sproc, params, cursor)
-            cursor.commit()
-            for item in items:
-                for unit in items[item]['units']:
-                    sproc = """
-                        [itm].[createTransactionInfo] @ItemCode = ?, @TransactionID = ?, @UnitName = ?,
-                        @Quantity = ?
-                    """
-                    params = (
-                        item, trans_id[0][0], unit, items[item]['units'][unit]
-                    )
-                    result = Database.execute_sproc(sproc, params, cursor)
-                    cursor.commit()
-            conn.close()
-
-            

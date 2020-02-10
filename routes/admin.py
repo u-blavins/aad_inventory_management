@@ -171,7 +171,7 @@ def return_items():
                         msgs.append(msg)
                         flash(msg)
                 if len(msgs) == 0:
-                    msg = returns.handle_return(user.get_id(), session['user_id'])
+                    msg = returns.return_items(user.get_id(), session['user_id'])
                     flash(msg)
             else:
                 flash('User does not exist')
