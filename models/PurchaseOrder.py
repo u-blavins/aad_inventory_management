@@ -43,7 +43,7 @@ class PurchaseOrder:
             FROM
                 [itm].[PurchaseOrdersHistory]
             ORDER BY
-                [CompletionDate], [GeneratedDate] DESC
+                [CompletionDate] DESC, [GeneratedDate] DESC
         """
         conn = Database.connect()
         cursor = conn.cursor()
@@ -61,6 +61,16 @@ class PurchaseOrder:
             purchase_orders.append(purchase_order)
 
         return purchase_orders
+
+    @staticmethod
+    def create_purchase_order(user_id, cursor):
+        query = """
+            [itm].[createPurchaseOrder] @UserID = ?
+        """
+        params = user_id
+        rows = Database.execute_sproc(query, params, cursor)
+
+        return rows[0][0]
 
     def __init__(self):
         self.purchase_order_id = None

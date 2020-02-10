@@ -55,6 +55,15 @@ class PurchaseOrderInfo:
         cursor.commit()
         conn.close()
 
+    @staticmethod
+    def create_purchase_order_info(order_id, item_code, quantity, cursor):
+        query = """
+            [itm].[createPurchaseOrderInfo] @PurchaseOrderID = ?, @ItemCode = ?, @Quantity = ?
+                """
+        params = (order_id, item_code, quantity)
+        row = Database.execute_sproc(query, params, cursor)
+        return row[0][0]
+
     def __init__(self):
         self.item_code = None
         self.purchase_order_info = {}

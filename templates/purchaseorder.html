@@ -10,11 +10,10 @@
 				<button id="addPurchaseOrderRow" class="greenButton addButton" onclick="addPurchaseOrderRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
 
 				<!-- THE CHANGES BELOW / ADD UR OWN FORM action/BUTTON-->
-				<form id="" method="post" action="">
+				<form id="" method="POST" action="/admin/purchase-order/create">
 					<div id="purchase-order-cont" class="text-center"></div>
 					<br>
-
-					<button class="editButton" onclick="submitPurchaseOrder()" href="">Generate Purchase Order<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
+					<button class="greenButton" onclick="submitPurchaseOrder()" href="">Create Purchase Order<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
 					<br>
 				</form>
 			{% endif %}

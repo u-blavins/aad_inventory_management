@@ -75,6 +75,35 @@ def confirm_item_delivery(order_id, item_code):
     return redirect(url_for('admin.Admin'))
 
 
+@admin.route('/admin/purchase-order/create', methods=['POST'])
+def create_purchase_order():
+    if request.method == 'POST':
+        if 'privilege' in session:
+            if session['privilege'] == 3:
+                codes = request.form.getlist('codes[]')
+                quantity = request.form.getlist('quantity[]')
+                pairs = []
+                if codes.__len__() == quantity.__len__():
+                    count = codes.__len__()
+                    for i in range(count):
+                        pair = (codes[i], quantity[i])
+                        pairs.append(pair)
+                    conn = Database.connect()
+                    cursor = conn.cursor()
+                    order_id = PurchaseOrderModel.create_purchase_order(session['user_id'], cursor)
+                    if order_id is not None:
+                        for pair in pairs:
+                            response = PurchaseOrderInfoModel.create_purchase_order_info(order_id, pair[0], pair[1], cursor)
+                            if response == 'Failure':
+                                cursor.rollback()
+                                conn.close()
+                                return redirect(url_for('admin.purchase_order'))
+                        cursor.commit()
+                        conn.close()
+                return redirect(url_for('admin.purchase_order'))
+    return redirect(url_for('admin.Admin'))
+
+
 @admin.route('/admin/stock')
 def stocks():
     if 'privilege' in session:
