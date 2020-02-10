@@ -144,6 +144,7 @@ def returns():
             return render_template('returnItems.html')
     return redirect(url_for('admin.Admin'))
 
+
 @admin.route('/api/returns/items', methods=['POST'])
 def return_items():
     if request.method == 'POST':
