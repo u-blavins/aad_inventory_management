@@ -49,16 +49,27 @@ def add_stock():
 
 
 @admin.route('/admin/return')
-def return_items():
+def returns():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
             return render_template('returnItems.html')
     return redirect(url_for('admin.Admin'))
 
-@admin.route('/api/nathan')
-def nathan():
-    codes = request.form.getList("productCodes[]")
-    
+@admin.route('/api/return/items', methods=['POST'])
+def return_items():
+    if request.method == 'POST':
+        email = request.form['email']
+        if  email != '':
+            user = UserModel.get_user_by('[Email]', email)
+            if user != None:
+                codes = request.form.getlist('codes[]')
+                quantity = request.form.getlist('quantity[]')
+                unit_types = request.form.getList('unitType[]')
+                option = request.form.getList('returnOption[]')
+            else:
+                flash('User does not exist')
+        else:
+            flash('Please enter an email address')
     return {'codes': codes}
 
 @admin.route('/admin/accept-users')

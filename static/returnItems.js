@@ -3,6 +3,7 @@ var arrHead = new Array();
 arrHead = ['Item Code', 'Quantity', 'Unit Type', 'Refund/Broken',''];
 
 function createReturnTable() {
+
     var returnTable = document.createElement('table');
     returnTable.setAttribute('id', 'returnTable');
     returnTable.setAttribute('class', 'table');
@@ -50,6 +51,7 @@ function addReturnRow() {
             ele.setAttribute('value', '');
             ele.setAttribute('name', 'codes[]');
             ele.setAttribute('class', 'tableInput');
+            ele.required = true;
             td.appendChild(ele);
         }
 
@@ -59,11 +61,13 @@ function addReturnRow() {
             ele.setAttribute('value', '');
             ele.setAttribute('name', 'quantity[]');
             ele.setAttribute('class', 'tableInput');
+            ele.required = true;
             td.appendChild(ele);    
         }
 
         if (c ==  2) { //Unit Type
             var items = {
+                'Select Unit': '',
                 'Item(s)': 'Single',
                 'Box(es)': 'Box',
                 'Millilitre(s)': 'ml',
@@ -74,6 +78,7 @@ function addReturnRow() {
             var sel = document.createElement('select');
             sel.setAttribute('name', 'unitType[]');
             sel.setAttribute('class', 'dropdownList tableInput');
+            sel.required = true;
             for (prop in items) {
                 var opt = document.createElement('option');
                 opt.text = prop;
@@ -85,13 +90,14 @@ function addReturnRow() {
 
         if (c == 3 ) { // quantity
             var options = {
-                'Return Otion': '',
+                'Return Option': '',
                 'Refund': 'refund',
                 'Broken': 'broken'
             }
             var sel = document.createElement('select');
             sel.setAttribute('name', 'returnOption[]');
             sel.setAttribute('class', 'dropdownList tableInput');
+            sel.required = true;
             for (prop in options) {
                 var opt = document.createElement('option');
                 opt.text = prop;
@@ -130,9 +136,10 @@ function returnSubmit() {
         }
         
     }
-    
-    var form = document.getElementById('add-item-form');
-    form.submit(values);
+    var form1 = document.getElementById('email-return');
+    form1.submit(document.getElementById('email').value)
+    var form2 = document.getElementById('remove-item-form');
+    form2.submit(values);
     // SHOW THE RESULT IN THE CONSOLE WINDOW.
     console.log(values);
 }
