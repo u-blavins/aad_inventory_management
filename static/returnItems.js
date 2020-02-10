@@ -78,7 +78,7 @@ function addReturnRow() {
             var sel = document.createElement('select');
             sel.setAttribute('name', 'unitTypes[]');
             sel.setAttribute('class', 'dropdownList tableInput');
-            ele.required = true;
+            sel.required = true;
             for (prop in items) {
                 var opt = document.createElement('option');
                 opt.text = prop;
@@ -97,7 +97,7 @@ function addReturnRow() {
             var sel = document.createElement('select');
             sel.setAttribute('name', 'returnOption[]');
             sel.setAttribute('class', 'dropdownList tableInput');
-            ele.required = true;
+            sel.required = true;
             for (prop in options) {
                 var opt = document.createElement('option');
                 opt.text = prop;
