@@ -23,6 +23,18 @@ def get_quantity(item, unit, quantity, in_basket):
 
     return response
 
+def get_return_quantity(item, unit, quantity, in_basket):
+    response = {}
+    try:
+        unit_vol = UnitModel.get_unit(unit).get_value()
+        total = unit_vol * quantity
+        total += in_basket
+        response = {'Status': 200,'Info': total}
+    except Exception as e:
+        response = {'Status': 400, 'Info': '%s: could ' % item}
+    return response
+
+
 def remove_quantity(unit, quantity):
     """ Return remove quantity """
     unit_vol = UnitModel.get_unit(unit).get_value()

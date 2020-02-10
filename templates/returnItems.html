@@ -22,7 +22,8 @@
     <br>
     <br>
     <button id="addReturnRow" class="greenButton addButton" onclick="addReturnRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
-    <form id="remove-item-form" action="/api/return/items" method="post">
+    <form id="remove-item-form" action="/api/returns/items" method="post">
+    <!-- <form id="remove-item-form"> -->
         <br>
         <br>
         <div id="returnTableContainer" class="text-center"></div>
@@ -31,7 +32,7 @@
         <input name="email" type="email" required>
         <br>
         <br>
-        <button class="editButton" onclick="returnSubmit()" href="/basket">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
+        <button type="submit" class="editButton" onclick="returnSubmit()" href="/basket">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
     </form>
 </div>
 

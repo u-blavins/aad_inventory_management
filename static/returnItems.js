@@ -76,9 +76,8 @@ function addReturnRow() {
                 'Kilogram(s)': 'Kilogram'
             }
             var sel = document.createElement('select');
-            sel.setAttribute('name', 'unitType[]');
+            sel.setAttribute('name', 'unitTypes[]');
             sel.setAttribute('class', 'dropdownList tableInput');
-            sel.required = true;
             for (prop in items) {
                 var opt = document.createElement('option');
                 opt.text = prop;
@@ -97,7 +96,6 @@ function addReturnRow() {
             var sel = document.createElement('select');
             sel.setAttribute('name', 'returnOption[]');
             sel.setAttribute('class', 'dropdownList tableInput');
-            sel.required = true;
             for (prop in options) {
                 var opt = document.createElement('option');
                 opt.text = prop;
@@ -125,7 +123,6 @@ function returnSubmit() {
     for (row = 1; row < myTab.rows.length - 1; row++) {
         var item = new Array();
         for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
-
             var element = myTab.rows.item(row).cells[c];
             if (c <  myTab.rows.length - 1) {
                 values.push("'" + element.childNodes[0].value + "'");
@@ -136,10 +133,8 @@ function returnSubmit() {
         }
         
     }
-    var form1 = document.getElementById('email-return');
-    form1.submit(document.getElementById('email').value)
-    var form2 = document.getElementById('remove-item-form');
-    form2.submit(values);
-    // SHOW THE RESULT IN THE CONSOLE WINDOW.
     console.log(values);
+    var form = document.getElementById('remove-item-form');
+    form.submit(values);
+    // SHOW THE RESULT IN THE CONSOLE WINDOW.
 }

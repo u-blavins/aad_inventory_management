@@ -1,5 +1,5 @@
 
-from flask import Blueprint, request, render_template, redirect, session, url_for, make_response, flash
+from flask import Blueprint, request, render_template, redirect, session, url_for, make_response, flash, jsonify
 from io import StringIO
 import csv
 
@@ -9,6 +9,8 @@ from models.Item import Item as ItemModel
 from models.User import User as UserModel
 from models.PurchaseOrder import PurchaseOrder as PurchaseOrderModel
 from models.PurchaseOrderInfo import PurchaseOrderInfo as PurchaseOrderInfoModel
+from models.ReturnItems import ReturnItems as ReturnItemsModel
+
 admin = Blueprint('admin', __name__)
 
 
@@ -158,13 +160,24 @@ def return_items():
             if user != None:
                 codes = request.form.getlist('codes[]')
                 quantity = request.form.getlist('quantity[]')
-                unit_types = request.form.getList('unitType[]')
-                option = request.form.getList('returnOption[]')
+                unit_types = request.form.getlist('unitTypes[]')
+                option = request.form.getlist('returnOption[]')
+                returns = ReturnItemsModel()
+                msgs = []
+                for i in range(len(codes)):
+                    msg = returns.set_returns(codes[i].upper(), int(quantity[i]), 
+                        unit_types[i], option[i])
+                    if msg != '':
+                        msgs.append(msg)
+                        flash(msg)
+                if len(msgs) == 0:
+                    msg = returns.handle_return(user.get_id(), session['user_id'])
+                    flash(msg)
             else:
                 flash('User does not exist')
         else:
             flash('Please enter an email address')
-    return {'codes': codes}
+    return redirect(url_for('admin.returns'))
 
 @admin.route('/admin/accept-users')
 def accept_users():
