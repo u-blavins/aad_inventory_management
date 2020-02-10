@@ -17,7 +17,7 @@ class TransactionInfo:
             FROM
                 [itm].[getUserTransactionInfo]('%s')
             ORDER BY
-                [TransactionID], [TransactionDate] DESC
+                [TransactionDate] DESC, [TransactionID]
         """ % id
 
         conn = Database.connect()

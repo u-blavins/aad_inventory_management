@@ -8,18 +8,11 @@ class ReturnItems:
     """ Return Items Model """
 
     def __init__(self):
-        self.items = {}
+        self.items = {
         return
 
-    def set_item(self, item, quantity, unit):
-        codes = ItemModel.get_codes()
-        item = item.upper()
-        if item not in self.items:
-            if ItemModel.get_item(item) != None:
-                if 
+    def set_item(self, items, quantities, units, options):
 
         return message
     
-    def get_items(self):
-        return self.get_items()
             

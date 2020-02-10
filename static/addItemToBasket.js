@@ -44,24 +44,26 @@ function addRow() {
             td.appendChild(button);
         }
 
-        if (c == 0 ) { //Product Code
-            // Function to add more text boxes.
-            var ele = document.createElement('input');
-            ele.setAttribute('type', 'text');
-            ele.setAttribute('value', '');
-            ele.setAttribute('name', 'codes[]');
-            ele.setAttribute('class', 'tableInput');
-            td.appendChild(ele);
-        }
+            if (c == 0 ) { //Product Code
+                // Function to add more text boxes.
+                var ele = document.createElement('input');
+                ele.setAttribute('type', 'text');
+                ele.setAttribute('value', '');
+                ele.setAttribute('name', 'codes[]');
+                ele.setAttribute('class', 'tableInput');
+                ele.required = true;
+                td.appendChild(ele);
+            }
 
-        if (c == 1 ) { // quantity
-            var ele = document.createElement('input');
-            ele.setAttribute('type', 'number');
-            ele.setAttribute('value', '');
-            ele.setAttribute('name', 'quantity[]');
-            ele.setAttribute('class', 'tableInput');
-            td.appendChild(ele);    
-        }
+            if (c == 1 ) { // quantity
+                var ele = document.createElement('input');
+                ele.setAttribute('type', 'number');
+                ele.setAttribute('value', '');
+                ele.setAttribute('name', 'quantity[]');
+                ele.setAttribute('class', 'tableInput');
+                ele.required = true;
+                td.appendChild(ele);    
+            }
 
         if (c ==  2) { //Unit Type
             var items = {
