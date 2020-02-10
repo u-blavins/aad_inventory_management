@@ -10,6 +10,7 @@ from models.User import User as UserModel
 from models.PurchaseOrder import PurchaseOrder as PurchaseOrderModel
 from models.PurchaseOrderInfo import PurchaseOrderInfo as PurchaseOrderInfoModel
 from models.ReturnItems import ReturnItems as ReturnItemsModel
+from models.Billing import Billing as BillingModel
 
 admin = Blueprint('admin', __name__)
 
@@ -20,14 +21,6 @@ def Admin():
         if session['privilege'] in [2, 3]:
             return render_template('admin.html')
     return redirect(url_for('auth.Auth'))
-
-
-@admin.route('/admin/transactions')
-def transactions():
-    if 'privilege' in session:
-        if session['privilege'] in [2, 3]:
-            return render_template('generateReport.html')
-    return redirect(url_for('admin.Admin'))
 
 
 @admin.route('/admin/purchase-order')
@@ -195,6 +188,7 @@ def accept_users():
             return render_template('acceptUsers.html', users=users)
     return redirect(url_for('admin.Admin'))
 
+
 @admin.route('/admin/view-users')
 def view_users():
     if 'privilege' in session:
@@ -203,6 +197,7 @@ def view_users():
             if len(users) != 0:
                 return render_template('users.html', users=users)
     return redirect(url_for('admin.Admin'))
+
 
 @admin.route('/admin/update-privilege/<id>', methods=['POST'])
 def update_user_privilege(id):
@@ -215,6 +210,7 @@ def update_user_privilege(id):
             else:
                 flash('Please select a privilege level to update to')
     return redirect(url_for('admin.view_users'))
+
 
 @admin.route('/admin/accept/<id>', methods=['POST'])
 def accept(id):
@@ -250,3 +246,38 @@ def deny(id):
         cursor.commit()
         conn.close()
     return redirect(url_for('admin.accept_users'))
+
+
+@admin.route('/admin/billing')
+def billing():
+    if 'privilege' in session:
+        if session['privilege'] in [2,3]:
+            results = BillingModel.get_billing_rows()
+            if results != 0:
+                billing_rows = []
+                for row in results:
+                    billing_row = {'billing_month': row.get_billing_month(), 'billing_year': row.get_billing_year()}
+                    billing_rows.append(billing_row)
+                return render_template('billing.html', billing_rows=billing_rows)
+    return redirect(url_for('admin.Admin'))
+
+
+@admin.route('/admin/billing/download/<year>/<month>', methods=['GET'])
+def download_finance_report(year, month):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                result = BillingModel.get_department_billing(year, month)
+                department_billing = [('Department', 'Total')]
+                for row in result:
+                    bill = (row.get_department_code(), row.get_total())
+                    department_billing.append(bill)
+
+                si = StringIO()
+                cw = csv.writer(si)
+                cw.writerows(department_billing)
+                output = make_response(si.getvalue())
+                output.headers["Content-Disposition"] = f"attachment; filename=FinanceReport-{year}-{month}.csv"
+                output.headers["Content-type"] = "text/csv"
+                return output
+    return redirect(url_for('admin.billing'))

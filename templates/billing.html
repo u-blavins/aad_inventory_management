@@ -1,0 +1,39 @@
+{% extends "home.html" %}
+
+{% block content %}
+<div class="container text-center">
+	<br>
+	<h3>Department Billing</h3>
+	<hr>
+	<div class="table-responsive">
+		<table class="table">
+			<thread>
+				<tr>
+					<th>Month</th>
+					<th>Year</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thread>
+			<tbody>
+			{% for billing_row in billing_rows %}
+				<tr>
+					<th>{{billing_row.billing_month}}</th>
+					<th>{{billing_row.billing_year}}</th>
+					<th>
+						<form method="GET" action="">
+                    		<button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
+                    	</form>
+					</th>
+					<th>
+						<form method="GET" action="/admin/billing/download/{{billing_row.billing_year}}/{{billing_row.billing_month}}">
+                    		<button type="submit" class="editButton"><i class="fas fa-cloud-download-alt"></i> Download</button>
+                    	</form>
+					</th>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}
