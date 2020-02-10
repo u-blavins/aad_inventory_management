@@ -1,0 +1,73 @@
+{% extends "home.html" %}
+{% block content %}
+    {% for message in get_flashed_messages() %}
+    <div class="container">
+        {% if 'Success' in message %}
+            <div class="alert alert-success">
+        {% else %}
+            <div class="alert alert-danger">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+    <div class="container text-center">
+        <br>
+        <h3>Edit Item</h3>
+        <br>
+        {% if item %}
+        <h3>{{ item.get_code() }}</h3>
+        <hr>
+
+        <form action="/edit/item/{{ item.get_code() }}" method="POST">
+            <div class="form-group">
+              <label>Item Name:</label>
+              <input type="text" class="form-control inputShadowBox" value={{item.get_name()}} name="name" required>
+            </div>
+            <div class="form-group">
+                <label>Quantity:</label>
+                <input type="number" class="form-control inputShadowBox" value={{item.get_quantity()}} name="quantity" required>
+              </div>
+              <div class="form-group">
+                <label>Price Per Item:</label>
+                <input type="number" class="form-control inputShadowBox" value={{item.get_price()}} name="price" required>
+              </div>
+              <div class="form-group">
+                <label>Minimum Threshold:</label>
+                <input type="number" class="form-control inputShadowBox" value={{item.get_threshold()}} name="threshold" required>
+              </div>
+              <div class="form-group">
+                  <br>
+                <label>Risk Item:</label>
+                <br>
+                {% if item.get_risk() == True %}
+                    <input type="radio" name="risk" value="1" checked> True &nbsp;
+                    <input type="radio" name="risk" value="0"> False
+                {% else %}
+                    <input type="radio" name="risk" value="1"> True &nbsp;
+                    <input type="radio" name="risk" value="0" checked> False
+                {% endif %}
+              </div>
+              <div class="form-group">
+                <br>
+              <label>Automatic Purchase Order:</label>
+              <br>
+              {% if item.get_purchase_order() == True %}
+                <input type="radio" name="purchase" value="1" checked> Yes &nbsp;
+                <input type="radio" name="purchase" value="0"> No
+              {% else %}
+                <input type="radio" name="purchase" value="1"> Yes &nbsp;
+                <input type="radio" name="purchase" value="0" checked> No
+              {% endif %}
+            </div>
+              <br>
+              <button type="submit" class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Confirm Edit</button>
+              <br>
+              <br>
+        </form>
+            {% else %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

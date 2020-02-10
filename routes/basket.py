@@ -71,7 +71,10 @@ def add_items_basket():
                 if code in present_codes:
                     if units[i] in ItemModel.get_unit_types(code):
                         if code not in item:
-                            resp = BasketControl.get_quantity(code, units[i], int(quantity[i]), 0)
+                            if ItemModel.is_risk_item(code) and session['privilege'] == 0:
+                                resp = {'Status':400}
+                            else:
+                                resp = BasketControl.get_quantity(code, units[i], int(quantity[i]), 0)
                             if resp['Status'] == 200:
                                 item[code] = \
                                     {
@@ -82,12 +85,12 @@ def add_items_basket():
                                     }
                         else:
                             resp = BasketControl.get_quantity(
-                                code, units[i], int(quantity[i]), item[codes[i]]['quantity'])
+                                code, units[i], int(quantity[i]), item[code]['quantity'])
                             if resp['Status'] == 200:
                                 if units[i] not in item[code]['units']:
                                     item[code]['units'][units[i]] = int(quantity[i])
                                 else:
-                                    item[codes]['units'][units[i]] += int(quantity[i])
+                                    item[code]['units'][units[i]] += int(quantity[i])
                                 item[code]['quantity'] = resp['Info']
             session['basket'] = item
     return redirect(url_for('basket.Basket'))
