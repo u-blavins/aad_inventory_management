@@ -104,16 +104,23 @@ def create_purchase_order():
                                 return redirect(url_for('admin.purchase_order'))
                         cursor.commit()
                         conn.close()
-                        pairs.insert(0, ('ItemCodes', 'Quantity'))
-                        si = StringIO()
-                        cw = csv.writer(si)
-                        cw.writerows(pairs)
-                        output = make_response(si.getvalue())
-                        output.headers["Content-Disposition"] = "attachment; filename=purchase_order.csv"
-                        output.headers["Content-type"] = "text/csv"
-                        return output
                 return redirect(url_for('admin.purchase_order'))
     return redirect(url_for('admin.Admin'))
+
+
+@admin.route('/admin/purchase-order/download/<order_id>', methods=['GET'])
+def download_purchase_order(order_id):
+    get_order_info = PurchaseOrderInfoModel.get_purchase_order_info(order_id)
+    order_info = [('ItemCodes', 'Quantity')]
+    for info in get_order_info:
+        order_info.append((info.get_item_code(), info.get_quantity()))
+    si = StringIO()
+    cw = csv.writer(si)
+    cw.writerows(order_info)
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = f"attachment; filename={order_id}.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
 
 
 @admin.route('/admin/stock')
