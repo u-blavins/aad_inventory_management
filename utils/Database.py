@@ -14,12 +14,12 @@ class Database:
         return conn
 
     @staticmethod
-    def execute_sproc(query, params, cursor):
+    def execute_sproc(sproc, params, cursor):
         query = """
             DECLARE @out nvarchar(max);
             EXEC %s ,@responseMessage = @out OUTPUT;
             SELECT @out AS the_output;         
-            """ % query
+            """ % sproc
         cursor.execute(query, params)
         return cursor.fetchall()
 

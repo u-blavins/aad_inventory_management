@@ -37,6 +37,7 @@ def add_item():
         return redirect(url_for('auth.Auth'))
     return render_template('addItem.html')
 
+
 @basket.route('/basket/remove/<code>/<unit>/<quantity>')
 def remove_from_basket(code, unit, quantity):
     basket = session['basket']
@@ -94,6 +95,7 @@ def add_items_basket():
             session['basket'] = item
     return redirect(url_for('basket.Basket'))
 
+
 @basket.route('/basket/check-out')
 def checkout():
     info = {'info': 'Transaction not made'}
@@ -121,6 +123,7 @@ def checkout():
             return redirect('/basket/receipt/%s' % trans_id[0][0])
             conn.close()
     return redirect(url_for('basket.Basket'))
+
 
 @basket.route('/basket/receipt/<trans_id>')
 def receipt(trans_id):

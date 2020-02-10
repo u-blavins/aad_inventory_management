@@ -1,9 +1,14 @@
-from flask import Blueprint, request, render_template, redirect, session, url_for, flash
+
+from flask import Blueprint, request, render_template, redirect, session, url_for, make_response, flash
+from io import StringIO
+import csv
+
 from utils.Database import Database
 
 from models.Item import Item as ItemModel
 from models.User import User as UserModel
-
+from models.PurchaseOrder import PurchaseOrder as PurchaseOrderModel
+from models.PurchaseOrderInfo import PurchaseOrderInfo as PurchaseOrderInfoModel
 admin = Blueprint('admin', __name__)
 
 
@@ -26,9 +31,98 @@ def transactions():
 @admin.route('/admin/purchase-order')
 def purchase_order():
     if 'privilege' in session:
-        if session['privilege'] == 3:
-            return redirect(url_for('admin.Admin'))
+        if session['privilege'] in [2, 3]:
+            purchase_orders_pending = PurchaseOrderModel.get_purchase_orders_pending()
+            pending = []
+            for order in purchase_orders_pending:
+                pending_order = {'purchase_order_id': order.get_purchase_order_id(),
+                                 'generated_by': order.get_generated_by(),
+                                 'generated_date': order.get_generated_date()}
+                pending.append(pending_order)
+
+            purchase_orders_history = PurchaseOrderModel.get_purchase_orders_history()
+            history = []
+            for order in purchase_orders_history:
+                history_order = {'purchase_order_id': order.get_purchase_order_id(),
+                                 'generated_by': order.get_generated_by(),
+                                 'generated_date': order.get_generated_date(),
+                                 'completion_date': order.get_completion_date()}
+                history.append(history_order)
+
+            return render_template('purchaseOrder.html', pending=pending,
+                                   history=history)
     return redirect(url_for('admin.Admin'))
+
+
+@admin.route('/admin/purchase-order/<order_id>', methods=['GET'])
+def purchase_order_info(order_id):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                results = PurchaseOrderInfoModel.get_purchase_order_info(order_id)
+                print(results)
+                order_info = []
+                for result in results:
+                    info = {'item_code': result.get_item_code(), 'quantity': result.get_quantity(),
+                            'is_complete': result.get_is_complete(), 'completion_date': result.get_completion_date(),
+                            'approved_by': result.get_approved_by()}
+                    order_info.append(info)
+                return render_template('purchaseorderinfo.html', order_info=order_info, order_id=order_id)
+    return redirect(url_for('admin.purchase_order'))
+
+
+@admin.route('/admin/purchase-order/<order_id>/<item_code>', methods=['POST'])
+def confirm_item_delivery(order_id, item_code):
+    if request.method == 'POST':
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                PurchaseOrderInfoModel.confirm_delivery(order_id, item_code, session['user_id'])
+                return redirect(f'/admin/purchase-order/{order_id}')
+    return redirect(url_for('admin.Admin'))
+
+
+@admin.route('/admin/purchase-order/create', methods=['POST'])
+def create_purchase_order():
+    if request.method == 'POST':
+        if 'privilege' in session:
+            if session['privilege'] == 3:
+                codes = request.form.getlist('codes[]')
+                quantity = request.form.getlist('quantity[]')
+                pairs = []
+                if codes.__len__() == quantity.__len__():
+                    count = codes.__len__()
+                    for i in range(count):
+                        pair = (codes[i], quantity[i])
+                        pairs.append(pair)
+                    conn = Database.connect()
+                    cursor = conn.cursor()
+                    order_id = PurchaseOrderModel.create_purchase_order(session['user_id'], cursor)
+                    if order_id is not None:
+                        for pair in pairs:
+                            response = PurchaseOrderInfoModel.create_purchase_order_info(order_id, pair[0], pair[1], cursor)
+                            if response == 'Failure':
+                                cursor.rollback()
+                                conn.close()
+                                return redirect(url_for('admin.purchase_order'))
+                        cursor.commit()
+                        conn.close()
+                return redirect(url_for('admin.purchase_order'))
+    return redirect(url_for('admin.Admin'))
+
+
+@admin.route('/admin/purchase-order/download/<order_id>', methods=['GET'])
+def download_purchase_order(order_id):
+    get_order_info = PurchaseOrderInfoModel.get_purchase_order_info(order_id)
+    order_info = [('ItemCodes', 'Quantity')]
+    for info in get_order_info:
+        order_info.append((info.get_item_code(), info.get_quantity()))
+    si = StringIO()
+    cw = csv.writer(si)
+    cw.writerows(order_info)
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = f"attachment; filename={order_id}.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
 
 
 @admin.route('/admin/stock')

@@ -1,6 +1,7 @@
 from utils.Database import Database
 from models.Item import Item as ItemModel
 
+
 class Basket:
     """ Basket Model """
 
@@ -26,7 +27,7 @@ class Basket:
             quantity = self.basket[item]['quantity']
         return quantity
 
-    def set_total():
+    def set_total(self):
         total = 0
         for item in self.get_items():
             model = ItemModel.get_item(item)
