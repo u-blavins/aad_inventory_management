@@ -1,5 +1,5 @@
 
-from flask import Blueprint, request, render_template, redirect, session, url_for, make_response, flash
+from flask import Blueprint, request, render_template, redirect, session, url_for, make_response, flash, jsonify
 from io import StringIO
 import csv
 
@@ -9,6 +9,8 @@ from models.Item import Item as ItemModel
 from models.User import User as UserModel
 from models.PurchaseOrder import PurchaseOrder as PurchaseOrderModel
 from models.PurchaseOrderInfo import PurchaseOrderInfo as PurchaseOrderInfoModel
+from models.ReturnItems import ReturnItems as ReturnItemsModel
+
 admin = Blueprint('admin', __name__)
 
 
@@ -142,13 +144,40 @@ def add_stock():
     return redirect(url_for('admin.Admin'))
 
 
-@admin.route('/admin/return')
-def return_items():
+@admin.route('/admin/returns')
+def returns():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
             return render_template('returnItems.html')
     return redirect(url_for('admin.Admin'))
 
+@admin.route('/api/returns/items', methods=['POST'])
+def return_items():
+    if request.method == 'POST':
+        email = request.form['email']
+        if  email != '':
+            user = UserModel.get_user_by('[Email]', email)
+            if user != None:
+                codes = request.form.getlist('codes[]')
+                quantity = request.form.getlist('quantity[]')
+                unit_types = request.form.getlist('unitTypes[]')
+                option = request.form.getlist('returnOption[]')
+                returns = ReturnItemsModel()
+                msgs = []
+                for i in range(len(codes)):
+                    msg = returns.set_returns(codes[i].upper(), int(quantity[i]), 
+                        unit_types[i], option[i])
+                    if msg != '':
+                        msgs.append(msg)
+                        flash(msg)
+                if len(msgs) == 0:
+                    msg = returns.return_items(user.get_id(), session['user_id'])
+                    flash(msg)
+            else:
+                flash('User does not exist')
+        else:
+            flash('Please enter an email address')
+    return redirect(url_for('admin.returns'))
 
 @admin.route('/admin/accept-users')
 def accept_users():
