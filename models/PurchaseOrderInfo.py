@@ -11,7 +11,8 @@ class PurchaseOrderInfo:
                 [ItemCode],
                 [Quantity],
                 [isComplete],
-                [completionDate]
+                [completionDate],
+                [ApprovedBy]
             FROM
                 [itm].[viewPurchaseOrderInfo]('{order_id}')
         """
@@ -32,17 +33,22 @@ class PurchaseOrderInfo:
                 item.set_completion_date('Pending')
             else:
                 item.set_completion_date(row[3])
+            if row[4] is None:
+                item.set_approved_by('NA')
+            else:
+                item.set_approved_by(row[4])
             items.append(item)
 
         return items
 
     @staticmethod
-    def confirm_delivery(order_id, item_code):
+    def confirm_delivery(order_id, item_code, user_id):
         query = f"""
             UPDATE
                 [itm].[PurchaseOrderInfo]
             SET
-                [isComplete] = 1
+                [isComplete] = 1,
+                [ApprovedBy] = '{user_id}'
             WHERE
                 [PurchaseOrderID] = '{order_id}'
                 AND
@@ -96,3 +102,10 @@ class PurchaseOrderInfo:
 
     def get_completion_date(self):
         return self.purchase_order_info['completion_date']
+
+    def set_approved_by(self, approved_by):
+        self.purchase_order_info['approved_by'] = approved_by
+        return self
+
+    def get_approved_by(self):
+        return self.purchase_order_info['approved_by']

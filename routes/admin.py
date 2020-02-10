@@ -1,4 +1,6 @@
-from flask import Blueprint, request, render_template, redirect, session, url_for
+from flask import Blueprint, request, render_template, redirect, session, url_for, make_response
+from io import StringIO
+import csv
 from utils.Database import Database
 
 from models.Item import Item as ItemModel
@@ -56,10 +58,12 @@ def purchase_order_info(order_id):
         if 'privilege' in session:
             if session['privilege'] in [2, 3]:
                 results = PurchaseOrderInfoModel.get_purchase_order_info(order_id)
+                print(results)
                 order_info = []
                 for result in results:
                     info = {'item_code': result.get_item_code(), 'quantity': result.get_quantity(),
-                            'is_complete': result.get_is_complete(), 'completion_date': result.get_completion_date()}
+                            'is_complete': result.get_is_complete(), 'completion_date': result.get_completion_date(),
+                            'approved_by': result.get_approved_by()}
                     order_info.append(info)
                 return render_template('purchaseorderinfo.html', order_info=order_info, order_id=order_id)
     return redirect(url_for('admin.purchase_order'))
@@ -70,7 +74,7 @@ def confirm_item_delivery(order_id, item_code):
     if request.method == 'POST':
         if 'privilege' in session:
             if session['privilege'] in [2, 3]:
-                PurchaseOrderInfoModel.confirm_delivery(order_id, item_code)
+                PurchaseOrderInfoModel.confirm_delivery(order_id, item_code, session['user_id'])
                 return redirect(f'/admin/purchase-order/{order_id}')
     return redirect(url_for('admin.Admin'))
 
@@ -100,6 +104,14 @@ def create_purchase_order():
                                 return redirect(url_for('admin.purchase_order'))
                         cursor.commit()
                         conn.close()
+                        pairs.insert(0, ('ItemCodes', 'Quantity'))
+                        si = StringIO()
+                        cw = csv.writer(si)
+                        cw.writerows(pairs)
+                        output = make_response(si.getvalue())
+                        output.headers["Content-Disposition"] = "attachment; filename=purchase_order.csv"
+                        output.headers["Content-type"] = "text/csv"
+                        return output
                 return redirect(url_for('admin.purchase_order'))
     return redirect(url_for('admin.Admin'))
 

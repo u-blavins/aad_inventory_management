@@ -12,6 +12,7 @@
 			        <th>ItemCode</th>
 			        <th>Quantity</th>
                     <th>Delivered</th>
+					<th>Approved By</th>
 		        </tr>
 	        </thread>
 	        <tbody id="Info">
@@ -26,6 +27,7 @@
 							</form>
 						{% else %}{{info.completion_date}}{% endif %}
 					</th>
+					<th>{{info.approved_by}}</th>
                 </tr>
 			{% endfor %}
 			</tbody>
