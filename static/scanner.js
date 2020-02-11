@@ -1,18 +1,8 @@
-{% extends "home.html" %}
-{% block content %}
-<div>
-    <h3> Test </h3>
-    <div id="test">
-
-    </div>
-</div>
-
-<script>
 Quagga.init({
     inputStream : {
       name : "Live",
       type : "LiveStream",
-      target: document.querySelector('#test')    // Or '#yourElement' (optional)
+      target: document.querySelector('#yourElement')    // Or '#yourElement' (optional)
     },
     decoder : {
       readers : ["code_128_reader"]
@@ -25,5 +15,3 @@ Quagga.init({
       console.log("Initialization finished. Ready to start");
       Quagga.start();
   });
-</script>
-{% endblock %}

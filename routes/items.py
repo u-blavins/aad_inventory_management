@@ -106,3 +106,9 @@ def units():
     for unit in result:
         units.append(unit.__dict__)
     return jsonify(units=units_collection)
+
+
+@items.route('/items/scan')
+def scan():
+    if 'user_id' in session:
+        return render_template('scanner.html')
