@@ -12,17 +12,19 @@ def Users():
 
 @users.route('/api/users', methods=['GET'])
 def get_users():
-    result = UserModel.get_all_users()
-    users_collection = []
-    for user in result:
-        users.append(user.__dict__)
-    return jsonify(users=users_collection)
+    if session['privilege'] in [2,3]:
+        result = UserModel.get_all_users()
+        users_collection = []
+        for user in result:
+            users.append(user.__dict__)
+        return jsonify(users=users_collection)
 
 
 @users.route('/api/users/user/<id>', methods=['GET'])
 def get_user(id):
-    user = UserModel.get_user(id)
-    return jsonify(user=user.__dict__)
+    if session['privilege'] in [2,3]:
+        user = UserModel.get_user(id)
+        return jsonify(user=user.__dict__)
 
 @users.route('/user/account')
 def user_account():
