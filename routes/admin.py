@@ -3,6 +3,7 @@ from io import StringIO
 import csv
 
 from utils.Database import Database
+from utils.Email import Email
 
 from models.Item import Item as ItemModel
 from models.User import User as UserModel
@@ -299,3 +300,16 @@ def billing_info(year, month):
                 return render_template('billinginfo.html', billing_rows=billing_rows,
                                        year=year, month=BillingModel.get_billing_month_name(int(month)))
     return redirect(url_for('admin.billing'))
+
+@admin.route('/admin/billing/email/<year>/<month>', methods=['GET'])
+def email_finance_report(year, month):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                email = Email()
+                email.set_recipients(
+                    ['N0692013@my.ntu.ac.uk', 'ublavins@gmail.com'])
+                info = email.send_finance_report(month, year)
+                flash(info)
+    return redirect(url_for('admin.billing'))
+

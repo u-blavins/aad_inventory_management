@@ -1,6 +1,18 @@
 {% extends "home.html" %}
 
 {% block content %}
+{% for message in get_flashed_messages() %}
+    <div class="container">
+        {% if 'Success' in message %}
+            <div class="alert alert-success">
+        {% else %}
+            <div class="alert alert-danger">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+        </div>
+    </div>
+{% endfor %}
 <div class="container text-center">
 	<br>
 	<h3>Department Billing</h3>
@@ -32,7 +44,7 @@
                     	</form>
 					</th>
 					<th>
-						<form method="GET" action="">
+						<form method="GET" action="/admin/billing/email/{{billing_row.billing_year}}/{{billing_row.billing_month}}">
                     		<button type="submit" class="editButton"><i class="far fa-envelope"></i> Email</button>
                     	</form>
 					</th>
