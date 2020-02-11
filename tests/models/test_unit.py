@@ -1,13 +1,13 @@
 import pytest
 from mock import MagicMock, patch
 
-from models.Unit import Unit as UnitModel
+from models.Unit import Unit
 
 class TestUnit:
     """ Test Suite for Unit Model """
 
     def setup_method(self):
-        self.mock_unit = UnitModel()
+        self.mock_unit = Unit()
 
     def test_set_get_name(self):
         """ Test Success: Unit name set and get """
@@ -18,7 +18,7 @@ class TestUnit:
 
     def test_get_name(self):
         """ Test Success: Unit name returns none if not set """
-        fake_unit = UnitModel()
+        fake_unit = Unit()
         sut = fake_unit.get_name()
         assert sut == None
 
@@ -31,29 +31,41 @@ class TestUnit:
 
     def test_get_value(self):
         """ Test Success: Unit value returns none if not set """
-        fake_unit = UnitModel()
+        fake_unit = Unit()
         sut = fake_unit.get_value()
         assert sut == None
 
-    @patch('models.Unit.Database')
-    def test_get_unit_returns_unit_if_exists(self, mock_database):
-        """ Test Success: Unit returns None if not found """
-        fake_name = 'Single'
-        fake_response = [('Single', 1)]
-        database = mock_database.return_value
-        database.connect.return_value = MagicMock()
-        database.execute_query.return_value = fake_response
-        sut = UnitModel.get_unit(fake_name)
-        assert isinstance(sut, Unit)
-        assert sut.get_unit == 'Single'
-        assert sut.get_value == 1
+    @patch('models.Unit.Database.connect', return_value=MagicMock(), autospec=True)
+    @patch('models.Unit.Database.execute_query', 
+            return_value=[('Single', 1), ('Box', 5)], autospec=True)
+    def test_get_units_returns_all_units_if_present(self, mock_connect, mock_exec):
+        """ Test Success: All Units are returned from db """
+        sut = Unit.get_all_units()
+        assert isinstance(sut, list)
+        assert len(sut) == 2
 
-    @patch('models.Unit.Database')
-    def test_get_unit_returns_none_if_unit_does_not_exist(self, mock_database):
+    @patch('models.Unit.Database.connect', return_value=MagicMock(), autospec=True)
+    @patch('models.Unit.Database.execute_query', return_value=[], autospec=True)
+    def test_get_units_returns_empty_list_if_no_units_present(self, mock_connect, mock_exec):
+        """ Test Success: All Units are returned from db """
+        sut = Unit.get_all_units()
+        assert isinstance(sut, list)
+        assert len(sut) == 0
+
+    @patch('models.Unit.Database.connect', return_value=MagicMock(), autospec=True)
+    @patch('models.Unit.Database.execute_query', return_value=[('Single', 1)], autospec=True)
+    def test_get_unit_returns_unit_if_exists(self, mock_connect, mock_exec):
+        """ Test Success: Unit returned if found """
+        fake_name = 'Single'
+        sut = Unit.get_unit(fake_name)
+        assert isinstance(sut, Unit)
+        assert sut.get_name() == 'Single'
+        assert sut.get_value() == 1
+
+    @patch('models.Unit.Database.connect', return_value=MagicMock(), autospec=True)
+    @patch('models.Unit.Database.execute_query', return_value=[], autospec=True)
+    def test_get_unit_returns_none_if_not_exists(self, mock_connect, mock_exec):
         """ Test Failure: Unit returns None if not found """
         fake_name = 'Single'
-        database = mock_database.return_value
-        database.connect.return_value = MagicMock()
-        database.execute_query.return_value = []
-        sut = UnitModel.get_unit(fake_name)
+        sut = Unit.get_unit(fake_name)
         assert sut == None
