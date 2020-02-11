@@ -14,14 +14,11 @@
     {% endfor %}
     <div class="container text-center">
         <br>
-        <h3>View & edit stock</h3>
-        <br>
-        <br>
-        <input type="text" placeholder="Search for items..." class="inputShadowBox">
-        <br>
+        <h3>Edit Stock</h3>
         <br>
         {% if 'privilege' in session %}
             {% if session['privilege'] == 3 %}
+            <h4>Add New Item</h4>
                 <a href="/admin/add-stock" id="addItem" class="greenButton"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Item </a>
             {% else %}
             {% endif %}
