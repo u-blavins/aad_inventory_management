@@ -36,6 +36,32 @@ class TransactionInfo:
         
         return trans_info
 
+    @staticmethod
+    def get_transaction_info(transaction_id):
+        query = f"""
+            SELECT 
+                [ItemCode],
+                [Quantity],
+                [UnitName]
+            FROM
+                [itm].[TransactionInfo]
+            WHERE 
+                [TransactionID] = '{transaction_id}'
+                """
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+        trans_info = []
+        for row in rows:
+            info = TransactionInfo()
+            info.set_item_code(row[0])
+            info.set_quantity(row[1])
+            info.set_unit_name(row[2])
+            trans_info.append(info)
+
+        return trans_info
+
     def __init__(self):
         self.transactions = {}
         return

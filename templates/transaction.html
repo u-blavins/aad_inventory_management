@@ -1,0 +1,68 @@
+{% extends "home.html" %}
+
+{% block content %}
+    <div class="container text-center">
+        <br>
+	    <h3>{{transaction_title}}</h3>
+	    <hr>
+        <div class="table-responsive">
+	    <table class="table">
+            <thread>
+                <tr>
+                    <th>TransactionID</th>
+                    <th>Email</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thread>
+            <tbody>
+                {% for transaction in transactions %}
+                    <tr>
+                        <th>{{transaction.get_transaction_id()}}</th>
+                        <th>{{transaction.get_user_id()}}</th>
+                        <th>{{transaction.get_price()}}</th>
+                        <th>{{transaction.get_transaction_date()}}</th>
+                        <th>
+						    <form method="GET" action="/admin/{{transaction.get_transaction_id()}}">
+                    		    <button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
+                    	    </form>
+					    </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+       <br>
+	    <h3>{{refunds_title}}</h3>
+	    <hr>
+        <div class="table-responsive">
+	    <table class="table">
+            <thread>
+                <tr>
+                    <th>TransactionID</th>
+                    <th>Email</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thread>
+            <tbody>
+                {% for refund in refunds %}
+                    <tr>
+                        <th>{{refund.get_transaction_id()}}</th>
+                        <th>{{refund.get_user_id()}}</th>
+                        <th>{{refund.get_price()}}</th>
+                        <th>{{refund.get_transaction_date()}}</th>
+                        <th>
+						    <form method="GET" action="/admin/{{refund.get_transaction_id()}}">
+                    		    <button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
+                    	    </form>
+					    </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
