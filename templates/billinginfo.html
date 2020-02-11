@@ -3,19 +3,29 @@
 {% block content %}
     <div class="container text-center">
         <br>
-	    <h3>Billing Info</h3>
+	    <h3>Billing Info for {{month}} {{year}}</h3>
 	    <hr>
         <div class="table-responsive">
 	    <table class="table">
             <thread>
                 <tr>
+                    <th>Department</th>
+                    <th>Total</th>
                     <th></th>
                 </tr>
             </thread>
             <tbody>
-                <tr>
-                    <th></th>
-                </tr>
+                {% for billing_row in billing_rows %}
+                    <tr>
+                        <th>{{billing_row.department_code}}</th>
+                        <th>{{billing_row.total}}</th>
+                        <th>
+						    <form method="GET" action="">
+                    		    <button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
+                    	    </form>
+					    </th>
+                    </tr>
+                {% endfor %}
             </tbody>
             </table>
         </div>

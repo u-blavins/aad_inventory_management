@@ -19,10 +19,10 @@
 			<tbody>
 			{% for billing_row in billing_rows %}
 				<tr>
-					<th>{{billing_row.billing_month}}</th>
+					<th>{{billing_row.month_name}}</th>
 					<th>{{billing_row.billing_year}}</th>
 					<th>
-						<form method="GET" action="/admin/billing/info">
+						<form method="GET" action="/admin/billing/info/{{billing_row.billing_year}}/{{billing_row.billing_month}}">
                     		<button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
                     	</form>
 					</th>

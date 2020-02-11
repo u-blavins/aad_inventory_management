@@ -1,4 +1,3 @@
-
 from flask import Blueprint, request, render_template, redirect, session, url_for, make_response, flash, jsonify
 from io import StringIO
 import csv
@@ -94,7 +93,8 @@ def create_purchase_order():
                     order_id = PurchaseOrderModel.create_purchase_order(session['user_id'], cursor)
                     if order_id is not None:
                         for pair in pairs:
-                            response = PurchaseOrderInfoModel.create_purchase_order_info(order_id, pair[0], pair[1], cursor)
+                            response = PurchaseOrderInfoModel.create_purchase_order_info(order_id, pair[0], pair[1],
+                                                                                         cursor)
                             if response == 'Failure':
                                 cursor.rollback()
                                 conn.close()
@@ -149,7 +149,7 @@ def returns():
 def return_items():
     if request.method == 'POST':
         email = request.form['email']
-        if  email != '':
+        if email != '':
             user = UserModel.get_user_by('[Email]', email)
             if user != None:
                 codes = request.form.getlist('codes[]')
@@ -159,8 +159,8 @@ def return_items():
                 returns = ReturnItemsModel()
                 msgs = []
                 for i in range(len(codes)):
-                    msg = returns.set_returns(codes[i].upper(), int(quantity[i]), 
-                        unit_types[i], option[i])
+                    msg = returns.set_returns(codes[i].upper(), int(quantity[i]),
+                                              unit_types[i], option[i])
                     if msg != '':
                         msgs.append(msg)
                         flash(msg)
@@ -172,6 +172,7 @@ def return_items():
         else:
             flash('Please enter an email address')
     return redirect(url_for('admin.returns'))
+
 
 @admin.route('/admin/accept-users')
 def accept_users():
@@ -252,12 +253,13 @@ def deny(id):
 @admin.route('/admin/billing')
 def billing():
     if 'privilege' in session:
-        if session['privilege'] in [2,3]:
+        if session['privilege'] in [2, 3]:
             results = BillingModel.get_billing_rows()
             if results != 0:
                 billing_rows = []
                 for row in results:
-                    billing_row = {'billing_month': row.get_billing_month(), 'billing_year': row.get_billing_year()}
+                    billing_row = {'month_name': BillingModel.get_billing_month_name(row.get_billing_month()),
+                                   'billing_month': row.get_billing_month(), 'billing_year': row.get_billing_year()}
                     billing_rows.append(billing_row)
                 return render_template('billing.html', billing_rows=billing_rows)
     return redirect(url_for('admin.Admin'))
@@ -268,9 +270,9 @@ def download_finance_report(year, month):
     if request.method == 'GET':
         if 'privilege' in session:
             if session['privilege'] in [2, 3]:
-                result = BillingModel.get_department_billing(year, month)
+                results = BillingModel.get_department_billing(year, month)
                 department_billing = [('Department', 'Total')]
-                for row in result:
+                for row in results:
                     bill = (row.get_department_code(), row.get_total())
                     department_billing.append(bill)
 
@@ -281,4 +283,19 @@ def download_finance_report(year, month):
                 output.headers["Content-Disposition"] = f"attachment; filename=FinanceReport-{year}-{month}.csv"
                 output.headers["Content-type"] = "text/csv"
                 return output
+    return redirect(url_for('admin.billing'))
+
+
+@admin.route('/admin/billing/info/<year>/<month>', methods=['GET'])
+def billing_info(year, month):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                results = BillingModel.get_department_billing(year, month)
+                billing_rows = []
+                for row in results:
+                    billing_row = {'department_code': row.get_department_code(), 'total': row.get_total()}
+                    billing_rows.append(billing_row)
+                return render_template('billinginfo.html', billing_rows=billing_rows,
+                                       year=year, month=BillingModel.get_billing_month_name(int(month)))
     return redirect(url_for('admin.billing'))
