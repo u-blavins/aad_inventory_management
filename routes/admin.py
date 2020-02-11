@@ -10,6 +10,7 @@ from models.PurchaseOrder import PurchaseOrder as PurchaseOrderModel
 from models.PurchaseOrderInfo import PurchaseOrderInfo as PurchaseOrderInfoModel
 from models.ReturnItems import ReturnItems as ReturnItemsModel
 from models.Billing import Billing as BillingModel
+from models.Transaction import Transaction as TransactionModel
 
 admin = Blueprint('admin', __name__)
 
@@ -299,3 +300,30 @@ def billing_info(year, month):
                 return render_template('billinginfo.html', billing_rows=billing_rows,
                                        year=year, month=BillingModel.get_billing_month_name(int(month)))
     return redirect(url_for('admin.billing'))
+
+
+@admin.route('/admin/billing/info/<year>/<month>/<department>', methods=['GET'])
+def department_transaction(year, month, department):
+    if request.method == ['GET']:
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                query = f"""
+                    SELECT
+                        [TransactionID],
+                        [UserID],
+                        [Price],
+                        [TransactionDate]
+                    FROM
+                        [itm].[Transaction]
+                    WHERE
+                        [DepartmentCode] = '{department}'
+                        AND
+                        MONTH([TransactionDate]) = {month}
+                        AND
+                        YEAR([TransactionDate]) = {year}
+                    ORDER BY
+                        [TransactionDate] DESC, [Price] DESC
+                        """
+                department_transactions = TransactionModel.get_transaction_by(query)
+                return render_template('transaction.html', transactions=department_transactions)
+    return redirect(url_for('admin.Admin'))

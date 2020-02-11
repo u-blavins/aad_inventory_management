@@ -1,0 +1,33 @@
+{% extends "home.html" %}
+
+{% block content %}
+    <div class="container text-center">
+        <br>
+	    <h3>Transactions for department {{}}</h3>
+	    <hr>
+        <div class="table-responsive">
+	    <table class="table">
+            <thread>
+                <tr>
+                    <th>TransactionID</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </thread>
+            <tbody>
+                {%  %}
+                    <tr>
+                        <th>{{}}</th>
+                        <th>{{}}</th>
+                        <th>
+						    <form method="GET" action="">
+                    		    <button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
+                    	    </form>
+					    </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
