@@ -32,16 +32,16 @@ class Billing:
 
     @staticmethod
     def get_department_billing(year, month):
-        query = """
+        query = f"""
             SELECT 
                 [DepartmentCode],
                 [Total Price]
             FROM 
                 [StoreManagement].[itm].[DepartmentCosts]
             WHERE
-                [BillingYear] = 2020
+                [BillingYear] = {year}
                 AND
-                [BillingMonth] = 2
+                [BillingMonth] = {month}
         """
         conn = Database.connect()
         cursor = conn.cursor()

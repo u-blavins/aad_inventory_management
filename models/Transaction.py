@@ -195,7 +195,7 @@ class Transaction:
         self.transaction['date'] = date
         return self
 
-    def get_transation_date(self):
+    def get_transaction_date(self):
         return self.transaction['date']
     
     def set_refund(self, is_refund):

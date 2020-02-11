@@ -12,6 +12,7 @@ from models.PurchaseOrderInfo import PurchaseOrderInfo as PurchaseOrderInfoModel
 from models.ReturnItems import ReturnItems as ReturnItemsModel
 from models.Billing import Billing as BillingModel
 from models.Transaction import Transaction as TransactionModel
+from models.TransactionInfo import TransactionInfo as TransactionInfoModel
 
 admin = Blueprint('admin', __name__)
 
@@ -299,37 +300,68 @@ def billing_info(year, month):
                     billing_row = {'department_code': row.get_department_code(), 'total': row.get_total()}
                     billing_rows.append(billing_row)
                 return render_template('billinginfo.html', billing_rows=billing_rows,
-                                       year=year, month=BillingModel.get_billing_month_name(int(month)))
+                                       year=year, month=month,
+                                       month_name=BillingModel.get_billing_month_name(int(month)))
     return redirect(url_for('admin.billing'))
 
 
 @admin.route('/admin/billing/info/<year>/<month>/<department>', methods=['GET'])
 def department_transaction(year, month, department):
-    if request.method == ['GET']:
+    if request.method == 'GET':
         if 'privilege' in session:
             if session['privilege'] in [2, 3]:
-                query = f"""
+                transaction_query = f"""
                     SELECT
                         [TransactionID],
-                        [UserID],
+                        [Email],
+                        [DepartmentCode],
                         [Price],
-                        [TransactionDate]
+                        [TransactionDate],
+                        [isRefund]
                     FROM
-                        [itm].[Transaction]
-                    WHERE
-                        [DepartmentCode] = '{department}'
-                        AND
-                        MONTH([TransactionDate]) = {month}
-                        AND
-                        YEAR([TransactionDate]) = {year}
+                        [itm].[DepartmentTransactionsByYearMonth]('{department}',{month},{year},0)
                     ORDER BY
                         [TransactionDate] DESC, [Price] DESC
                         """
-                department_transactions = TransactionModel.get_transaction_by(query)
-                return render_template('transaction.html', transactions=department_transactions)
+                department_transactions = TransactionModel.get_transaction_by(transaction_query)
+                refund_query = f"""
+                    SELECT
+                        [TransactionID],
+                        [Email],
+                        [DepartmentCode],
+                        [Price],
+                        [TransactionDate],
+                        [isRefund]
+                    FROM
+                        [itm].[DepartmentTransactionsByYearMonth]('{department}',{month},{year},1)
+                    ORDER BY
+                        [TransactionDate] DESC, [Price] DESC
+                        """
+                department_refunds = TransactionModel.get_transaction_by(refund_query)
+                month_name = BillingModel.get_billing_month_name(int(month))
+                return render_template('transaction.html', transactions=department_transactions,
+                                       refunds=department_refunds,
+                                       transaction_title=f'Transactions for department code {department} for {month_name} {year}',
+                                       refunds_title=f'Refunds for department code {department} for {month_name} {year}')
     return redirect(url_for('admin.Admin'))
 
-    
+
+@admin.route('/admin/<transaction_id>', methods=['GET'])
+def department_transaction_info(transaction_id):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                transaction_info = TransactionInfoModel.get_transaction_info(transaction_id)
+                transaction = TransactionModel.get_transaction(transaction_id)
+                is_refund = transaction.get_refund()
+                if is_refund is False:
+                    transaction_type = "transaction"
+                else:
+                    transaction_type = "refund"
+                return render_template('transactioninfo.html', transaction_info=transaction_info,
+                                       transaction_id=transaction_id, type=transaction_type)
+
+
 @admin.route('/admin/billing/email/<year>/<month>', methods=['GET'])
 def email_finance_report(year, month):
     if request.method == 'GET':
@@ -338,7 +370,6 @@ def email_finance_report(year, month):
                 email = Email()
                 email.set_recipients(
                     ['N0692013@my.ntu.ac.uk', 'ublavins@gmail.com'])
-                info = email.send_finance_report(month, year)
+                info = email.send_finance_report(BillingModel.get_billing_month_name(int(month)), year)
                 flash(info)
     return redirect(url_for('admin.billing'))
-
