@@ -1,0 +1,33 @@
+{% extends "home.html" %}
+
+{% block content %}
+    <div class="container text-center">
+        <br>
+	    <h3>Billing Info for {{month_name}} {{year}}</h3>
+	    <hr>
+        <div class="table-responsive">
+	    <table class="table">
+            <thread>
+                <tr>
+                    <th>Department</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thread>
+            <tbody>
+                {% for billing_row in billing_rows %}
+                    <tr>
+                        <th>{{billing_row.department_code}}</th>
+                        <th>{{billing_row.total}}</th>
+                        <th>
+						    <form method="GET" action="/admin/billing/info/{{year}}/{{month}}/{{billing_row.department_code}}">
+                    		    <button type="submit" class="editButton"><i class="fas fa-search"></i> Open Department</button>
+                    	    </form>
+					    </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

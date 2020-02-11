@@ -1,0 +1,28 @@
+{% extends "home.html" %}
+
+{% block content %}
+   <div class="container text-center">
+       <h3>Info for {{type}} {{transaction_id}}</h3>
+        <hr>
+        <div class="table-responsive">
+          <table class="table">
+            <thread>
+              <tr>
+                <th>Item Code</th>
+                <th>Quantity</th>
+                <th>Unit Name</th>
+                <th></th>
+              </tr>
+            </thread>
+            <tbody id="BasketData2">
+              {% for info in transaction_info %}
+                <tr>
+                  <td>{{info.get_item_code()}}</td>
+                  <td>{{info.get_quantity()}}</td>
+                  <td>{{info.get_unit_name()}}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+{% endblock %}
