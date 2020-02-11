@@ -123,7 +123,8 @@ class TestTransaction:
     def test_get_all_user_transactions_returns_transactions_if_user_has_transactions(self, mock_connect, mock_execute):
         """ Test Success: """
         fake_user_id = 'user_id1'
-        sut = Transaction.get_all_user_transactions(fake_user_id)
+        fake_refund = 0
+        sut = Transaction.get_all_user_transactions(fake_user_id, fake_refund)
         assert isinstance(sut, list)
         assert len(sut) == 2
 
@@ -132,7 +133,8 @@ class TestTransaction:
     def test_get_all_user_transactions_returns_empty_if_user_has_no_transactions(self, mock_connect, mock_execute):
         """ Test Failure: """
         fake_user_id = 'user_id'
-        sut = Transaction.get_all_user_transactions(fake_user_id)
+        fake_refund = 0
+        sut = Transaction.get_all_user_transactions(fake_user_id, fake_user_id)
         assert isinstance(sut, list)
         assert len(sut) == 0
 
