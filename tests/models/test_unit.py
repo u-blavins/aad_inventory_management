@@ -38,7 +38,7 @@ class TestUnit:
     @patch('models.Unit.Database.connect', return_value=MagicMock(), autospec=True)
     @patch('models.Unit.Database.execute_query', 
             return_value=[('Single', 1), ('Box', 5)], autospec=True)
-    def test_get_units_returns_all_units_if_present(self, mock_connect, mock_exec):
+    def test_get_all_units_returns_all_units_if_present(self, mock_connect, mock_exec):
         """ Test Success: All Units are returned from db """
         sut = Unit.get_all_units()
         assert isinstance(sut, list)
@@ -46,8 +46,8 @@ class TestUnit:
 
     @patch('models.Unit.Database.connect', return_value=MagicMock(), autospec=True)
     @patch('models.Unit.Database.execute_query', return_value=[], autospec=True)
-    def test_get_units_returns_empty_list_if_no_units_present(self, mock_connect, mock_exec):
-        """ Test Success: All Units are returned from db """
+    def test_get_all_units_returns_empty_list_if_no_units_present(self, mock_connect, mock_exec):
+        """ Test Failure: Empty list returned if no unit in db """
         sut = Unit.get_all_units()
         assert isinstance(sut, list)
         assert len(sut) == 0
