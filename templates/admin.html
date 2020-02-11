@@ -6,29 +6,26 @@
     <h3>Admin Area</h3>
     <br>
     <ul class="list-group">
-    <a href="/admin/transactions" class="adminAreaButton">View Orders & Generate Report</a>
-    {% if session['privilege'] in [2,3] %}
+    <a href="/admin/billing" class="adminAreaButton">View Department Billing</a>
+    <br>
+    {% if session['privilege'] == 2 %}
+        <a href="/admin/purchase-order" class="adminAreaButton">View Purchase Orders</a>
         <br>
+        <a href="/admin/stock" class="adminAreaButton">View Inventory</a>
+    {% elif session['privilege'] == 3 %}
+        <a href="/admin/purchase-order" class="adminAreaButton">View and Create Purchase Orders</a>
         <br>
-        <a href="/admin/purchase-order" class="adminAreaButton">Purchase Orders</a>
+        <a href="/admin/stock" class="adminAreaButton">View and Edit Inventory</a>
     {% endif %}
-    <br>
-    <br>
-    <a href="/admin/stock" class="adminAreaButton">Edit and add stock</a>
-    <br>
     <br>
     <a href="/admin/returns" class="adminAreaButton">Return Items</a>
     <br>
-    <br>
     <a href="/admin/accept-users" class="adminAreaButton">Accept/Deny Users</a>
-    {% if session['privilege'] in [2, 3] %}    
-        <br>
-        <br>
-        {% if session['privilege'] == 2 %}
-            <a href="/admin/view-users" class="adminAreaButton">View Users</a>
-        {% elif session['privilege'] == 3 %}
-            <a href="/admin/view-users" class="adminAreaButton">View and Update Users</a>
-        {% endif %}
+    <br>
+    {% if session['privilege'] == 2 %}
+        <a href="/admin/view-users" class="adminAreaButton">View Users</a>
+    {% elif session['privilege'] == 3 %}
+        <a href="/admin/view-users" class="adminAreaButton">View and Update Users</a>
     {% endif %}
     </ul>
 </div>
