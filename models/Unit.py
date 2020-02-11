@@ -37,10 +37,11 @@ class Unit:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            unit = Unit()
-            unit.set_name(row[0])
-            unit.set_value(row[1])
+        if len(rows) != 0:
+            for row in rows:
+                unit = Unit()
+                unit.set_name(row[0])
+                unit.set_value(row[1])
 
         return unit
 

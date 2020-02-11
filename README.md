@@ -25,11 +25,11 @@ master
 ## Testing
 To run the pytests locally, enter the following command in a terminal:
 ```$xslt
-> python -m pytest
+> pytest --cov=[module]
 ```
 To run a test coverage report, use this:
 ```$xslt
-> python -m --cov-report html --cov {package/file}
+> pytest --cov=[module] --cov-report html
 ```
 
 ## Resources
