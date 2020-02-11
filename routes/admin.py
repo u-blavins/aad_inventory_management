@@ -341,7 +341,7 @@ def department_transaction(year, month, department):
                 month_name = BillingModel.get_billing_month_name(int(month))
                 return render_template('transaction.html', transactions=department_transactions,
                                        refunds=department_refunds,
-                                       transaction_title=f'Transactions for department code {department} for {month_name} {year}',
+                                       transaction_title=f'Orders for department code {department} for {month_name} {year}',
                                        refunds_title=f'Refunds for department code {department} for {month_name} {year}')
     return redirect(url_for('admin.Admin'))
 
@@ -355,7 +355,7 @@ def department_transaction_info(transaction_id):
                 transaction = TransactionModel.get_transaction(transaction_id)
                 is_refund = transaction.get_refund()
                 if is_refund is False:
-                    transaction_type = "transaction"
+                    transaction_type = "order"
                 else:
                     transaction_type = "refund"
                 return render_template('transactioninfo.html', transaction_info=transaction_info,

@@ -25,7 +25,7 @@
                         <th>{{transaction.get_transaction_date()}}</th>
                         <th>
 						    <form method="GET" action="/admin/{{transaction.get_transaction_id()}}">
-                    		    <button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
+                    		    <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Order</button>
                     	    </form>
 					    </th>
                     </tr>
@@ -56,7 +56,7 @@
                         <th>{{refund.get_transaction_date()}}</th>
                         <th>
 						    <form method="GET" action="/admin/{{refund.get_transaction_id()}}">
-                    		    <button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
+                    		    <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Refund</button>
                     	    </form>
 					    </th>
                     </tr>

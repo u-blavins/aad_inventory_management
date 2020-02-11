@@ -36,14 +36,14 @@
   <form action='/user/reset/{{data.id}}' method='post'>
     <input id="passwordField" type="password" class="form-control inputShadowBox" style="display: none;" placeholder="Enter new password" name="password">
     <br>
-    <button id="confirmPasswordBtn" type="submit" class="greenButton" style="display: none;" onclick="emptyPass(event, passwordField)" value="submit">Confirm<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
+    <button id="confirmPasswordBtn" type="submit" class="greenButton" style="display: none;" value="submit">Confirm<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
     <br>
     <br>
   </form>
   <button id="cancelBtn" onclick="hideChangePasswordField()" type="button" class="redButton" style="display: none;">Cancel<i class="fas fa-times-circle" style="margin-left: 5px;"></i></button>
   <br>
   <br>
-  {% if transactions|length %}
+  {% if orders|length %}
     <h3>My Orders</h3>
     <hr>
     <div class="table-responsive">
@@ -51,20 +51,52 @@
         <thread>
           <tr>
             <th>Transaction ID</th>
-            <th>Item Code</th>
-            <th>Quantity</th>
-            <th>Unit Name</th>
-            <th>Transaction Date</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th></th>
           </tr>
         </thread>
-        <tbody id="BasketData2">
-          {% for transaction in transactions %}
+        <tbody id="OrderData">
+          {% for order in orders %}
             <tr>
-              <td>{{transaction.get_transaction_id()}}</td>
-              <td>{{transaction.get_item_code()}}</td>
-              <td>{{transaction.get_quantity()}}</td>
-              <td>{{transaction.get_unit_name()}}</td>
-              <td>{{transaction.get_transaction_date()}}</td>
+              <td>{{order.get_transaction_id()}}</td>
+              <td>{{order.get_price()}}</td>
+              <td>{{order.get_transaction_date()}}</td>
+              <th>
+                <form method="GET" action="/admin/{{order.get_transaction_id()}}">
+                  <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Order</button>
+                </form>
+              </th>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+  {% if refunds|length %}
+    <h3>My Refunds</h3>
+    <hr>
+    <div class="table-responsive">
+      <table class="table">
+        <thread>
+          <tr>
+            <th>Transaction ID</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thread>
+        <tbody id="RefundData">
+          {% for refund in refunds %}
+            <tr>
+              <td>{{refund.get_transaction_id()}}</td>
+              <td>{{refund.get_price()}}</td>
+              <td>{{refund.get_transaction_date()}}</td>
+              <th>
+                <form method="GET" action="/admin/{{refund.get_transaction_id()}}">
+                  <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Refund</button>
+                </form>
+              </th>
             </tr>
           {% endfor %}
         </tbody>
@@ -72,7 +104,6 @@
     </div>
   {% endif %}
 </div>
-<br>
 
 
 <script>
@@ -98,13 +129,6 @@
         cancelBtn.setAttribute('style', 'display: none;');
     }
 
-    function emptyPass(event, passwordField) {
-      if(document.getElementById('passwordField').value == ""){
-        event.preventDefault();
-        alert("Password cannot be empty!")
-      }
-      else{return 0;} 
-    }
 </script>
 {% endblock %}
 
