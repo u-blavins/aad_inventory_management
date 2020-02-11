@@ -3,6 +3,7 @@ from mock import MagicMock, patch
 
 from models.Unit import Unit
 
+
 class TestUnit:
     """ Test Suite for Unit Model """
 

@@ -18,15 +18,16 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            transaction = Transaction()
-            transaction.set_transaction_id(row[0])
-            transaction.set_user_id(row[1])
-            transaction.set_department_code(row[2])
-            transaction.set_price(row[3])
-            transaction.set_transaction_date(row[4])
-            transaction.set_refund(row[5])
-            transactions.append(transaction)
+        if rows != []:
+            for row in rows:
+                transaction = Transaction()
+                transaction.set_transaction_id(row[0])
+                transaction.set_user_id(row[1])
+                transaction.set_department_code(row[2])
+                transaction.set_price(row[3])
+                transaction.set_transaction_date(row[4])
+                transaction.set_refund(row[5])
+                transactions.append(transaction)
 
         return transactions
 
@@ -45,14 +46,15 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            transaction = Transaction()
-            transaction.set_transaction_id(row[0])
-            transaction.set_user_id(row[1])
-            transaction.set_department_code(row[2])
-            transaction.set_price(row[3])
-            transaction.set_transaction_date(row[4])
-            transaction.set_refund(row[5])
+        if rows != []:
+            for row in rows:
+                transaction = Transaction()
+                transaction.set_transaction_id(row[0])
+                transaction.set_user_id(row[1])
+                transaction.set_department_code(row[2])
+                transaction.set_price(row[3])
+                transaction.set_transaction_date(row[4])
+                transaction.set_refund(row[5])
 
         return transaction
 
@@ -65,15 +67,16 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            transaction = Transaction()
-            transaction.set_transaction_id(row[0])
-            transaction.set_user_id(row[1])
-            transaction.set_department_code(row[2])
-            transaction.set_price(row[3])
-            transaction.set_transaction_date(row[4])
-            transaction.set_refund(row[5])
-            transactions.append(transaction)
+        if rows != []:
+            for row in rows:
+                transaction = Transaction()
+                transaction.set_transaction_id(row[0])
+                transaction.set_user_id(row[1])
+                transaction.set_department_code(row[2])
+                transaction.set_price(row[3])
+                transaction.set_transaction_date(row[4])
+                transaction.set_refund(row[5])
+                transactions.append(transaction)
 
         return transactions
 
@@ -92,15 +95,16 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            transaction = Transaction()
-            transaction.set_transaction_id(row[0])
-            transaction.set_user_id(row[1])
-            transaction.set_department_code(row[2])
-            transaction.set_price(row[3])
-            transaction.set_transaction_date(row[4])
-            transaction.set_refund(row[5])
-            transactions.append(transaction)
+        if rows != []:
+            for row in rows:
+                transaction = Transaction()
+                transaction.set_transaction_id(row[0])
+                transaction.set_user_id(row[1])
+                transaction.set_department_code(row[2])
+                transaction.set_price(row[3])
+                transaction.set_transaction_date(row[4])
+                transaction.set_refund(row[5])
+                transactions.append(transaction)
 
         return transactions
     
@@ -119,15 +123,16 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            transaction = Transaction()
-            transaction.set_transaction_id(row[0])
-            transaction.set_user_id(row[1])
-            transaction.set_department_code(row[2])
-            transaction.set_price(row[3])
-            transaction.set_transaction_date(row[4])
-            transaction.set_refund(row[5])
-            transactions.append(transaction)
+        if rows != []:
+            for row in rows:
+                transaction = Transaction()
+                transaction.set_transaction_id(row[0])
+                transaction.set_user_id(row[1])
+                transaction.set_department_code(row[2])
+                transaction.set_price(row[3])
+                transaction.set_transaction_date(row[4])
+                transaction.set_refund(row[5])
+                transactions.append(transaction)
 
         return transactions
 
@@ -146,15 +151,16 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            transaction = Transaction()
-            transaction.set_transaction_id(row[0])
-            transaction.set_user_id(row[1])
-            transaction.set_department_code(row[2])
-            transaction.set_price(row[3])
-            transaction.set_transaction_date(row[4])
-            transaction.set_refund(row[5])
-            transactions.append(transaction)
+        if rows != []:
+            for row in rows:
+                transaction = Transaction()
+                transaction.set_transaction_id(row[0])
+                transaction.set_user_id(row[1])
+                transaction.set_department_code(row[2])
+                transaction.set_price(row[3])
+                transaction.set_transaction_date(row[4])
+                transaction.set_refund(row[5])
+                transactions.append(transaction)
 
         return transactions
 

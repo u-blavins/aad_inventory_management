@@ -3,6 +3,7 @@ from mock import MagicMock, patch
 
 from models.User import User
 
+
 class TestUser:
     """ Test Suite for User Model """
 
