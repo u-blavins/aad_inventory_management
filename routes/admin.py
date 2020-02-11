@@ -3,6 +3,7 @@ from io import StringIO
 import csv
 
 from utils.Database import Database
+from utils.Email import Email
 
 from models.Item import Item as ItemModel
 from models.User import User as UserModel
@@ -327,3 +328,17 @@ def department_transaction(year, month, department):
                 department_transactions = TransactionModel.get_transaction_by(query)
                 return render_template('transaction.html', transactions=department_transactions)
     return redirect(url_for('admin.Admin'))
+
+    
+@admin.route('/admin/billing/email/<year>/<month>', methods=['GET'])
+def email_finance_report(year, month):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            if session['privilege'] in [2, 3]:
+                email = Email()
+                email.set_recipients(
+                    ['N0692013@my.ntu.ac.uk', 'ublavins@gmail.com'])
+                info = email.send_finance_report(month, year)
+                flash(info)
+    return redirect(url_for('admin.billing'))
+
