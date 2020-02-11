@@ -51,7 +51,7 @@ def add_items():
         if code in ItemModel.get_codes():
             flash('Error: Item code "' + str(code) + '" already exists')
             return render_template('addItemToInventory.html')
-        if len(unitTypes) == 0:
+        if len(unit_types) == 0:
             flash('Error: At least one unit type required')
             return render_template('addItemToInventory.html')
         else:
