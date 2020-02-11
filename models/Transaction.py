@@ -1,5 +1,6 @@
 from utils.Database import Database
 
+
 class Transaction:
     """ Transaction Model """
 
@@ -78,15 +79,15 @@ class Transaction:
         return transactions
 
     @staticmethod
-    def get_all_user_transactions(user_id):
+    def get_all_user_transactions(user_id, is_refund):
         transactions = []
 
-        query = """
+        query = f"""
         SELECT [TransactionID], [UserID], [DepartmentCode],
             [Price], [TransactionDate], [IsRefund] FROM 
-            [itm].[Transaction] WHERE [UserID] = '%s'
-        """ % user_id
-
+            [itm].[Transaction] WHERE [UserID] = '{user_id}'
+            AND [IsRefund] = {is_refund}
+        """
         conn = Database.connect()
         cursor = conn.cursor()
         rows = Database.execute_query(query, cursor)
@@ -103,7 +104,7 @@ class Transaction:
             transactions.append(transaction)
 
         return transactions
-    
+
     @staticmethod
     def get_all_department_transactions(dept_code):
         transactions = []
@@ -162,7 +163,7 @@ class Transaction:
         self.id = None
         self.transaction = {}
         return
-    
+
     def set_transaction_id(self, id):
         self.id = id
         return self
@@ -180,7 +181,7 @@ class Transaction:
     def set_department_code(self, dept_code):
         self.transaction['dept_code'] = dept_code
         return self
-    
+
     def get_department_code(self):
         return self.transaction['dept_code']
 
@@ -197,7 +198,7 @@ class Transaction:
 
     def get_transaction_date(self):
         return self.transaction['date']
-    
+
     def set_refund(self, is_refund):
         self.transaction['is_refund'] = is_refund
         return self

@@ -35,17 +35,17 @@
 					<th>{{billing_row.billing_year}}</th>
 					<th>
 						<form method="GET" action="/admin/billing/info/{{billing_row.billing_year}}/{{billing_row.billing_month}}">
-                    		<button type="submit" class="editButton"><i class="fas fa-search"></i> View</button>
+                    		<button type="submit" class="adminButton"><i class="fas fa-search"></i> View Departments</button>
                     	</form>
 					</th>
 					<th>
 						<form method="GET" action="/admin/billing/download/{{billing_row.billing_year}}/{{billing_row.billing_month}}">
-                    		<button type="submit" class="editButton"><i class="fas fa-cloud-download-alt"></i> Download</button>
+                    		<button type="submit" class="adminButton"><i class="fas fa-cloud-download-alt"></i> Download</button>
                     	</form>
 					</th>
 					<th>
 						<form method="GET" action="/admin/billing/email/{{billing_row.billing_year}}/{{billing_row.billing_month}}">
-                    		<button type="submit" class="editButton"><i class="far fa-envelope"></i> Email</button>
+                    		<button type="submit" class="adminButton"><i class="far fa-envelope"></i> Email</button>
                     	</form>
 					</th>
 				</tr>

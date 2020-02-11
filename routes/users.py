@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, jsonify, session, request, flash, redirect, url_for
 from models.User import User as UserModel
 from models.TransactionInfo import TransactionInfo as TransactionInfoModel
-
+from models.Transaction import Transaction as TransactionModel
 users = Blueprint('users', __name__)
 
 
@@ -36,9 +36,10 @@ def user_account():
         data['l_name'] = user.get_last_name()
         data['dept_code'] = user.get_department_code()
 
-        trans_info = TransactionInfoModel.get_user_transactions(session['user_id'])
-        
-    return render_template('userSettings.html', data=data, transactions=trans_info)
+        user_orders = TransactionModel.get_all_user_transactions(session['user_id'], 0)
+        user_refunds = TransactionModel.get_all_user_transactions(session['user_id'], 1)
+    return render_template('userSettings.html', data=data, orders=user_orders, refunds=user_refunds)
+
 
 @users.route('/user/reset/<id>', methods=['POST'])
 def reset_password(id):
@@ -46,6 +47,9 @@ def reset_password(id):
         if 'user_id' in session:
             if session['user_id'] == id:
                 password = request.form['password']
-                info = UserModel.update_user_password(id, password)
-                flash(info[0][0])
+                if password == '':
+                    flash('Password field cannot be empty')
+                else:
+                    info = UserModel.update_user_password(id, password)
+                    flash(info[0][0])
     return redirect(url_for('users.user_account'))
