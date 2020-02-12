@@ -4,6 +4,7 @@ from routes.auth import auth
 from routes.admin import admin
 from routes.users import users
 from routes.basket import basket
+from routes.items import items
 
 app = Flask(__name__)
 app.debug = True
@@ -15,25 +16,25 @@ app.register_blueprint(auth)
 app.register_blueprint(admin)
 app.register_blueprint(users)
 app.register_blueprint(basket)
+app.register_blueprint(items)
 
 
 @app.route('/')
-def main():
+def index():
     return redirect('/auth')
 
 
 @app.route('/home')
-def customer():
-    if 'is_admin' in session:
-        if session['is_admin'] != None:
-            if session['is_admin'] == True:
-                return redirect('/admin')
+def home():
     return redirect(url_for('basket.add_item'))
 
+@app.route('/returnItems')
+def returnItems():
+    return render_template('returnItems.html')
 
-@app.route('/will')
-def will():
-    return render_template('will.html')
+@app.route('/viewStock')
+def viewStock():
+    return render_template('viewStock.html')
 
 
 if __name__ == '__main__':

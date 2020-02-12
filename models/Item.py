@@ -1,87 +1,226 @@
-from utils import Database
+from utils.Database import Database
+
 
 class Item:
     """ Item Model """
 
     @staticmethod
-    def getAllItems():
-        query = "SELECT * FROM [StoreManagement].[itm].[Item]"
-        rows = Database.get_rows(query)
-        item = []
+    def get_all_items():
+        query = """
+            SELECT [Code],
+            [Name],
+            [Risk],
+            [Price],
+            [Quantity],
+            [MinThreshold],
+            [AutoPurchaseOrder]
+            FROM [StoreManagement].[itm].[Item]
+            WHERE [onDisplay] = 1
+        """
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+
+        items = []
 
         for row in rows:
-            print(row)
+            item = Item()
+            item.set_code(row[0])
+            item.set_name(row[1])
+            item.set_risk(row[2])
+            item.set_price(row[3])
+            item.set_quantity(row[4])
+            item.set_threshold(row[5])
+            item.set_purchase_order(row[6])
+            items.append(item)
 
+        return items
+
+    @staticmethod
+    def get_item(code):
+        item = None
+
+        query = """
+        SELECT [Code], [Name], [Risk], [Price],
+            [Quantity],
+            [MinThreshold], [AutoPurchaseOrder] FROM
+        [itm].[Item] WHERE [Code] = '%s'
+        AND [onDisplay] = 1
+        """ % code
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+
+        for row in rows:
+            item = Item()
+            item.set_code(row[0])
+            item.set_name(row[1])
+            item.set_risk(row[2])
+            item.set_price(row[3])
+            item.set_quantity(row[4])
+            item.set_threshold(row[5])
+            item.set_purchase_order(row[6])
+    
         return item
 
     @staticmethod
-    def getItem(id):
-        item = Item()
-        return item
+    def get_codes():
+        codes = []
+
+        query = """
+        SELECT [Code] FROM [StoreManagement].[itm].[Item]
+        WHERE [onDisplay] = 1
+        """
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+        for row in rows:
+            codes.append(row[0])
+
+        return codes
 
     @staticmethod
-    def getItemsBy(key, value):
-        item = []
-        return item
+    def add_item(code, name, quantity, price, threshold, unit_types, risk, purchase):
+        query = """
+        INSERT INTO [StoreManagement].[itm].[Item]
+        ([Code], [Name], [Quantity], [Price], [MinThreshold], [Risk], [AutoPurchaseOrder])
+        VALUES
+        ('%s', '%s', %s, %s, %s, %s, %s)
+        """ % (code, name, quantity, price, threshold, risk, purchase)
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        Database.execute_non_query(query, cursor)
+
+        for unit in unit_types:
+            query = """
+            INSERT INTO 
+                [itm].[ItemAssociatedUnitType]([ItemCode],[UnitName])
+            VALUES
+                ('%s','%s')
+            """ % (code, unit)
+            Database.execute_non_query(query,cursor)
+
+        cursor.commit()
+        conn.close()
+
+    @staticmethod
+    def delete_item(code):
+        query = """
+        UPDATE [StoreManagement].[itm].[Item] SET [onDisplay] = 0 WHERE [Code] = '%s'
+        """ % code
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        Database.execute_non_query(query, cursor)
+        cursor.commit()
+        conn.close()
+
+    
+    @staticmethod
+    def edit_item(code, name, quantity, price, threshold, risk, purchase):
+        query = f"""
+        UPDATE 
+            [StoreManagement].[itm].[Item]
+        SET 
+            [Name] = '{name}', [Quantity] = {quantity}, [Price] = {price}, [MinThreshold] = {threshold}, [Risk] = {risk}, [AutoPurchaseOrder] = {purchase}
+        WHERE 
+            [Code] = '{code}'
+        """
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        Database.execute_non_query(query, cursor)
+        cursor.commit()
+        conn.close()
+
+    @staticmethod
+    def is_risk_item(code):
+        query = f"""
+        SELECT [Risk] FROM [StoreManagement].[itm].[Item] WHERE [Code] = '{code}'
+        """ 
+        conn = Database.connect()
+        cursor = conn.cursor()
+        result = Database.execute_query(query, cursor)
+        cursor.commit()
+        conn.close()
+        return result[0][0]
+
+    @staticmethod
+    def get_unit_types(code):
+        units = []
+
+        query = """
+        SELECT [UnitName] FROM 
+        [StoreManagement].[itm].[ItemAssociatedUnitType] WHERE
+        [ItemCode] = '%s'
+        """ % code
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+
+        for row in rows:
+            units.append(row[0])
+
+        return units
 
     def __init__(self):
-        self.Code = None
+        self.code = None
         self.item = {}
         return
-
-    def Insert(self):
-        if self.Code == None:
-            Database.execute(
-                "INSERT INTO [StoreManagement].[itm].[Item] ('code', 'name', 'variant', 'unit_name', 'risk', 'price') VALUES (%s, %s, %s, %s, %s, %s)",
-                (self.item['code'], self.item['name'], self.item['variant'], self.item['unit_name'], self.item['risk'], self.item['price']))
-
-            rows = Database.get_rows('SELECT LAST_INSERT_ID() AS insert_id')
-            self.Code = rows[0]['insert_id']
-
-    def Delete(self):
-        if self.Code == None:
-            return
-        else:
-            Database.execute("DELETE FROM [StoreManagement].[itm].[Item] WHERE Code = %s", (self.Code,))
-
-    def setCode(self, code):
-        self.item['code'] = code
+    
+    def set_code(self, code):
+        self.code = code
         return self
+    
+    def get_code(self):
+        return self.code
 
-    def getCode(self):
-        return self.item['code']
-
-    def setName(self, name):
+    def set_name(self, name):
         self.item['name'] = name
         return self
 
-    def getName(self):
-        return self.item['val']
+    def get_name(self):
+        return self.item['name']
 
-    def setVariant(self, variant):
-        self.item['variant'] = variant
-        return self
-
-    def getVariant(self):
-        return self.item['variant']
-
-    def setUnitName(self, unit_name):
-        self.item['unit_name'] = unit_name
-        return self
-
-    def getUnitName(self):
-        return self.item['unit_name']
-
-    def setRisk(self, risk):
+    def set_risk(self, risk):
         self.item['risk'] = risk
         return self
-
-    def getRisk(self):
+    
+    def get_risk(self):
         return self.item['risk']
 
-    def setPrice(self, price):
+    def set_price(self, price):
         self.item['price'] = price
         return self
-
-    def getPrice(self):
+    
+    def get_price(self):
         return self.item['price']
+
+    def set_quantity(self, quantity):
+        self.item['quantity'] = quantity
+        return self
+
+    def get_quantity(self):
+        return self.item['quantity']
+    
+    def set_threshold(self, threshold):
+        self.item['threshold'] = threshold
+        return self
+    
+    def get_threshold(self):
+        return self.item['threshold']
+
+    def set_purchase_order(self, purchase):
+        self.item['purchase'] = purchase
+        return self
+
+    def get_purchase_order(self):
+        return self.item['purchase']

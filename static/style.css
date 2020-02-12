@@ -1,30 +1,35 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
 
-@media (max-width: 992px) {
+body {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 
+@media (max-width: 992px) {
+  body{font-size: 16px;}
   }
 @media (max-width: 768px) {
-  
+  body{font-size: 15px;}
 }
 @media (max-width: 576px) {
-  
+  body{font-size: 14px;}
 }
 
+h2 {
+  font-size: 1.6em;
+}
+h3 {
+  font-size: 1.4em;
+} 
+h4 {
+  font-size: 1.2em;
+}      
 
 [class*="col-"] {
     padding: 1rem;
 }
 
-.addButton{
-  background-color: lightgreen;
-  float:left;
-  padding: 1.5%;
-  margin: auto;
-}
-
 ul.list-group {
   width: 70%;
-  font: 19px Calibri;
   border: solid 1px #DDD;
   padding: 10px;
   margin: auto;
@@ -39,25 +44,13 @@ ul.list-group {
   margin: 0 auto;
 }
 
+.thread {
+  background-color: grey;
+}
+ 
 table, input[type=text], input[type=number], select {
-  border-collapse: collapse;
-  margin: auto;
+  border-radius: 1px;
   width: 100%;
-  resize: vertical;
-}
-
-.tableInput {
-  border-radius: 2px;
-}
-
-td, th{
-  border: 3px solid lightgrey;
-  padding: 10px;
-}
-
-th{
-  font-family: Arial, Verdana, sans-serif;
-  font-weight: bold;
 }
 
 tr:nth-child(odd){
@@ -65,11 +58,9 @@ tr:nth-child(odd){
 }
 
 tr:hover{
-  background-color: pink;
+  background-color: rgb(255, 124, 192);
   color: white;
 }
-
-
 
 /* Admin Area */
 
@@ -86,6 +77,9 @@ tr:hover{
   text-decoration: none;
 }
 
+.inputShadowBox {
+  border: 2px solid lightgrey;
+}
 
 /* Register/Login Styles */
 
@@ -99,11 +93,11 @@ tr:hover{
   overflow: hidden;
 }
 .button-box{
-  width: 225px;
-  margin: 35px auto;
+  width: 232px;
+  margin: 40px auto;
   position: relative;
   box-shadow: 0px 0px 48px -5px rgba(236,29,133,0.47);
-  border-radius: 30px;
+  border-radius: 28px;
 }
 .toggle-btn{
   padding: 10px 30px;
@@ -114,11 +108,14 @@ tr:hover{
   position: relative;
 }
 
+.toggle-btn:active {outline:none;}
+.toggle-btn:focus {outline:none;}
+
 #btn {
   top: 0;
   left: 0;
   position: absolute;
-  width:110px;
+  width:123px;
   height: 100%;
   background: linear-gradient(to right, rgb(255, 124, 192), #ec1d85);
   border-radius: 30px;
@@ -171,4 +168,150 @@ tr:hover{
   left: 450px;
 }
 
-/******/
+
+/* Button Styles */
+
+.greenButton {
+  box-shadow:inset 0px 1px 0px 0px #caefab;
+	background-color:#77d42a;
+	border-radius:6px;
+	border:1px solid #000000;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	text-decoration:none;
+  text-shadow:0px 1px 0px #aade7c;
+  padding:2px 7px;
+  }
+  .greenButton:hover {
+    background-color:#5cb811;
+    color:#000000;
+    text-decoration:none;
+  }
+  .greenButton:active {
+    position:relative;
+    top:1px;
+  }
+
+
+.addButton{
+  float:left;
+  margin-bottom: 10px;
+}
+
+.redButton {
+    box-shadow:inset 0px 1px 0px 0px #f29c93;
+    background-color:#fe1a00;
+    border-radius:6px;
+    border:1px solid #000000;
+    display:inline-block;
+    cursor:pointer;
+    color:#000000;
+    text-decoration:none;
+  }
+  .redButton:hover {
+    background-color:#ce0100;
+  }
+  .redButton:active {
+    position:relative;
+    top:1px;
+  }
+  
+  .editButton {
+    box-shadow:inset 0px 1px 3px 0px #91b8b3;
+    background-color:#768d87;
+    border-radius:6px;
+    border:1px solid #000000;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    text-decoration:none;
+    padding:2px 7px;
+  }
+  .editButton:hover {
+    background-color:#6c7c7c;
+    color:#ffffff;
+    text-decoration:none;
+  }
+  .editButton:active {
+    position:relative;
+    top:1px;
+  }
+
+  .adminButton {
+    box-shadow:inset 0px 1px 0px 0px #f575b5;
+    background-color:#ec1d85;
+    border-radius:6px;
+    border:1px solid #000000;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    padding:4px 14px;
+    text-decoration:none;
+  }
+  .adminButton:hover {
+    background-color:#be1168;
+    color:#ffffff;
+    text-decoration:none;
+  }
+  .adminButton:active {
+    position:relative;
+    top:1px;
+  }
+
+  /* The Overlay (background) */
+.overlay {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  background-color: rgb(0,0,0); /* Black fallback color */
+  background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+  position: relative;
+  top: 25%; /* 25% from the top */
+  width: 100%; /* 100% width */
+  text-align: center; /* Centered text/links */
+  margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+
+/* The navigation links inside the overlay */
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #ec1d85;
+  display: block; /* Display block instead of inline */
+  transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+/* When you mouse over the navigation links, change their color */
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+
+/* Position the close button (top right corner) */
+.overlay .closebtn {
+  position: absolute;
+  top: 105px;
+  right: 20px;
+  font-size: 60px;
+}
+
+/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+@media screen and (max-height: 450px) {
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}

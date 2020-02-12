@@ -1,0 +1,134 @@
+{% extends "home.html" %}
+{% block content %}
+
+<div class="container text-center">
+    {% for message in get_flashed_messages() %}
+      <div class="container">
+        {% if 'successfully' in message %}
+        <div class="alert alert-success">
+        {% else %}
+        <div class="alert alert-danger">
+        {% endif %}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+      </div>
+    {% endfor %}
+  <br>
+  <h3>My Account</h3>
+  <hr>
+  <div class="form-group">
+    <label>First Name: {{ data.f_name }}</label>
+  </div>
+  <div class="form-group">
+    <label>Last Name: {{ data.l_name }}</label>
+  </div>
+  <div class="form-group">
+    <label>Email: {{ data.email }}</label>
+  </div>
+  <div class="form-group">
+    <label>Department Code: {{ data.dept_code }}</label>
+  </div>
+  <br>
+  <button id="changePasswordBtn" onclick="showChangePasswordField()" class="editButton" value="submit" type="button"><i class="fa fa-edit" style="margin-right: 5px;"></i>Change Password</button>
+  <h3 id="changePasswordHeading" style="display: none;">Change Password</h3>
+  <br>
+  <form action='/user/reset/{{data.id}}' method='post'>
+    <input id="passwordField" type="password" class="form-control inputShadowBox" style="display: none;" placeholder="Enter new password" name="password">
+    <br>
+    <button id="confirmPasswordBtn" type="submit" class="greenButton" style="display: none;" value="submit">Confirm<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
+    <br>
+    <br>
+  </form>
+  <button id="cancelBtn" onclick="hideChangePasswordField()" type="button" class="redButton" style="display: none;">Cancel<i class="fas fa-times-circle" style="margin-left: 5px;"></i></button>
+  <br>
+  <br>
+  {% if orders|length %}
+    <h3>My Orders</h3>
+    <hr>
+    <div class="table-responsive">
+      <table class="table">
+        <thread>
+          <tr>
+            <th>Transaction ID</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thread>
+        <tbody id="OrderData">
+          {% for order in orders %}
+            <tr>
+              <td>{{order.get_transaction_id()}}</td>
+              <td>{{order.get_price()}}</td>
+              <td>{{order.get_transaction_date()}}</td>
+              <th>
+                <form method="GET" action="/transaction/{{order.get_transaction_id()}}">
+                  <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Order</button>
+                </form>
+              </th>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+  {% if refunds|length %}
+    <h3>My Refunds</h3>
+    <hr>
+    <div class="table-responsive">
+      <table class="table">
+        <thread>
+          <tr>
+            <th>Transaction ID</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thread>
+        <tbody id="RefundData">
+          {% for refund in refunds %}
+            <tr>
+              <td>{{refund.get_transaction_id()}}</td>
+              <td>{{refund.get_price()}}</td>
+              <td>{{refund.get_transaction_date()}}</td>
+              <th>
+                <form method="GET" action="/transaction/{{refund.get_transaction_id()}}">
+                  <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Refund</button>
+                </form>
+              </th>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+</div>
+
+
+<script>
+    var changePasswordHeading = document.getElementById('changePasswordHeading');
+    var changePasswordBtn = document.getElementById('changePasswordBtn');
+    var passwordField = document.getElementById('passwordField');
+    var confirmPasswordBtn = document.getElementById('confirmPasswordBtn');
+    var cancelBtn = document.getElementById('cancelBtn');
+
+    function showChangePasswordField() {
+        changePasswordHeading.removeAttribute('style', 'display: none;');
+        changePasswordBtn.setAttribute('style', 'display: none;');
+        passwordField.removeAttribute('style', 'display: none;');
+        confirmPasswordBtn.removeAttribute('style', 'display: none;');
+        cancelBtn.removeAttribute('style', 'display: none;');
+    }
+
+    function hideChangePasswordField() {
+        changePasswordHeading.setAttribute('style', 'display: none;');
+        changePasswordBtn.removeAttribute('style', 'display: none;');
+        passwordField.setAttribute('style', 'display: none;');
+        confirmPasswordBtn.setAttribute('style', 'display: none;');
+        cancelBtn.setAttribute('style', 'display: none;');
+    }
+
+</script>
+{% endblock %}
+

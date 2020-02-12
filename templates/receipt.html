@@ -2,10 +2,10 @@
 
 {% block content %}
 
-  <div class="container text-center">
+<div class="container text-center">
 	<br>
-	<h3>View Basket</h3>
-	<hr>
+	<h2>View Receipt</h2>
+	<br>
 	{% if basket|length %}
 		<div class="table-responsive">
 		<table class="table">
@@ -16,7 +16,6 @@
 				<th>Price Per Item</th>
 				<th>Unit Type</th>
 				<th>Quantity</th>  
-				<th></th>
 			</tr>
 		</thread>
 		<tbody id="BasketData2">
@@ -27,11 +26,6 @@
 				<td>{{item.price}}</td>
 				<td>{{item.unit}}</td>
 				<td>{{item.quantity}}</td>
-				<td>
-					<form action="/basket/remove/{{item.code}}/{{item.unit}}/{{item.quantity}}">
-						<button type="submit" class="redButton"><i class="fas fa-minus-circle"></i></button>
-					</form>
-				</td>
 			</tr>
 		{% endfor %}
 		</tbody>
@@ -39,22 +33,21 @@
 	</div>
 	<br>
 	<br>
-		<h3>Total Cost:</h3>
-		<br>
-		<h4>£{{ price.total }}</h4>
-		<br>
-	<form action="/basket/check-out">
-		<button class="greenButton" id="bt" onclick="submit()">Complete Checkout<i class="fas fa-check-circle" style="margin-left: 5px;"></i></button>
-	</form>
-	
+    <h3>Total Cost:</h3>
+    <br>
+    <h4>£{{ price.total }}</h4>
+    <br>
+    <h3>Transaction:</h3>
+    <br>
+    <h4>{{ transaction.id }}</h4>
+    
 	{% else %}
 	<br>
 		<h4>No items in basket</h4>
-		<br>
 		<br>
 	<br>
 		<a class="greenButton" href="/add-item"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Items </a> 
 	{% endif %}
 </div>
-{% endblock %}
 
+{% endblock %}

@@ -1,66 +1,64 @@
-from utils import Database
+from utils.Database import Database
 
 class Unit:
     """ Unit Model """
 
     @staticmethod
-    def getAllUnits():
-        query = "SELECT * FROM [StoreManagement].[itm].[Unit]"
-        rows = Database.get_rows(query)
-        unit = []
+    def get_all_units():
+        units = []
+
+        query = """
+        SELECT * FROM [StoreManagement].[itm].[Unit]
+        """
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
 
         for row in rows:
-            print(row)
+            unit = Unit()
+            unit.set_name(row[0])
+            unit.set_value(row[1])
+            units.append(unit)
 
-        return unit
-
+        return units
+    
     @staticmethod
-    def getUnits(id):
-        unit = Unit()
-        return unit
+    def get_unit(name):
+        unit = None
 
-    @staticmethod
-    def getUnitsBy(key, value):
-        unit = []
+        query = """
+        SELECT * FROM [StoreManagement].[itm].[Unit] WHERE
+        [UnitName] = '%s'
+        """ % name
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+
+        for row in rows:
+            unit = Unit()
+            unit.set_name(row[0])
+            unit.set_value(row[1])
+
         return unit
 
     def __init__(self):
-        self.UnitName = None
-        self.unit = {}
+        self.name = None
+        self.value = None
         return
-
-    def Insert(self):
-        if self.UnitName == None:
-            Database.execute(
-                "INSERT INTO [StoreManagement].[itm].[Unit] ('unit_name', 'val', 'data_type') VALUES (%s, %s, %s)",
-                (self.unit['unit_name'], self.unit['val'], self.unit['data_type']))
-
-            rows = Database.get_rows('SELECT LAST_INSERT_ID() AS insert_id')
-            self.UnitName = rows[0]['insert_id']
-
-    def Delete(self):
-        if self.UnitName == None:
-            return
-        else:
-            Database.execute("DELETE FROM [StoreManagement].[itm].[Unit] WHERE UnitName = %s", (self.UnitName,))
-
-    def setUnitName(self, unit_name):
-        self.unit['unit_name'] = unit_name
+    
+    def set_name(self, name):
+        self.name = name
         return self
 
-    def getUnitName(self):
-        return self.unit['unit_name']
+    def get_name(self):
+        return self.name
 
-    def setVal(self, val):
-        self.unit['val'] = val
+    def set_value(self, value):
+        self.value = value
         return self
 
-    def getVal(self):
-        return self.unit['val']
-
-    def setDataType(self, data_type):
-        self.unit['data_type'] = data_type
-        return self
-
-    def getDataType(self):
-        return self.unit['data_type']
+    def get_value(self):
+        return self.value

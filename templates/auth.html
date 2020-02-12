@@ -1,25 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NTU Inventory Management</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    <link href="{{ url_for('static', filename='style.css')}}" type="text/css" rel="stylesheet">
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-      <div class="container-fluid">
-        <a class="navbar-brand"><img src="{{ url_for('static', filename='img/logo.png')}}"></a>
-        <div class=" navbar-collapse text-center">
-        <h4>Inventory Management</h4>
+{% extends "home.html" %}
+
+{% block content %}
+      {% for message in get_flashed_messages() %}
+        {% if 'successfully' in message %}
+        <div class="container">
+          <div class="alert alert-success">
+        {% else %}
+        <div class="container">
+          <div class="alert alert-danger">
+        {% endif %}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+          </div>
         </div>
-      </div>
-    </nav>
+      {% endfor %}
       <div class="form-box">
           <div class="button-box">
               <div id="btn"></div>
@@ -40,23 +34,28 @@
             <input name = regLastname type="text" class="input-field" id="regLastname" placeholder="Last Name" required>
             <input name = regEmail type="email" class="input-field" id="regEmail" placeholder="Email" required>
             <input name = regPassword type="password" class="input-field" id="regPassword" placeholder="Password" required>
+            <input name = regPassword2 type="password" class="input-field" id="regPassword2" placeholder="Re-Enter Password" required>
+            
+            <br>
+
+            <label>Account Type:</label>
+            <select name="accountType" class="select-box" id="accountType" onchange="StaffMember(); notStaffMember()" required>
+              <option value="">Select One</option>
+              <option value="0" >Customer</option>
+              <option value="1" >Privileged Customer</option>
+              <option value="2" >Staff</option>
+              <option value="3" >Admin</option>
+            </select>
         
-            <fieldset>
-              <br>
-              <p>Which account type?</p>
-              <input type="radio" id="account_Customer" value="0" name="accountType" class="radio-btn" checked> Customer
-              <input type="radio" id="account_Staff" value="2" name="accountType" class="radio-btn"> Shop Staff
-            </fieldset>
-        
-            <label>Department Code</label>
-            <select name = "departmentCode" id="department_Code" class="select-box" required>
+            <label id="DeptCode">Department Code:</label>
+            <select name="departmentCode" id="department_Code" class="select-box" required>
               <option value="">Select One</option>
               <option value="11111" >Computer Science</option>
               <option value="22222" >English</option>
               <option value="33333" >Maths</option>
-            </select>
-        
-            <button type="submit" class="submit-btn">Register</button>
+            </select>        
+
+            <button type="submit" class="submit-btn" onclick="checkPass(regPassword, regPassword2, event)" >Register</button>
           </form>
       </div>
 
@@ -75,6 +74,22 @@
           y.style.left = "450px";
           z.style.left = "0px";
         }
+
+        function StaffMember() {
+          if(document.getElementById('accountType').value === "2" || document.getElementById('accountType').value === "3") {
+            department_Code.setAttribute('style', 'display: none;');
+            DeptCode.setAttribute('style', 'display: none;');
+
+            document.getElementById("department_Code").required = false;
+          }
+        }
+
+        function notStaffMember() {
+        if(document.getElementById('accountType').value === "0" || document.getElementById('accountType').value === "1"){
+          department_Code.removeAttribute('style', 'display: none;');
+          DeptCode.removeAttribute('style', 'display: none;');
+          }
+        }
+
       </script>
-  </body>
-</html>
+{% endblock %}

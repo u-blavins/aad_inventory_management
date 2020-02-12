@@ -1,0 +1,37 @@
+{% extends "home.html" %}
+
+{% block content %}
+    <div class="container text-center">
+        <br>
+	    <h3>Purchase Order Info: {{order_id}}</h3>
+	    <hr>
+    <div class="table-responsive">
+	    <table class="table">
+	        <thread>
+		        <tr>
+			        <th>ItemCode</th>
+			        <th>Quantity</th>
+                    <th>Delivered</th>
+					<th>Approved By</th>
+		        </tr>
+	        </thread>
+	        <tbody id="Info">
+			{% for info in order_info %}
+				<tr>
+					<th>{{info.item_code}}</th>
+					<th>{{info.quantity}}</th>
+					<th>
+						{% if info.get('completion_date') == 'Pending': %}
+							<form method= "POST" action="/admin/purchase-order/{{order_id}}/{{info.item_code}}">
+								<button type="submit" class="greenButton"><i class="fas fa-check-circle"></i>Confirm</button>
+							</form>
+						{% else %}{{info.completion_date}}{% endif %}
+					</th>
+					<th>{{info.approved_by}}</th>
+                </tr>
+			{% endfor %}
+			</tbody>
+	        </table>
+	    </div>
+	</div>
+{% endblock %}

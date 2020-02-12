@@ -1,114 +1,74 @@
 {% extends "home.html" %}
-
 {% block content %}
-<div>
+    {% for message in get_flashed_messages() %}
+    <div class="container">
+        {% if 'Success' in message %}
+            <div class="alert alert-success">
+        {% else %}
+            <div class="alert alert-danger">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+        </div>
+    </div>
+    {% endfor %}
     <div class="container text-center">
         <br>
-            <h2>View & edit stock</h2>
+        <h3>View & edit stock</h3>
         <br>
         <br>
-
-        <input type="text" placeholder="Search for items...">
+        <input type="text" placeholder="Search for items..." class="inputShadowBox">
         <br>
         <br>
-        <a href="/addItem" id="addItem" class="addButton"> Add Product </a>
+        {% if 'privilege' in session %}
+            {% if session['privilege'] == 3 %}
+                <a href="/admin/add-stock" id="addItem" class="greenButton"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Item </a>
+            {% else %}
+            {% endif %}
+        {% endif %}
         <br>
         <br>
-        <table>
+        <th class="table-responsive">
+        <table class="table">
             <thread>
                 <tr>
-                  <th>Product ID</th>
-                  <th>Product Name</th>
-                  <th>Quantity</th> 
+                  <th>Item Code</th>
+                  <th>Item Name</th>
+                  <th>Quantity</th>
                   <th>Risk Item</th>
+                  {% if session['privilege'] in [2, 3]%}
+                  <th></th>
+                  {% endif %}
+                  {% if session['privilege'] == 3 %}
+                  <th></th>
+                  {% endif %}
                 </tr>
             </thread>
-            <tbody id="tbody"></tbody>
+            {% for item in items %}
+                {% if item.get_threshold() >= item.get_quantity() %}
+                    <tr bgcolor="#FF6464">
+                {% else %}
+                    <tr>
+                {% endif %}
+                        <td>{{ item.get_code() }}</td>
+                        <td>{{ item.get_name() }}</td>
+                        <td>{{ item.get_quantity() }}</td>
+                        <td>{{ item.get_risk() }}</td>
+                        {% if 'privilege' in session %}
+                            {% if session['privilege'] in [2, 3]%}
+                            <form action="/items/edit/{{ item.get_code() }}" method="POST">
+                                <td><button type="submit" class="editButton"><i class="fa fa-edit" style="margin-right: 5px;"></i>Edit</button></td>
+                            </form>
+                            {% endif %}
+                            {% if session['privilege'] == 3 %}
+                            <form action="/items/remove/{{ item.get_code() }}" method="POST">
+                            <td><button type="submit" class="redButton"><i class="fas fa-minus-circle" style="margin-right: 5px;"></i>Remove</button></td>
+                            </form>
+                            {% endif %}
+                        {% endif %}
+                    </tr> 
+            {% endfor %}
         </table>
+    </div>
 </div>
-
-
-<script>
-    window.onload = () => {
-   display();
-};
-
-var StockData = [
-	  { "ProductId": "69-69", "ProductName": "200ml TestTubes", "Quantity": 3, "RiskItem": "No" },
-	  { "ProductId": "8==D", "ProductName": "deez nuts", "Quantity": 2, "RiskItem": "Yes" },
-	  { "ProductId": "KetSik1", "ProductName": "half a carrot", "Quantity": 1, "RiskItem": "No" }, 
-  ];
-  
-  function display() {
-            var length = StockData.length;
-            var htmltext = "";
-
-            for (var i = 0; i < length; i++) {
-                htmltext += "<tr id='table"+i+"'><td>"
-                +StockData[i].ProductId+
-                "</td><td>"
-                +StockData[i].ProductName+
-                "</td><td>"
-                +StockData[i].Quantity+
-                "</td><td>"
-                +StockData[i].RiskItem+
-                "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
-            }
-            document.getElementById("tbody").innerHTML = htmltext;
-        }
-
-
-        function edit(indice) {
-            var htmltext = "<tr><td><input id='inputProductId"+indice+"' type='text' value='"
-                +StockData[indice].ProductId+
-
-                "'></td><td><input id='inputProductName"+indice+"' type='text' value='"
-                +StockData[indice].ProductName+
-
-                "'></td><td><input id='inputQuantity"+indice+"' type='number' value='"
-                +StockData[indice].Quantity+
-
-                "'></td><td><input id='inputRiskItem"+indice+"' type='text' value='"
-                +StockData[indice].RiskItem+
-
-                "'></td><td><button onclick='save("+indice+")'>Save</button><button onclick='remove("+indice+")'>Remove</button></td></tr>";
-            document.getElementById("table"+indice).innerHTML = htmltext;
-        }
-
-        function save(indice) {
-            var values = new Array();
-
-            //BasketData2[indice].ProductId = document.getElementById("inputProductId"+indice).value;
-            values.push("'" + StockData[indice].ProductId[0].value + "'");
-
-            StockData[indice].ProductName = document.getElementById("inputProductName"+indice).value;
-            values.push("'" + StockData[indice].ProductName + "'");
-
-            StockData[indice].Quantity = document.getElementById("inputQuantity"+indice).value;
-            values.push("'" + StockData.Quantity + "'");
-            
-            StockData[indice].Price = document.getElementById("inputRiskItem"+indice).value;
-            values.push("'" + StockData.RiskItem + "'");
-
-            var htmltext = "<tr id='table"+indice+"'><td>"
-                +StockData[indice].ProductId+
-                "</td><td>"
-                +StockData[indice].ProductName+
-                "</td><td>"
-                +StockData[indice].Quantity+
-                "</td><td>"
-                +StockData[indice].RiskItem+
-                "</td><td><button onclick='edit("
-                +indice+")'>Edit</button><button onclick='remove("
-                +indice+")'>Remove</button></td></tr>";
-            document.getElementById("table"+indice).innerHTML = htmltext;
-        }
-
-
-        function remove(indice) {
-            StockData.splice(indice, 1);
-            display();
-        }
-  
-  </script>
 {% endblock %}

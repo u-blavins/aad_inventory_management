@@ -4,12 +4,20 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>NTU Inventory Management</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='addItemToBasket.js')}}"></script>
+        {% if '/admin/purchase-order' == request.url_rule.rule %}
+        <script type="text/javascript" src="{{ url_for('static', filename='addPurchaseOrder.js')}}"></script>
+        {% endif %}
+        {% if '/admin/returns' == request.url_rule.rule %}
+        <script type="text/javascript" src="{{ url_for('static', filename='returnItems.js')}}"></script>
+        {% endif %}
         <link href="{{ url_for('static', filename='style.css')}}" type="text/css" rel="stylesheet">
     </head>
     <body>
@@ -19,6 +27,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                {% if '/auth' != request.url_rule.rule %}
                 {% block nav %}
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
@@ -27,14 +36,14 @@
                         {% else %}
                         <li class="nav-item">
                         {% endif %}
-                            <a class="nav-link" href="/add-item">Add Items</a>
+                            <a class="nav-link" href="/add-item"><i class="fas fa-plus-circle" style="color: #ec1d85; margin-right:5px;"></i>Add Items</a>
                         </li>
                         {% if 'basket' in request.url_rule.rule %}
                         <li class="nav-item active">
                         {% else %}
                         <li class="nav-item">
                         {% endif %}
-                            <a class="nav-link" href="/basket">View Basket</a>
+                            <a class="nav-link" href="/basket"><i class="fas fa-shopping-basket" style="color: #ec1d85; margin-right:5px;"></i>View Basket</a>
                         </li>
                         {% if 'privilege' in session %}
                             {% if session['privilege'] in [2, 3]%}
@@ -43,20 +52,28 @@
                                 {% else %}
                                 <li class="nav-item">
                                 {% endif %}
-                                    <a class="nav-link" href="/admin">Admin Area</a>
+                                    <a class="nav-link" href="/admin"><i class="fas fa-cogs" style="color: #ec1d85; margin-right:5px;"></i>Admin Area</a>
                                 </li>
                             {% endif %}
                         {% endif %}
+                        {% if 'account' in request.url_rule.rule %}
+                        <li class="nav-item active">
+                        {% else %}
+                        <li class="nav-item">
+                        {% endif %}
+                            <a class="nav-link" href="/user/account"><i class="fa fa-user" style="color: #ec1d85; margin-right:5px;"></i>My Account</a>
+                        </li>
                         {% if 'auth/logout' in request.url_rule.rule %}
                         <li class="nav-item active">
                         {% else %}
                         <li class="nav-item">
                         {% endif %}
-                            <a class="nav-link" href="/auth/logout">Logout</a>
+                            <a class="nav-link" href="/auth/logout"><i class="fas fa-power-off" style="color: #ec1d85; margin-right:5px;"></i>Logout</a>
                         </li>
                     </ul>
                 </div>
                 {% endblock nav %}
+                {% endif %}
             </div>
         </nav>
         {% block content %}{% endblock %}

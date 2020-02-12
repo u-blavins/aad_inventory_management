@@ -1,4 +1,5 @@
-from utils import Database
+from utils.Database import Database
+
 
 class User:
     """ User Model """
@@ -11,10 +12,13 @@ class User:
                         ,[FirstName]
                         ,[LastName] 
                         ,[DepartmentCode]
-                        ,[isStaff]
+                        ,[Privileges]
                     FROM
                         [usr].[User]"""
-        rows = Database.execute_query(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
         users = []
 
         for row in rows:
@@ -35,10 +39,12 @@ class User:
 
         query = """
         SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode],
-        [isStaff] FROM [usr].[User] WHERE [ID] = '%s'
+        [Privileges] FROM [usr].[User] WHERE [ID] = '%s'
         """ % id
-
-        rows = Database.execute_query(query)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
         
         for row in rows:
             user = User()
@@ -51,12 +57,90 @@ class User:
 
         return user
 
-
-
     @staticmethod
     def get_user_by(key, value):
+        user = None
+
+        query = """
+        SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode],
+        [Privileges] FROM [usr].[User] WHERE %s = '%s'
+        """ % (key, value)
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+        
+        for row in rows:
+            user = User()
+            user.set_id(row[0])
+            user.set_email(row[1])
+            user.set_first_name(row[2])
+            user.set_last_name(row[3])
+            user.set_department_code(row[4])
+            user.set_user_level(row[5])
+
+        return user
+    @staticmethod
+    def get_user_approval():
+        query = """
+            SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode], [Privileges]
+            FROM [StoreManagement].[usr].[WaitingForApproval]                        
+            """
+
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+
         users = []
+
+        for row in rows:
+            user = User()
+            user.set_id(row[0])
+            user.set_email(row[1])
+            user.set_first_name(row[2])
+            user.set_last_name(row[3])
+            user.set_department_code(row[4])
+            user.set_user_level(row[5])
+            users.append(user)
+
         return users
+
+    @staticmethod
+    def update_user_privilege(id, privilege):
+        message = 'Unable to update user level'
+        user = User.get_user(id)
+        if user != None:
+            if privilege != user.get_user_level():
+                query = """
+                UPDATE [StoreManagement].[usr].[User] SET [Privileges] = '%s' WHERE [ID] = '%s'
+                """ % (privilege, id)
+                conn = Database.connect()
+                try:
+                    cursor = conn.cursor()
+                    Database.execute_non_query(query, cursor)
+                    cursor.commit()
+                    message = "Successfully updated user privilege"
+                except Exception as ex:
+                    message = "Error updating user privilege"
+                conn.close()
+            else:
+                message = "User privilege is already set as selected privilege"
+        return message
+
+    @staticmethod
+    def update_user_password(id, password):
+        result = 'Error with server'
+        user = User.get_user(id)
+        if user != None:
+            sproc = """ [usr].[updatePassword] @UserID = ?, @Password = ?"""
+            params = (id, password)
+            conn = Database.connect()
+            cursor = conn.cursor()
+            result = Database.execute_sproc(sproc, params, cursor)
+            cursor.commit()
+            conn.close()
+        return result
 
     def __init__(self):
         self.id = None
@@ -82,7 +166,7 @@ class User:
         return self
 
     def get_first_name(self):
-        return self['first_name']
+        return self.user['first_name']
 
     def set_last_name(self, lname):
         self.user['last_name'] = lname

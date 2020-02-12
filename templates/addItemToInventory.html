@@ -1,34 +1,69 @@
 {% extends "home.html" %}
-
 {% block content %}
 
-
 <div class="container text-center">
+	{% for message in get_flashed_messages() %}
+        <div class="container">
+        <div class="alert alert-danger">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ message }}
+		</div>
+	</div>
+    {% endfor %}
     <br>
-    <h3><ul>Add New Product To Stock</ul></h3>
+    <h3>Add New Item To Stock</h3>
     <br>
-	<br>
-	
-	<form action="/admin/stock" method="GET">
+	<form action="/items/add" method="POST">
 		<div class="form-group">
-		  <label>Product ID:</label>
-		  <input type="text" class="form-control" placeholder="Enter product ID" name="productId">
+		  <label>Item Code:</label>
+		  <input type="text" class="form-control inputShadowBox" placeholder="Enter item code" name="code" required>
 		</div>
 		<div class="form-group">
-		  <label>Product Name:</label>
-		  <input type="text" class="form-control" placeholder="Enter product name" name="productName">
+		  <label>Item Name:</label>
+		  <input type="text" class="form-control inputShadowBox" placeholder="Enter item name" name="name" required>
 		</div>
 		<div class="form-group">
 			<label>Quantity:</label>
-			<input type="number" class="form-control" placeholder="Enter quantity" name="quantity">
+			<input type="number" class="form-control inputShadowBox" placeholder="Enter quantity" name="quantity" required>
 		  </div>
 		  <div class="form-group">
-			<label>Risk Item:</label>
-			<input type="text" class="form-control" placeholder="Enter yes/no" name="riskItem">
+			<label>Price Per Item:</label>
+			<input type="number" class="form-control inputShadowBox" placeholder="Enter price per item" name="price" required>
 		  </div>
-		
-		  <button type="submit" class="btn btn-default">Add To Inventory</button>
+		  <div class="form-group">
+			<label>Minimum Threshold:</label>
+			<input type="number" class="form-control inputShadowBox" placeholder="Enter the min stock level this item should have" name="threshold" required>
+		  </div>
+		  <div class="form-group">
+			<br>
+		  <label>Available Unit Types for this item:</label>
+		  <br>
+		  <input type="checkbox" name="unitTypes[]" value="Single"> Single Item &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="Box"> Box &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="Gram"> Grams (g) &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="Kilogram"> Kilogram (kg) &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="Litre"> Litre (l) &nbsp;&nbsp;&nbsp;&nbsp;
+		  <input type="checkbox" name="unitTypes[]" value="ml"> Millilitre (ml)
+		</div>
+		  <div class="form-group">
+			  <br>
+			<label>Risk Item:</label>
+			<br>
+			<input type="radio" name="risk" value="1"> True &nbsp;
+			<input type="radio" name="risk" value="0" checked> False
+		  </div>
+		  <div class="form-group">
+			<br>
+		  <label>Automatic Purchase Order:</label>
+		  <br>
+		<input type="radio" name="purchase" value="1"> Yes &nbsp;
+		  <input type="radio" name="purchase" value="0" checked> No
+		</div>
+		  <br>
+		  <button type="submit" class="greenButton">Add To Inventory</button>
+		  <br>
+		  <br>
 	</form>
-    </div>
-</body>
+</div>
+		
 {% endblock %}

@@ -1,182 +1,40 @@
 {% extends "home.html" %}
 
 {% block content %}
-
-
-
-<div class="container">
-    <h2>Return Items</h2>
-
-
-
-  <div class="title">
-  <h4>Return Item from History Below</h4>
-  </div>
-  </div>
-  <style>
-    table{
-	  border-collapse: collapse;
-	  margin: auto;
-	  width: 75%;
-	}
-	td, th{
-		border: 3px solid lightgrey;
-		padding-top: 1%;
-		padding-bottom: 1%;
-	}
-	th{
-		font-family: Arial, Verdana, sans-serif;
-		font-weight: bold;
-		text-shadow: 3px ;
-	}
-    .title{
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-	tr:nth-child(odd){
-		background-color: whitesmoke;
-	}
-	tr:hover{
-	  background-color: pink;
-		color: white;
-	}
-	</style>
-
-	<script>
-	  let sortDirection = false;
-
-      window.onload = () => {
-      display();
-  };
-
-  </script>
-
-
-	  <tbody id="historyData"></tbody>
-  </table>
-
-  <html>
-
-    <head>
-        <meta charset="UTF-8">
-
-    </head>
-
-    <body id="body">
-
-        <div id="wrapper">
-            <table cellspacing=1 cellpadding=1 id="mytable">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Time Stamp</th>
-                        <th>Basket</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                </tbody>
-            </table>
-            <button onclick="submit()">Submit Changes</button>
+{% for message in get_flashed_messages() %}
+    <div class="container">
+        {% if 'Success' in message %}
+            <div class="alert alert-success">
+        {% else %}
+            <div class="alert alert-danger">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
         </div>
-        <p>work in progress</p>
-    </body>
-
-    </html>
-
-
-    <script>
-        var myArray = [{ "transactionCode": "123", "timeStamp": "18:45", "basket": "Blue Pens" + ", " + "Paper", "quantity": "5" + ", " + "1 "},
-                       { "transactionCode": "345", "timeStamp": "21:00", "basket": "300ml Tubes", "quantity": "10 " },
-                       { "transactionCode": "678", "timeStamp": "21:30", "basket": "whiteboard", "quantity": "1 " },
-                                                        ];
-
-        function display() {
-            var length = myArray.length;
-            var htmltext = "";
-
-            for (var i = 0; i < length; i++) {
-                console.log(myArray[i]);
-                htmltext += "<tr id='table"+i+"'><td>"
-                +myArray[i].transactionCode+
-                "</td><td>"
-                +myArray[i].timeStamp+
-                "</td><td>"
-                +myArray[i].basket+
-                "</td><td>"
-                +myArray[i].quantity+
-                "</td><td><button onclick='edit("+i+")'>Edit</button><button onclick='remove("+i+")'>Remove</button></td></tr>";
-            }
-            document.getElementById("tbody").innerHTML = htmltext;
-        }
-
-        function edit(indice) {
-            var htmltext = "<tr><td><input id='inputTransactionCode"+indice+"' type='text' value='"
-                +myArray[indice].transactionCode+
-
-                "'></td><td><input id='inputTimeStamp"+indice+"' type='text' value='"
-                +myArray[indice].timeStamp+
-
-                "'></td><td><input id='inputBasket"+indice+"' type='text' value='"
-                +myArray[indice].basket+
-
-                "'></td><td><input id='inputQuantity"+indice+"' type='text' value='"
-                +myArray[indice].quantity+
-
-                "'></td><td><button onclick='save("+indice+")'>Save</button><button onclick='remove("+indice+")'>Remove</button></td></tr>";
-            document.getElementById("table"+indice).innerHTML = htmltext;
-        }
-
-
-        function save(indice) {
-            var values = new Array();
-
-            //myArray[indice].transactionCode = document.getElementById("inputTransactionCode"+indice).value;
-            values.push("'" + myArray[indice].transactionCode[0].value + "'");
-
-            myArray[indice].timeStamp = document.getElementById("inputTimeStamp"+indice).value;
-            values.push("'" + myArray[indice].timeStamp + "'");
-
-            myArray[indice].basket = document.getElementById("inputBasket"+indice).value;
-            values.push("'" + myArray.basket + "'");
-            
-            myArray[indice].quantity = document.getElementById("inputQuantity"+indice).value;
-            values.push("'" + myArray.quantity + "'");
-
-            console.log(values);
-            /*push to database here*/
-
-            var htmltext = "<tr id='table"+indice+"'><td>"
-                +myArray[indice].transactionCode+
-                "</td><td>"
-                +myArray[indice].timeStamp+
-                "</td><td>"
-                +myArray[indice].basket+
-                "</td><td>"
-                +myArray[indice].quantity+
-                "</td><td><button onclick='edit("
-                +indice+")'>Edit</button><button onclick='remove("
-                +indice+")'>Remove</button></td></tr>";
-            document.getElementById("table"+indice).innerHTML = htmltext;
-        }
-
-
-        function remove(indice) {
-            console.log(myArray);
-            myArray.splice(indice, 1);
-            display();
-        }
-
-        function submit() {
-            console.log(myArray);
-            myArray.splice(indice, 1);
-            display();
-        }
-        
-    </script>
-<h5>edit button is for small changes</h5>
-<h5>remove button is to basically revert the entire order</h5>
-
+    </div>
+{% endfor %}
+<div class="container text-center">
+    <br>
+        <h3>Return Items</h3>
+    <hr>
+    <br>
+    <br>
+    <button id="addReturnRow" class="greenButton addButton" onclick="addReturnRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
+    <form id="remove-item-form" action="/api/returns/items" method="post">
+    <!-- <form id="remove-item-form"> -->
+        <br>
+        <br>
+        <div id="returnTableContainer" class="text-center"></div>
+        <br>
+        <h4>Enter Email</h4>
+        <input name="email" type="email" required>
+        <br>
+        <br>
+        <button type="submit" class="editButton" onclick="returnSubmit()" href="/basket">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
+    </form>
 </div>
+
+<script type="text/javascript">
+    createReturnTable();
+</script>
 {% endblock %}

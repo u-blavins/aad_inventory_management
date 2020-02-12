@@ -21,7 +21,6 @@
 
     function addRow() {
         var empTab = document.getElementById('empTable');
-
         var rowCnt = empTab.rows.length;
         var tr = empTab.insertRow(rowCnt);          // TABLE ROW.
         tr = empTab.insertRow(rowCnt);
