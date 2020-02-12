@@ -26,7 +26,7 @@ def index():
 
 @app.route('/home')
 def home():
-    return redirect(url_for('basket.add_item'))xw
+    return redirect(url_for('basket.add_item'))
 
 
 if __name__ == '__main__':

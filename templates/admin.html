@@ -6,7 +6,7 @@
     <h3>Admin Area</h3>
     <br>
     <ul class="list-group">
-    <a href="/admin/billing" class="adminAreaButton">View Department Billing</a>
+    <a href="/admin/billing" class="adminAreaButton">Department Billing</a>
     <br>
     {% if session['privilege'] == 2 %}
         <a href="/admin/purchase-order" class="adminAreaButton">View Purchase Orders</a>
@@ -20,12 +20,12 @@
     <br>
     <a href="/admin/returns" class="adminAreaButton">Return Items</a>
     <br>
-    <a href="/admin/accept-users" class="adminAreaButton">Accept/Deny Users</a>
+    <a href="/admin/accept-users" class="adminAreaButton">Approve/Deny Users</a>
     <br>
     {% if session['privilege'] == 2 %}
         <a href="/admin/view-users" class="adminAreaButton">View Users</a>
     {% elif session['privilege'] == 3 %}
-        <a href="/admin/view-users" class="adminAreaButton">View and Update Users</a>
+        <a href="/admin/view-users" class="adminAreaButton">Update User Privileges</a>
     {% endif %}
     </ul>
 </div>
