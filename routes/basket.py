@@ -57,6 +57,8 @@ def add_items_basket():
     if request.method == 'POST':
         if 'basket' not in session:
             session['basket'] = {}
+        
+        messages = []
 
         item = session['basket']
 
@@ -73,8 +75,12 @@ def add_items_basket():
                         if code not in item:
                             if ItemModel.is_risk_item(code) and session['privilege'] == 0:
                                 resp = {'Status':400}
+                                message = f'Not able to add {code} to basket'
+                                messages.append(message)
+                                flash(message)
                             else:
                                 resp = BasketControl.get_quantity(code, units[i], int(quantity[i]), 0)
+
                             if resp['Status'] == 200:
                                 item[code] = \
                                     {
@@ -83,6 +89,14 @@ def add_items_basket():
                                         },
                                         'quantity': int(resp['Info'])
                                     }
+                                message = f'Successfully added {code} to basket'
+                                flash(message)
+
+                            else:
+                                message = f'{code}: {units[i]} not able to add more than in stock'
+                                messages.append(message)
+                                flash(message)
+
                         else:
                             resp = BasketControl.get_quantity(
                                 code, units[i], int(quantity[i]), item[code]['quantity'])
@@ -92,8 +106,24 @@ def add_items_basket():
                                 else:
                                     item[code]['units'][units[i]] += int(quantity[i])
                                 item[code]['quantity'] = resp['Info']
+                                message = f'Successfully added {code} to basket'
+                                flash(message)
+                            else: 
+                                message = f'{code}: {units[i]} not able to add more than in stock'
+                                messages.append(message)
+                                flash(message)
+                    else:
+                        message = f'{code} does not have a unit type of {units[i]}'
+                        messages.append(message)
+                        flash(message)
+                else:
+                    message = f'{code} not within the store and has not been added to basket'
+                    messages.append(message)
+                    flash(message)
             session['basket'] = item
-    return redirect(url_for('basket.Basket'))
+            if len(messages) == 0:
+                return redirect(url_for('basket.Basket'))
+    return redirect(url_for('basket.add_item'))
 
 
 @basket.route('/basket/check-out')
