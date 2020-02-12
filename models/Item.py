@@ -23,17 +23,18 @@ class Item:
         conn.close()
 
         items = []
-
-        for row in rows:
-            item = Item()
-            item.set_code(row[0])
-            item.set_name(row[1])
-            item.set_risk(row[2])
-            item.set_price(row[3])
-            item.set_quantity(row[4])
-            item.set_threshold(row[5])
-            item.set_purchase_order(row[6])
-            items.append(item)
+        
+        if rows != []:
+            for row in rows:
+                item = Item()
+                item.set_code(row[0])
+                item.set_name(row[1])
+                item.set_risk(row[2])
+                item.set_price(row[3])
+                item.set_quantity(row[4])
+                item.set_threshold(row[5])
+                item.set_purchase_order(row[6])
+                items.append(item)
 
         return items
 
@@ -79,8 +80,10 @@ class Item:
         cursor = conn.cursor()
         rows = Database.execute_query(query, cursor)
         conn.close()
-        for row in rows:
-            codes.append(row[0])
+
+        if rows != []:
+            for row in rows:
+                codes.append(row[0])
 
         return codes
 
@@ -141,15 +144,22 @@ class Item:
 
     @staticmethod
     def is_risk_item(code):
+        is_risk = None
+
         query = f"""
         SELECT [Risk] FROM [StoreManagement].[itm].[Item] WHERE [Code] = '{code}'
         """ 
+
         conn = Database.connect()
         cursor = conn.cursor()
-        result = Database.execute_query(query, cursor)
+        rows = Database.execute_query(query, cursor)
         cursor.commit()
         conn.close()
-        return result[0][0]
+
+        if rows != []:
+            is_risk = rows[0][0]
+
+        return is_risk
 
     @staticmethod
     def get_unit_types(code):
@@ -166,8 +176,9 @@ class Item:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            units.append(row[0])
+        if rows != []:
+            for row in rows:
+                units.append(row[0])
 
         return units
 

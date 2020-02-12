@@ -5,6 +5,8 @@ class Billing:
 
     @staticmethod
     def get_billing_rows():
+        billing_rows = []
+
         query = """
             SELECT DISTINCT
                 [BillingMonth],
@@ -20,18 +22,19 @@ class Billing:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        billing_rows = []
-
-        for row in rows:
-            billing_row = Billing()
-            billing_row.set_billing_month(row[0])
-            billing_row.set_billing_year(row[1])
-            billing_rows.append(billing_row)
+        if rows != []:
+            for row in rows:
+                billing_row = Billing()
+                billing_row.set_billing_month(row[0])
+                billing_row.set_billing_year(row[1])
+                billing_rows.append(billing_row)
 
         return billing_rows
 
     @staticmethod
     def get_department_billing(year, month):
+        department_billing = []
+        
         query = f"""
             SELECT 
                 [DepartmentCode],
@@ -48,15 +51,32 @@ class Billing:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        department_billing = []
-
-        for row in rows:
-            department = Billing()
-            department.set_department_code(row[0])
-            department.set_total(row[1])
-            department_billing.append(department)
+        if rows != []:
+            for row in rows:
+                department = Billing()
+                department.set_department_code(row[0])
+                department.set_total(row[1])
+                department_billing.append(department)
 
         return department_billing
+
+    @staticmethod
+    def get_billing_month_name(month):
+        switcher = {
+            1: "January",
+            2: "February",
+            3: "March",
+            4: "April",
+            5: "May",
+            6: "June",
+            7: "July",
+            8: "August",
+            9: "September",
+            10: "October",
+            11: "November",
+            12: "December"
+        }
+        return switcher.get(month, "Invalid Month")
 
     def __init__(self):
         self.department_code = None
@@ -76,24 +96,6 @@ class Billing:
 
     def get_billing_month(self):
         return self.billing_info['billing_month']
-
-    @staticmethod
-    def get_billing_month_name(month):
-        switcher = {
-            1: "January",
-            2: "February",
-            3: "March",
-            4: "April",
-            5: "May",
-            6: "June",
-            7: "July",
-            8: "August",
-            9: "September",
-            10: "October",
-            11: "November",
-            12: "December"
-        }
-        return switcher.get(month, "Invalid Month")
 
     def set_billing_year(self, billing_year):
         self.billing_info['billing_year'] = billing_year
