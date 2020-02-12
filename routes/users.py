@@ -56,3 +56,18 @@ def reset_password(id):
                     flash(info[0][0])
     return redirect(url_for('users.user_account'))
 
+
+@users.route('/<transaction_id>', methods=['GET'])
+def department_transaction_info(transaction_id):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            transaction_info = TransactionInfoModel.get_transaction_info(transaction_id)
+            transaction = TransactionModel.get_transaction(transaction_id)
+            is_refund = transaction.get_refund()
+            if is_refund is False:
+                transaction_type = "order"
+            else:
+                transaction_type = "refund"
+            return render_template('transactioninfo.html', transaction_info=transaction_info,
+                                   transaction_id=transaction_id, type=transaction_type)
+    return redirect(url_for('admin.Admin'))
