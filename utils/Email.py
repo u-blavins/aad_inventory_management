@@ -33,11 +33,12 @@ class Email:
         return self
 
     def send_finance_report(self, month, year):
-        self.set_subject(f'Monthly Finance Report {month} {year}')
+        month_name = BillingModel.get_billing_month_name(month)
+        self.set_subject(f'Monthly Finance Report {month_name} {year}')
         BODY_HTML = f"""<html>
                     <body>
                     <h1>Finance Report</h1>
-                    <p>Please find attached the finance report for {month} {year}</p>
+                    <p>Please find attached the finance report for {month_name} {year}</p>
                     </body>
                     </html>
                     """
@@ -59,7 +60,7 @@ class Email:
         
         attachment = MIMENonMultipart('text', 'csv', charset='utf-8')
         attachment.add_header('Content-Disposition', 'attachment', 
-            filename=f'finance_report_{month}_{year}.csv')
+            filename=f'finance_report_{month_name}_{year}.csv')
         cs = Charset('utf-8')
         cs.body_encoding = BASE64
         attachment.set_payload(department_billing.encode('utf-8'), charset=cs)

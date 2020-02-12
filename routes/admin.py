@@ -354,7 +354,7 @@ def email_finance_report(year, month):
                 email = Email()
                 email.set_recipients(
                     ['N0692013@my.ntu.ac.uk', 'ublavins@gmail.com'])
-                info = email.send_finance_report(BillingModel.get_billing_month_name(int(month)), year)
+                info = email.send_finance_report(int(month), year)
                 flash(info)
     return redirect(url_for('admin.billing'))
 
