@@ -44,5 +44,5 @@ class TestPurchaseOrder:
         sut = self.mock_purchase_order.get_completion_date()
         assert sut == fake_date
 
-    def test_create_purchase_order_creates_purchase_order(self):
+    # def test_create_purchase_order_creates_purchase_order(self):
         
