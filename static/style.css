@@ -271,19 +271,14 @@ tr:hover{
   background-color: rgb(0,0,0); /* Black fallback color */
   background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
   overflow-x: hidden; /* Disable horizontal scroll */
-  overflow-y: hidden; 
+  overflow-y: hidden;
   transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
 }
 
 /* Position the content inside the overlay */
 .overlay-content {
-  position: relative;
-  top: 20%; /* 25% from the top */
-  width: 100%; /* 100% width */
-  height: 60vh;
-  text-align: center;
-  margin-top: 20px;
-  margin-left: 50vh; /* 30px top margin to avoid conflict with the close button on smaller screens */
+  margin-left: 50vw;
+  transform: translate(-50%);
 }
 
 /* The navigation links inside the overlay */
@@ -318,3 +313,4 @@ tr:hover{
     right: 35px;
   }
 }
+
