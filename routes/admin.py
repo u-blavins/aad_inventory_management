@@ -198,7 +198,7 @@ def accept_users():
 def view_users():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
-            users = UserModel.get_all_users()
+            users = UserModel.get_users_by('[isApproved]', 1)
             if len(users) != 0:
                 return render_template('users.html', users=users)
     return redirect(url_for('admin.Admin'))
