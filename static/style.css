@@ -288,7 +288,7 @@ tr:hover{
   padding: 8px;
   text-decoration: none;
   font-size: 36px;
-  color: #818181;
+  color: #ec1d85;
   display: block; /* Display block instead of inline */
   transition: 0.3s; /* Transition effects on hover (color) */
 }
