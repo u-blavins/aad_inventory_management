@@ -46,7 +46,7 @@ def purchase_order():
                                  'completion_date': order.get_completion_date()}
                 history.append(history_order)
 
-            return render_template('purchaseOrder.html', pending=pending,
+            return render_template('purchaseorder.html', pending=pending,
                                    history=history)
     return redirect(url_for('admin.Admin'))
 

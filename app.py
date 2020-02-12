@@ -26,15 +26,7 @@ def index():
 
 @app.route('/home')
 def home():
-    return redirect(url_for('basket.add_item'))
-
-@app.route('/returnItems')
-def returnItems():
-    return render_template('returnItems.html')
-
-@app.route('/viewStock')
-def viewStock():
-    return render_template('viewStock.html')
+    return redirect(url_for('basket.add_item'))xw
 
 
 if __name__ == '__main__':
