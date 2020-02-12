@@ -19,12 +19,13 @@ function createTable() {
     var div = document.getElementById('cont');
     div.appendChild(empTable);    // ADD THE TABLE TO YOUR WEB PAGE.
 
-    addRow();
 }
 
-function addRow() {
+function addRow(itemCode) {
     var empTab = document.getElementById('empTable');
-
+    if (itemCode === undefined) {
+        itemCode = '';
+    }
     var rowCnt = empTab.rows.length;
     var tr = empTab.insertRow(rowCnt);
     tr = empTab.insertRow(rowCnt);
@@ -48,7 +49,7 @@ function addRow() {
                 // Function to add more text boxes.
                 var ele = document.createElement('input');
                 ele.setAttribute('type', 'text');
-                ele.setAttribute('value', '');
+                ele.setAttribute('value', itemCode);
                 ele.setAttribute('name', 'codes[]');
                 ele.setAttribute('class', 'tableInput');
                 ele.required = true;

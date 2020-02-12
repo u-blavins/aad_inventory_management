@@ -148,4 +148,3 @@ def receipt(trans_id):
         price['total'] = BasketControl.get_price(session['basket'])
     session['basket'] = {}
     return render_template('receipt.html', basket=basket, price=price, transaction=transaction)
-    
