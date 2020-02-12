@@ -9,8 +9,7 @@
         <hr>
         <br>
         <button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button> 
-        <button id="scanRow" class="greenButton addButton" onclick="scanItem()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Scan Item </button>
-        <div id="scanArea"></div>
+        <button id="scanRow" class="greenButton addButton" onclick="openNav()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Scan Item </button>
         <!-- <form id="add-item-form" method="post" action="/basket/add"> -->
         <form id="add-item-form" method="post" action="/basket/add">
             <div id="cont" class="text-center"></div>
@@ -18,11 +17,35 @@
             <br>
             <button class="editButton" type="submit" onclick="submit()">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
         </form>
-    </div>
+        <!-- The overlay -->
+<div id="myNav" class="overlay">
+
+  <!-- Button to close the overlay navigation -->
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+  <!-- Overlay content -->
+  <div class="overlay-content" id="scanArea">
+  </div>
+
+</div>
+
+</div>
 
     <script type="text/javascript">
     createTable();
-    function scanItem(){
+
+
+        Quagga.onDetected(function (data){
+            var result = data;
+            var code = result['codeResult']['code'];
+            addRow(code);
+            closeNav();
+    });
+
+/* Open when someone clicks on the span element */
+function openNav() {
+  document.getElementById("myNav").style.width = "100%";
+
         Quagga.init({
         inputStream : {
           name : "Live",
@@ -40,13 +63,13 @@
           console.log("Initialization finished. Ready to start");
           Quagga.start();
         });
-        }
-        Quagga.onDetected(function (data){
-            var result = data;
-            var code = result['codeResult']['code'];
-            Quagga.stop();
-            addRow(code);
-    });
+}
+
+/* Close when someone clicks on the "x" symbol inside the overlay */
+function closeNav() {
+  Quagga.stop();
+  document.getElementById("myNav").style.width = "0%";
+}
     </script>
 </div>
 {% endblock %}
