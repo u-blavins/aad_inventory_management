@@ -55,3 +55,4 @@ def reset_password(id):
                     info = UserModel.update_user_password(id, password)
                     flash(info[0][0])
     return redirect(url_for('users.user_account'))
+

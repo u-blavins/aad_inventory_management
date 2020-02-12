@@ -108,7 +108,3 @@ def units():
     return jsonify(units=units_collection)
 
 
-@items.route('/items/scan')
-def scan():
-    if 'user_id' in session:
-        return render_template('scanner.html')

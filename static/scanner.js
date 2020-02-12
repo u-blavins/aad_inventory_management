@@ -2,10 +2,10 @@ Quagga.init({
     inputStream : {
       name : "Live",
       type : "LiveStream",
-      target: document.querySelector('#yourElement')    // Or '#yourElement' (optional)
+      target: document.querySelector('#test')    // Or '#yourElement' (optional)
     },
     decoder : {
-      readers : ["code_128_reader"]
+      readers : ['code_128_reader']
     }
   }, function(err) {
       if (err) {
@@ -14,4 +14,10 @@ Quagga.init({
       }
       console.log("Initialization finished. Ready to start");
       Quagga.start();
+  });
+
+  Quagga.onDetected(function (data){
+        var result = data;
+        alert(result['codeResult']['code']);
+        Quagga.stop();
   });

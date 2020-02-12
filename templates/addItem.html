@@ -9,7 +9,8 @@
         <hr>
         <br>
         <button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button> 
-
+        <button id="scanRow" class="greenButton addButton" onclick="scanItem()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Scan Item </button>
+        <div id="scanArea"></div>
         <!-- <form id="add-item-form" method="post" action="/basket/add"> -->
         <form id="add-item-form" method="post" action="/basket/add">
             <div id="cont" class="text-center"></div>
@@ -20,7 +21,32 @@
     </div>
 
     <script type="text/javascript">
-        createTable();
+    createTable();
+    function scanItem(){
+        Quagga.init({
+        inputStream : {
+          name : "Live",
+          type : "LiveStream",
+          target: document.querySelector('#scanArea')    // Or '#yourElement' (optional)
+        },
+        decoder : {
+          readers : ['code_128_reader']
+        }
+        }, function(err) {
+          if (err) {
+              console.log(err);
+              return
+          }
+          console.log("Initialization finished. Ready to start");
+          Quagga.start();
+        });
+        }
+        Quagga.onDetected(function (data){
+            var result = data;
+            var code = result['codeResult']['code'];
+            Quagga.stop();
+            addRow(code);
+    });
     </script>
 </div>
 {% endblock %}
