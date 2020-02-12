@@ -60,13 +60,13 @@ class User:
         return user
 
     @staticmethod
-    def get_user_by(key, value):
-        user = None
+    def get_users_by(key, value):
+        users = []
 
-        query = """
+        query = f"""
         SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode],
-        [Privileges] FROM [usr].[User] WHERE %s = '%s'
-        """ % (key, value)
+        [Privileges] FROM [usr].[User] WHERE {key} = {value}
+        """
         conn = Database.connect()
         cursor = conn.cursor()
         rows = Database.execute_query(query, cursor)
@@ -81,8 +81,9 @@ class User:
                 user.set_last_name(row[3])
                 user.set_department_code(row[4])
                 user.set_user_level(row[5])
+                users.append(user)
 
-        return user
+        return users
 
     @staticmethod
     def get_user_approval():

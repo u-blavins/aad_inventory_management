@@ -46,7 +46,7 @@ def purchase_order():
                                  'completion_date': order.get_completion_date()}
                 history.append(history_order)
 
-            return render_template('purchaseOrder.html', pending=pending,
+            return render_template('purchaseorder.html', pending=pending,
                                    history=history)
     return redirect(url_for('admin.Admin'))
 
@@ -198,7 +198,7 @@ def accept_users():
 def view_users():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
-            users = UserModel.get_all_users()
+            users = UserModel.get_users_by('[isApproved]', 1)
             if len(users) != 0:
                 return render_template('users.html', users=users)
     return redirect(url_for('admin.Admin'))
@@ -354,7 +354,7 @@ def email_finance_report(year, month):
                 email = Email()
                 email.set_recipients(
                     ['N0692013@my.ntu.ac.uk', 'ublavins@gmail.com'])
-                info = email.send_finance_report(BillingModel.get_billing_month_name(int(month)), year)
+                info = email.send_finance_report(int(month), year)
                 flash(info)
     return redirect(url_for('admin.billing'))
 
