@@ -346,22 +346,6 @@ def department_transaction(year, month, department):
     return redirect(url_for('admin.Admin'))
 
 
-@admin.route('/admin/<transaction_id>', methods=['GET'])
-def department_transaction_info(transaction_id):
-    if request.method == 'GET':
-        if 'privilege' in session:
-            if session['privilege'] in [2, 3]:
-                transaction_info = TransactionInfoModel.get_transaction_info(transaction_id)
-                transaction = TransactionModel.get_transaction(transaction_id)
-                is_refund = transaction.get_refund()
-                if is_refund is False:
-                    transaction_type = "order"
-                else:
-                    transaction_type = "refund"
-                return render_template('transactioninfo.html', transaction_info=transaction_info,
-                                       transaction_id=transaction_id, type=transaction_type)
-
-
 @admin.route('/admin/billing/email/<year>/<month>', methods=['GET'])
 def email_finance_report(year, month):
     if request.method == 'GET':
@@ -373,3 +357,5 @@ def email_finance_report(year, month):
                 info = email.send_finance_report(BillingModel.get_billing_month_name(int(month)), year)
                 flash(info)
     return redirect(url_for('admin.billing'))
+
+

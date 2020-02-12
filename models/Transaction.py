@@ -87,6 +87,7 @@ class Transaction:
             [Price], [TransactionDate], [IsRefund] FROM 
             [itm].[Transaction] WHERE [UserID] = '{user_id}'
             AND [IsRefund] = {is_refund}
+            ORDER BY [TransactionDate] DESC
         """
         conn = Database.connect()
         cursor = conn.cursor()
@@ -136,11 +137,12 @@ class Transaction:
     def get_all_transactions_by_refund(is_refund):
         transactions = []
 
-        query = """
+        query = f"""
         SELECT [TransactionID], [UserID], [DepartmentCode],
             [Price], [TransactionDate], [IsRefund] FROM 
-            [itm].[Transaction] WHERE [IsRefund] = '%s'
-        """ % is_refund
+            [itm].[Transaction] WHERE [IsRefund] = {is_refund}
+            ORDER BY [TransactionDate] DESC
+        """
 
         conn = Database.connect()
         cursor = conn.cursor()
