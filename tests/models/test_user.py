@@ -98,25 +98,26 @@ class TestUser:
 
     @patch('models.User.Database.connect', return_value=MagicMock(), autospec=True)
     @patch('models.User.Database.execute_query', 
-            return_value=[('user1', 'email1', 'fname1', 'lname1', 'deptcode1', 1)], 
+            return_value=[('user1', 'email1', 'fname1', 'lname1', 'deptcode1', 1),
+            ('user7', 'email7', 'fname7', 'lname7', 'deptcode1', 1)], 
             autospec=True)
-    def test_get_user_by_returns_user_if_key_exists(self, mock_connect, mock_exec):
+    def test_get_users_by_returns_user_if_key_exists(self, mock_connect, mock_exec):
         """ Test Success: User are returned if key found """
         fake_key = '[Email]'
         fake_value = 'email1'
-        sut = User.get_user_by(fake_key, fake_value)
-        assert isinstance(sut, User)
-        assert sut.get_email() == fake_value
-        assert sut.get_first_name() == 'fname1'
+        sut = User.get_users_by(fake_key, fake_value)
+        assert isinstance(sut, list)
+        assert len(sut) == 2
 
     @patch('models.User.Database.connect', return_value=MagicMock(), autospec=True)
     @patch('models.User.Database.execute_query', return_value=[], autospec=True)
-    def test_get_user_by_returns_none_if_key_does_not_exist(self, mock_connect, mock_exec):
+    def test_get_users_by_returns_none_if_key_does_not_exist(self, mock_connect, mock_exec):
         """ Test Failure: User are returned if key found """
         fake_key = '[Email]'
         fake_value = 'email3'
-        sut = User.get_user_by(fake_key, fake_value)
-        assert sut == None
+        sut = User.get_users_by(fake_key, fake_value)
+        assert isinstance(sut, list)
+        assert len(sut) == 0
 
     @patch('models.User.Database.connect', return_value=MagicMock(), autospec=True)
     @patch('models.User.Database.execute_query', 
