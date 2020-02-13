@@ -74,8 +74,8 @@ def add_items_basket():
                     if units[i] in ItemModel.get_unit_types(code):
                         if code not in item:
                             if ItemModel.is_risk_item(code) and session['privilege'] == 0:
-                                resp = {'Status':400}
-                                message = f'Not able to add {code} to basket'
+                                resp = {'Status': 0}
+                                message = f'Not able to add {code} to basket due to being risk item'
                                 messages.append(message)
                                 flash(message)
                             else:
@@ -92,7 +92,7 @@ def add_items_basket():
                                 message = f'Successfully added {code} to basket'
                                 flash(message)
 
-                            else:
+                            if resp['Status'] == 400:
                                 message = f'{code}: {units[i]} not able to add more than in stock'
                                 messages.append(message)
                                 flash(message)
