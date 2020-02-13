@@ -1,9 +1,13 @@
 {% extends "home.html" %}
 
 {% block content %}
-    <div class="container text-center">
+<div class="container">
+	<br>
+	<a class="editButton" href="/admin/billing"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+	<br>
+    <div class="text-center">
         <br>
-	    <h3>Billing Info for {{month_name}} {{year}}</h3>
+	    <h3>Billing for {{month_name}} {{year}}</h3>
 	    <hr>
         <div class="table-responsive">
 	    <table class="table">
@@ -17,17 +21,18 @@
             <tbody>
                 {% for billing_row in billing_rows %}
                     <tr>
-                        <th>{{billing_row.department_code}}</th>
-                        <th>{{billing_row.total}}</th>
-                        <th>
+                        <td>{{billing_row.department_code}}</td>
+                        <td>{{billing_row.total}}</td>
+                        <td>
 						    <form method="GET" action="/admin/billing/info/{{year}}/{{month}}/{{billing_row.department_code}}">
                     		    <button type="submit" class="adminButton"><i class="fas fa-search"></i> View Transactions</button>
                     	    </form>
-					    </th>
+					    </td>
                     </tr>
                 {% endfor %}
             </tbody>
             </table>
         </div>
     </div>
+</div>
 {% endblock %}

@@ -63,7 +63,7 @@
               <td>{{order.get_price()}}</td>
               <td>{{order.get_transaction_date()}}</td>
               <th>
-                <form method="GET" action="/transaction/{{order.get_transaction_id()}}">
+                <form method="GET" action="/user/account/{{order.get_transaction_id()}}">
                   <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Order</button>
                 </form>
               </th>
@@ -74,6 +74,7 @@
     </div>
   {% endif %}
   {% if refunds|length %}
+  <br>
     <h3>My Refunds</h3>
     <hr>
     <div class="table-responsive">
@@ -93,7 +94,7 @@
               <td>{{refund.get_price()}}</td>
               <td>{{refund.get_transaction_date()}}</td>
               <th>
-                <form method="GET" action="/transaction/{{refund.get_transaction_id()}}">
+                <form method="GET" action="/user/account/{{refund.get_transaction_id()}}">
                   <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Refund</button>
                 </form>
               </th>
