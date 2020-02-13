@@ -140,7 +140,7 @@ def checkout():
             cursor = conn.cursor()
             basket = session['basket']
             sproc = "[itm].[createTransaction] @UserID = ?, @Price = ?, @isRefund = ?"
-            params = (session['user_id'], BasketControl.get_price(basket), 0)
+            params = (session['user_id'], round(BasketControl.get_price(basket), 2), 0)
             trans_id = Database.execute_sproc(sproc, params, cursor)
             cursor.commit()
             for item in basket:
