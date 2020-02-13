@@ -17,7 +17,11 @@
     <a class="editButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
     <div class="text-center">
         <br>
+        {% if session['privilege'] == 3 %}
         <h3>Update User Privileges</h3>
+        {% elif session['privilege'] == 2 %}
+        <h3>View Users</h3>
+        {% endif %}
         <hr>
         <th class="table-responsive">
         <table class="table">
