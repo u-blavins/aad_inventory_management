@@ -117,9 +117,14 @@ def add_items_basket():
                         messages.append(message)
                         flash(message)
                 else:
-                    message = f'{code} not within the store and has not been added to basket'
-                    messages.append(message)
-                    flash(message)
+                    if code != '':
+                        message = f'{code} does not exist and has not been added to basket'
+                        messages.append(message)
+                        flash(message)
+                    else:
+                        message = 'Error: fields must not be blank'
+                        messages.append(message)
+                        flash(message)
             session['basket'] = item
             if len(messages) == 0:
                 return redirect(url_for('basket.Basket'))

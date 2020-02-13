@@ -1,7 +1,6 @@
 {% extends "home.html" %}
-
 {% block content %}
-<div>
+
     {% for message in get_flashed_messages() %}
     <div class="container">
         {% if 'Success' in message %}
@@ -13,6 +12,7 @@
         {{ message }}
         </div>
     </div>
+</div>
     {% endfor %}
     <div class="container text-center">
         <br>
@@ -51,7 +51,6 @@
 
     
 
-/* Open when someone clicks on the span element */
 function openNav() {
   document.getElementById("myNav").style.width = "100%";
 
@@ -59,7 +58,7 @@ function openNav() {
         inputStream : {
           name : "Live",
           type : "LiveStream",
-          target: document.querySelector('#scanArea')    // Or '#yourElement' (optional)
+          target: document.querySelector('#scanArea')
         },
         decoder : {
           readers : ['code_128_reader']
@@ -74,11 +73,9 @@ function openNav() {
         });
 }
 
-/* Close when someone clicks on the "x" symbol inside the overlay */
 function closeNav() {
   Quagga.stop();
   document.getElementById("myNav").style.width = "0%";
 }
-    </script>
-</div>
+</script>
 {% endblock %}
