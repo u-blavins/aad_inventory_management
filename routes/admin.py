@@ -154,7 +154,7 @@ def return_items():
         email = request.form['email']
         if email != '':
             user = UserModel.get_user_by('[Email]', email)
-            if user != None:
+            if user != []:
                 codes = request.form.getlist('codes[]')
                 quantity = request.form.getlist('quantity[]')
                 unit_types = request.form.getlist('unitTypes[]')
@@ -198,7 +198,7 @@ def accept_users():
 def view_users():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
-            users = UserModel.get_users_by('[isApproved]', 1)
+            users = UserModel.get_registered_users()
             if len(users) != 0:
                 return render_template('users.html', users=users)
     return redirect(url_for('admin.Admin'))

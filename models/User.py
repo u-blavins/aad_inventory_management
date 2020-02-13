@@ -58,12 +58,12 @@ class User:
         return user
 
     @staticmethod
-    def get_users_by(key, value):
+    def get_registered_users():
         users = []
 
         query = f"""
         SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode],
-        [Privileges] FROM [usr].[User] WHERE {key} = {value}
+        [Privileges] FROM [usr].[User] WHERE [isApproved] = 1
         """
         conn = Database.connect()
         cursor = conn.cursor()
@@ -82,6 +82,31 @@ class User:
                 users.append(user)
 
         return users
+
+    @staticmethod
+    def get_user_by(key, value):
+        user = None
+
+        query = f"""
+        SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode],
+        [Privileges] FROM [usr].[User] WHERE {key} = '{value}'
+        """
+        conn = Database.connect()
+        cursor = conn.cursor()
+        rows = Database.execute_query(query, cursor)
+        conn.close()
+        
+        if rows != []:
+            for row in rows:
+                user = User()
+                user.set_id(row[0])
+                user.set_email(row[1])
+                user.set_first_name(row[2])
+                user.set_last_name(row[3])
+                user.set_department_code(row[4])
+                user.set_user_level(row[5])
+
+        return user
 
     @staticmethod
     def get_user_approval():
