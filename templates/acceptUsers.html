@@ -1,9 +1,12 @@
 {% extends "home.html" %}
 
 {% block content %}
-<div>
-    <div class="container text-center">
+<div class="container">
+    <br>
+    <a class="editButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+		<br>
         <br>
+        <div class="text-center">
             <h3>Approve/Deny Users</h3>
         <hr>
         <br>
@@ -52,9 +55,6 @@
     </div>
     {% else %}
         <h4>No new user registrations</h4>
-        <br>
-        <br>
-		<a class="adminButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i>Admin Area </a> 
 	{% endif %}
 </div>
 </div>

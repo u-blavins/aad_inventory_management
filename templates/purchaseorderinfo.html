@@ -1,15 +1,18 @@
 {% extends "home.html" %}
-
 {% block content %}
-    <div class="container text-center">
-        <br>
-	    <h3>Purchase Order Info: {{order_id}}</h3>
+
+    <div class="container">
+		<br>
+		<a class="editButton" href="/admin/purchase-order"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+		<br>
+		<div class="text-center">
+	    <h3>Purchase Order: {{order_id}}</h3>
 	    <hr>
     <div class="table-responsive">
 	    <table class="table">
 	        <thread>
 		        <tr>
-			        <th>ItemCode</th>
+			        <th>Item Code</th>
 			        <th>Quantity</th>
                     <th>Delivered</th>
 					<th>Approved By</th>
@@ -18,20 +21,21 @@
 	        <tbody id="Info">
 			{% for info in order_info %}
 				<tr>
-					<th>{{info.item_code}}</th>
-					<th>{{info.quantity}}</th>
-					<th>
+					<td>{{info.item_code}}</td>
+					<td>{{info.quantity}}</td>
+					<td>
 						{% if info.get('completion_date') == 'Pending': %}
 							<form method= "POST" action="/admin/purchase-order/{{order_id}}/{{info.item_code}}">
-								<button type="submit" class="greenButton"><i class="fas fa-check-circle"></i>Confirm</button>
+								<button type="submit" class="greenButton"><i class="fas fa-check-circle"></i> Confirm</button>
 							</form>
 						{% else %}{{info.completion_date}}{% endif %}
-					</th>
-					<th>{{info.approved_by}}</th>
+					</td>
+					<td>{{info.approved_by}}</td>
                 </tr>
 			{% endfor %}
 			</tbody>
 	        </table>
 	    </div>
 	</div>
+</div>
 {% endblock %}

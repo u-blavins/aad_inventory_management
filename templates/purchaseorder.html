@@ -1,15 +1,16 @@
 {% extends "home.html" %}
 
 {% block content %}
-    <div class="container text-center">
+    <div class="container">
 		{% if 'privilege' in session %}
 			{% if session['privilege'] == 3 %}
-				<br>
-				<h3>Create Purchase Order</h3>
+			<br>
+			<a class="editButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+			<div class="text-center">
+			<h3>Create Purchase Order</h3>
 				<hr>
-				<button id="addPurchaseOrderRow" class="greenButton addButton" onclick="addPurchaseOrderRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
+				<button id="addPurchaseOrderRow" class="adminButton addButton" onclick="addPurchaseOrderRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i> Add Item </button>
 
-				<!-- THE CHANGES BELOW / ADD UR OWN FORM action/BUTTON-->
 				<form id="" method="POST" action="/admin/purchase-order/create">
 					<div id="purchase-order-cont" class="text-center"></div>
 					<br>
@@ -18,7 +19,7 @@
 				</form>
 			{% endif %}
 		{% endif %}
-		<!-- ^^ -->
+		<br>
 		<br>
 		<br>
 		<h3>Pending Purchase Orders</h3>
@@ -37,19 +38,19 @@
 		        <tbody id="Pending">
 				{% for purchase_order in pending %}
 					<tr>
-						<th>{{purchase_order.purchase_order_id}}</th>
-						<th>{{purchase_order.generated_by}}</th>
-						<th>{{purchase_order.generated_date}}</th>
-                        <th>
+						<td>{{purchase_order.purchase_order_id}}</td>
+						<td>{{purchase_order.generated_by}}</td>
+						<td>{{purchase_order.generated_date}}</td>
+                        <td>
                             <form method="GET" action="/admin/purchase-order/{{purchase_order.purchase_order_id}}">
-                                <button type="submit" class="adminButton" style="padding: 2px 7px;"><i class="fas fa-search"></i> View</button>
+                                <button type="submit" class="adminButton"><i class="fas fa-search"></i> View</button>
                             </form>
-                        </th>
-						<th>
+                        </td>
+						<td>
 							<form method="GET" action="/admin/purchase-order/download/{{purchase_order.purchase_order_id}}">
-                                <button type="submit" class="adminButton" style="padding: 2px 7px;"><i class="fas fa-cloud-download-alt"></i> Download</button>
+                                <button type="submit" class="adminButton"><i class="fas fa-cloud-download-alt"></i> Download</button>
                             </form>
-						</th>
+						</td>
 					</tr>
 				{% endfor %}
 		        </tbody>
@@ -74,20 +75,20 @@
 		        <tbody id="PurchaseOrderHistory">
 				{% for purchase_order in history %}
 					<tr>
-							<th>{{purchase_order.purchase_order_id}}</th>
-							<th>{{purchase_order.generated_by}}</th>
-							<th>{{purchase_order.generated_date}}</th>
-							<th>{{purchase_order.completion_date}}</th>
-							<th>
+							<td>{{purchase_order.purchase_order_id}}</td>
+							<td>{{purchase_order.generated_by}}</td>
+							<td>{{purchase_order.generated_date}}</td>
+							<td>{{purchase_order.completion_date}}</td>
+							<td>
 								<form method="GET" action="/admin/purchase-order/{{purchase_order.purchase_order_id}}">
 									<button type="submit" class="adminButton" style="padding: 2px 7px;"><i class="fas fa-search"></i> View</button>
 								</form>
-							</th>
-							<th>
+							</td>
+							<td>
 								<form method="GET" action="/admin/purchase-order/download/{{purchase_order.purchase_order_id}}">
 									<button type="submit" class="adminButton" style="padding: 2px 7px;"><i class="fas fa-cloud-download-alt"></i> Download</button>
 								</form>
-							</th>
+							</td>
 					</tr>
 				{% endfor %}
 		        </tbody>
@@ -96,5 +97,6 @@
 		<script type="text/javascript">
 			createTable();
 		</script>
-    </div>
+	</div>
+	</div>
 {% endblock %}

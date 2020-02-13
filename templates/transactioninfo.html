@@ -1,7 +1,15 @@
 {% extends "home.html" %}
 
 {% block content %}
-   <div class="container text-center">
+<div class="container">
+  <br>
+  {% if '/admin/billing/info/' in request.url_rule.rule %}
+    <a class="editButton" href="/admin/billing/info/{{year}}/{{month}}/{{department}}"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+  {% else %}
+  <a class="editButton" href="/user/account"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+  {% endif %}
+    <br>
+   <div class="text-center">
        <h3>Info for {{type}} {{transaction_id}}</h3>
         <hr>
         <div class="table-responsive">
@@ -25,4 +33,5 @@
           </table>
         </div>
    </div>
+</div>
 {% endblock %}

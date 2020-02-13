@@ -342,7 +342,8 @@ def department_transaction(year, month, department):
                 return render_template('transaction.html', transactions=department_transactions,
                                        refunds=department_refunds,
                                        transaction_title=f'Orders for department code {department} for {month_name} {year}',
-                                       refunds_title=f'Refunds for department code {department} for {month_name} {year}')
+                                       refunds_title=f'Refunds for department code {department} for {month_name} {year}',
+                                       year=year, month=month, department=department)
     return redirect(url_for('admin.Admin'))
 
 
@@ -357,5 +358,20 @@ def email_finance_report(year, month):
                 info = email.send_finance_report(int(month), year)
                 flash(info)
     return redirect(url_for('admin.billing'))
+
+@admin.route('/admin/billing/info/<year>/<month>/<department>/<transaction_id>', methods=['GET'])
+def department_transaction_info(year, month, department, transaction_id):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            transaction_info = TransactionInfoModel.get_transaction_info(transaction_id)
+            transaction = TransactionModel.get_transaction(transaction_id)
+            is_refund = transaction.get_refund()
+            if is_refund is False:
+                transaction_type = "order"
+            else:
+                transaction_type = "refund"
+            return render_template('transactioninfo.html', transaction_info=transaction_info,
+                                   transaction_id=transaction_id, type=transaction_type, year=year, month=month, department=department)
+    return redirect(url_for('admin.Admin'))
 
 
