@@ -354,7 +354,7 @@ def email_finance_report(year, month):
             if session['privilege'] in [2, 3]:
                 email = Email()
                 email.set_recipients(
-                    ['N0692013@my.ntu.ac.uk', 'ublavins@gmail.com'])
+                    ['N0680337@my.ntu.ac.uk', 'N0692013@my.ntu.ac.uk', 'ublavins@gmail.com'])
                 info = email.send_finance_report(int(month), year)
                 flash(info)
     return redirect(url_for('admin.billing'))

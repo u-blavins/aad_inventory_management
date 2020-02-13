@@ -1,8 +1,8 @@
 {% extends "home.html" %}
-
 {% block content %}
-<div class="container">
+
     {% for message in get_flashed_messages() %}
+    <div class="container">
         {% if 'Success' in message %}
             <div class="alert alert-success">
         {% else %}
@@ -12,12 +12,18 @@
         {{ message }}
         </div>
     </div>
+    </div>
     {% endfor %}
     <br>
+    <div class="container">
     <a class="editButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
     <div class="text-center">
         <br>
+        {% if session['privilege'] == 3 %}
         <h3>Update User Privileges</h3>
+        {% elif session['privilege'] == 2 %}
+        <h3>View Users</h3>
+        {% endif %}
         <hr>
         <th class="table-responsive">
         <table class="table">
@@ -61,5 +67,5 @@
             {% endfor %}
         </table>
     </div>
-    </div>
+</div>
 {% endblock %}
