@@ -75,7 +75,7 @@ def add_items_basket():
                         if code not in item:
                             if ItemModel.is_risk_item(code) and session['privilege'] == 0:
                                 resp = {'Status': 0}
-                                message = f'Not able to add {code} to basket due to being risk item'
+                                message = f'Not able to add {code} to basket due to being a risk item'
                                 messages.append(message)
                                 flash(message)
                             else:
@@ -89,8 +89,8 @@ def add_items_basket():
                                         },
                                         'quantity': int(resp['Info'])
                                     }
-                                message = f'Successfully added {code} to basket'
-                                flash(message)
+                                # message = f'Successfully added {code} to basket'
+                                # flash(message)
 
                             if resp['Status'] == 400:
                                 message = f'{code}: {units[i]} not able to add more than in stock'
@@ -106,14 +106,14 @@ def add_items_basket():
                                 else:
                                     item[code]['units'][units[i]] += int(quantity[i])
                                 item[code]['quantity'] = resp['Info']
-                                message = f'Successfully added {code} to basket'
-                                flash(message)
+                                # message = f'Successfully added {code} to basket'
+                                # flash(message)
                             else: 
                                 message = f'{code}: {units[i]} not able to add more than in stock'
                                 messages.append(message)
                                 flash(message)
                     else:
-                        message = f'{code} does not have a unit type of {units[i]}'
+                        message = f'{code} does not have unit type {units[i]}'
                         messages.append(message)
                         flash(message)
                 else:
