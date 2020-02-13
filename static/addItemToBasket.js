@@ -45,29 +45,30 @@ function addRow(itemCode) {
             td.appendChild(button);
         }
 
-            if (c == 0 ) { //Product Code
-                // Function to add more text boxes.
-                var ele = document.createElement('input');
-                ele.setAttribute('type', 'text');
-                ele.setAttribute('value', itemCode);
-                ele.setAttribute('name', 'codes[]');
-                ele.setAttribute('class', 'tableInput');
-                ele.required = true;
-                td.appendChild(ele);
-            }
+        if (c == 0 ) { //Product Code
+            // Function to add more text boxes.
+            var ele = document.createElement('input');
+            ele.setAttribute('type', 'text');
+            ele.setAttribute('value', itemCode);
+            ele.setAttribute('name', 'codes[]');
+            ele.setAttribute('class', 'tableInput');
+            ele.required = true;
+            td.appendChild(ele);
+        }
 
-            if (c == 1 ) { // quantity
-                var ele = document.createElement('input');
-                ele.setAttribute('type', 'number');
-                ele.setAttribute('value', '');
-                ele.setAttribute('name', 'quantity[]');
-                ele.setAttribute('class', 'tableInput');
-                ele.required = true;
-                td.appendChild(ele);    
-            }
+        if (c == 1 ) { // quantity
+            var ele = document.createElement('input');
+            ele.setAttribute('type', 'number');
+            ele.setAttribute('value', '');
+            ele.setAttribute('name', 'quantity[]');
+            ele.setAttribute('class', 'tableInput');
+            ele.required = true;
+            td.appendChild(ele);    
+        }
 
         if (c ==  2) { //Unit Type
             var items = {
+                'Select Unit': '',
                 'Item(s)': 'Single',
                 'Box(es)': 'Box',
                 'Millilitre(s)': 'ml',
@@ -78,6 +79,7 @@ function addRow(itemCode) {
             var sel = document.createElement('select');
             sel.setAttribute('name', 'unitType[]');
             sel.setAttribute('class', 'dropdownList tableInput');
+            sel.required = true;
             for (prop in items) {
                 var opt = document.createElement('option');
                 opt.text = prop;

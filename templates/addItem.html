@@ -2,7 +2,18 @@
 
 {% block content %}
 <div>
-
+    {% for message in get_flashed_messages() %}
+    <div class="container">
+        {% if 'Success' in message %}
+            <div class="alert alert-success">
+        {% else %}
+            <div class="alert alert-danger">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+        </div>
+    </div>
+    {% endfor %}
     <div class="container text-center">
         <br>
             <h3>Add Items to Basket</h3>
@@ -11,11 +22,11 @@
         <button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button> 
         <button id="scanRow" class="greenButton addButton" onclick="openNav()"><i class="fas fa-barcode" style="margin-right: 5px;"></i>Scan Item </button>
         <!-- <form id="add-item-form" method="post" action="/basket/add"> -->
-        <form id="add-item-form" method="post" action="/basket/add">
+        <form id="add-item-form" action="/basket/add" method="post">
             <div id="cont" class="text-center"></div>
             <br>
             <br>
-            <button class="greenButton" type="submit" onclick="submit()">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
+            <button type="submit" class="greenButton" onclick="submit()" href="/add-item">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
         </form>
         <!-- The overlay -->
 <div id="myNav" class="overlay">
