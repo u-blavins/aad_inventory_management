@@ -27,7 +27,7 @@ def Basket():
                 basket_item['unit'] = unit
                 basket_item['quantity'] = session['basket'][item]['units'][unit]
                 basket.append(basket_item)
-        price['total'] = BasketControl.get_price(session['basket'])
+        price['total'] = round(BasketControl.get_price(session['basket']), 2)
     return render_template('basket.html', basket=basket, price=price)
 
 
@@ -180,6 +180,6 @@ def receipt(trans_id):
                 basket_item['unit'] = unit
                 basket_item['quantity'] = session['basket'][item]['units'][unit]
                 basket.append(basket_item)
-        price['total'] = BasketControl.get_price(session['basket'])
+        price['total'] = round(BasketControl.get_price(session['basket']), 2)
     session['basket'] = {}
     return render_template('receipt.html', basket=basket, price=price, transaction=transaction)

@@ -23,7 +23,7 @@
 			<tr>
 				<td>{{item.code}}</td>
 				<td>{{item.name}}</td>
-				<td>{{item.price}}</td>
+				<td>£{{item.price}}</td>
 				<td>{{item.unit}}</td>
 				<td>{{item.quantity}}</td>
 			</tr>
@@ -35,7 +35,7 @@
 	<br>
     <h3>Total Cost: £{{ price.total }}</h3>
     <br>
-    <h3>Transaction: {{ transaction.id }}</h3>
+    <h3>Transaction ID: {{ transaction.id }}</h3>
     
 	{% else %}
 	<br>

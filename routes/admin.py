@@ -276,7 +276,7 @@ def download_finance_report(year, month):
                 results = BillingModel.get_department_billing(year, month)
                 department_billing = [('Department', 'Total')]
                 for row in results:
-                    bill = (row.get_department_code(), row.get_total())
+                    bill = (row.get_department_code(), round(row.get_total(), 2))
                     department_billing.append(bill)
 
                 si = StringIO()
@@ -297,7 +297,7 @@ def billing_info(year, month):
                 results = BillingModel.get_department_billing(year, month)
                 billing_rows = []
                 for row in results:
-                    billing_row = {'department_code': row.get_department_code(), 'total': row.get_total()}
+                    billing_row = {'department_code': row.get_department_code(), 'total': round(row.get_total(), 2)}
                     billing_rows.append(billing_row)
                 return render_template('billinginfo.html', billing_rows=billing_rows,
                                        year=year, month=month,

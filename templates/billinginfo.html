@@ -22,7 +22,7 @@
                 {% for billing_row in billing_rows %}
                     <tr>
                         <td>{{billing_row.department_code}}</td>
-                        <td>{{billing_row.total}}</td>
+                        <td>£{{billing_row.total}}</td>
                         <td>
 						    <form method="GET" action="/admin/billing/info/{{year}}/{{month}}/{{billing_row.department_code}}">
                     		    <button type="submit" class="adminButton"><i class="fas fa-search"></i> View Transactions</button>

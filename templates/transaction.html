@@ -25,7 +25,7 @@
                     <tr>
                         <td>{{transaction.get_transaction_id()}}</td>
                         <td>{{transaction.get_user_id()}}</td>
-                        <td>{{transaction.get_price()}}</td>
+                        <td>£{{transaction.get_price()}}</td>
                         <td>{{transaction.get_transaction_date()}}</td>
                         <td>
 						    <form method="GET" action="/admin/billing/info/{{year}}/{{month}}/{{department}}/{{transaction.get_transaction_id()}}">
@@ -57,7 +57,7 @@
                     <tr>
                         <td>{{refund.get_transaction_id()}}</td>
                         <td>{{refund.get_user_id()}}</td>
-                        <td>{{refund.get_price()}}</td>
+                        <td>£{{refund.get_price()}}</td>
                         <td>{{refund.get_transaction_date()}}</td>
                         <td>
 						    <form method="GET" action="/admin/billing/info/{{year}}/{{month}}/{{department}}/{{refund.get_transaction_id()}}">

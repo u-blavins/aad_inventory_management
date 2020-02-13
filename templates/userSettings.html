@@ -60,7 +60,7 @@
           {% for order in orders %}
             <tr>
               <td>{{order.get_transaction_id()}}</td>
-              <td>{{order.get_price()}}</td>
+              <td>£{{order.get_price()}}</td>
               <td>{{order.get_transaction_date()}}</td>
               <th>
                 <form method="GET" action="/user/account/{{order.get_transaction_id()}}">
@@ -91,7 +91,7 @@
           {% for refund in refunds %}
             <tr>
               <td>{{refund.get_transaction_id()}}</td>
-              <td>{{refund.get_price()}}</td>
+              <td>£{{refund.get_price()}}</td>
               <td>{{refund.get_transaction_date()}}</td>
               <th>
                 <form method="GET" action="/user/account/{{refund.get_transaction_id()}}">
