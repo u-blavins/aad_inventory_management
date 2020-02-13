@@ -27,7 +27,7 @@ def Basket():
                 basket_item['unit'] = unit
                 basket_item['quantity'] = session['basket'][item]['units'][unit]
                 basket.append(basket_item)
-        price['total'] = BasketControl.get_price(session['basket'])
+        price['total'] = round(BasketControl.get_price(session['basket']), 2)
     return render_template('basket.html', basket=basket, price=price)
 
 
@@ -57,6 +57,8 @@ def add_items_basket():
     if request.method == 'POST':
         if 'basket' not in session:
             session['basket'] = {}
+        
+        messages = []
 
         item = session['basket']
 
@@ -72,9 +74,13 @@ def add_items_basket():
                     if units[i] in ItemModel.get_unit_types(code):
                         if code not in item:
                             if ItemModel.is_risk_item(code) and session['privilege'] == 0:
-                                resp = {'Status':400}
+                                resp = {'Status': 0}
+                                message = f'Not able to add {code} to basket due to being a risk item'
+                                messages.append(message)
+                                flash(message)
                             else:
                                 resp = BasketControl.get_quantity(code, units[i], int(quantity[i]), 0)
+
                             if resp['Status'] == 200:
                                 item[code] = \
                                     {
@@ -83,6 +89,14 @@ def add_items_basket():
                                         },
                                         'quantity': int(resp['Info'])
                                     }
+                                # message = f'Successfully added {code} to basket'
+                                # flash(message)
+
+                            if resp['Status'] == 400:
+                                message = f'{code}: {units[i]} not able to add more than in stock'
+                                messages.append(message)
+                                flash(message)
+
                         else:
                             resp = BasketControl.get_quantity(
                                 code, units[i], int(quantity[i]), item[code]['quantity'])
@@ -92,8 +106,29 @@ def add_items_basket():
                                 else:
                                     item[code]['units'][units[i]] += int(quantity[i])
                                 item[code]['quantity'] = resp['Info']
+                                # message = f'Successfully added {code} to basket'
+                                # flash(message)
+                            else: 
+                                message = f'{code}: {units[i]} not able to add more than in stock'
+                                messages.append(message)
+                                flash(message)
+                    else:
+                        message = f'{code} does not have unit type {units[i]}'
+                        messages.append(message)
+                        flash(message)
+                else:
+                    if code != '':
+                        message = f'{code} does not exist and has not been added to basket'
+                        messages.append(message)
+                        flash(message)
+                    else:
+                        message = 'Error: fields must not be blank'
+                        messages.append(message)
+                        flash(message)
             session['basket'] = item
-    return redirect(url_for('basket.Basket'))
+            if len(messages) == 0:
+                return redirect(url_for('basket.Basket'))
+    return redirect(url_for('basket.add_item'))
 
 
 @basket.route('/basket/check-out')
@@ -105,7 +140,7 @@ def checkout():
             cursor = conn.cursor()
             basket = session['basket']
             sproc = "[itm].[createTransaction] @UserID = ?, @Price = ?, @isRefund = ?"
-            params = (session['user_id'], BasketControl.get_price(basket), 0)
+            params = (session['user_id'], round(BasketControl.get_price(basket), 2), 0)
             trans_id = Database.execute_sproc(sproc, params, cursor)
             cursor.commit()
             for item in basket:
@@ -145,6 +180,6 @@ def receipt(trans_id):
                 basket_item['unit'] = unit
                 basket_item['quantity'] = session['basket'][item]['units'][unit]
                 basket.append(basket_item)
-        price['total'] = BasketControl.get_price(session['basket'])
+        price['total'] = round(BasketControl.get_price(session['basket']), 2)
     session['basket'] = {}
     return render_template('receipt.html', basket=basket, price=price, transaction=transaction)

@@ -14,6 +14,10 @@ body {
   body{font-size: 14px;}
 }
 
+#addRow {
+  margin-right: 15px;
+}
+
 h2 {
   font-size: 1.6em;
 }
@@ -246,7 +250,7 @@ tr:hover{
     display:inline-block;
     cursor:pointer;
     color:#ffffff;
-    padding:4px 14px;
+    padding:2px 7px;
     text-decoration:none;
   }
   .adminButton:hover {

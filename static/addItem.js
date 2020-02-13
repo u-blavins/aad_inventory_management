@@ -70,6 +70,7 @@
                 ele.setAttribute('type', 'text');
                 ele.setAttribute('value', '');
                 ele.setAttribute('class', 'tableInput');
+                ele.required = true;
                 td.appendChild(ele);
             }
 
@@ -78,6 +79,7 @@
                 ele.setAttribute('type', 'number');
                 ele.setAttribute('value', '');
                 ele.setAttribute('class', 'tableInput');
+                ele.required = true;
                 td.appendChild(ele);    
             }
 
@@ -87,6 +89,7 @@
                 ele.setAttribute('type', 'number');
                 ele.setAttribute('value', '');
                 ele.setAttribute('class', 'tableInput');
+                ele.required = true;
                 td.appendChild(ele);    
             }
 
@@ -95,6 +98,7 @@
                 var ele = document.createElement('input');
                 ele.setAttribute('type', 'checkbox');
                 ele.setAttribute('value', '');
+                ele.required = true;
                 td.appendChild(ele);
             }
         }

@@ -1,7 +1,7 @@
 {% extends "home.html" %}
 {% block content %}
 
-<div class="container text-center">
+<div class="container">
 	{% for message in get_flashed_messages() %}
         <div class="container">
         <div class="alert alert-danger">
@@ -9,10 +9,14 @@
           {{ message }}
 		</div>
 	</div>
-    {% endfor %}
+	{% endfor %}
+		<br>
+		<a class="editButton" href="/admin/stock"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+		<br>
+		<div class="text-center">
     <br>
     <h3>Add New Item To Stock</h3>
-    <br>
+    <hr>
 	<form action="/items/add" method="POST">
 		<div class="form-group">
 		  <label>Item Code:</label>
@@ -64,6 +68,7 @@
 		  <br>
 		  <br>
 	</form>
+</div>
 </div>
 		
 {% endblock %}
