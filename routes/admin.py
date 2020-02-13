@@ -154,7 +154,7 @@ def return_items():
         email = request.form['email']
         if email != '':
             user = UserModel.get_user_by('[Email]', email)
-            if user != None:
+            if user != []:
                 codes = request.form.getlist('codes[]')
                 quantity = request.form.getlist('quantity[]')
                 unit_types = request.form.getlist('unitTypes[]')
@@ -198,7 +198,7 @@ def accept_users():
 def view_users():
     if 'privilege' in session:
         if session['privilege'] in [2, 3]:
-            users = UserModel.get_users_by('[isApproved]', 1)
+            users = UserModel.get_registered_users()
             if len(users) != 0:
                 return render_template('users.html', users=users)
     return redirect(url_for('admin.Admin'))
@@ -276,7 +276,7 @@ def download_finance_report(year, month):
                 results = BillingModel.get_department_billing(year, month)
                 department_billing = [('Department', 'Total')]
                 for row in results:
-                    bill = (row.get_department_code(), row.get_total())
+                    bill = (row.get_department_code(), round(row.get_total(), 2))
                     department_billing.append(bill)
 
                 si = StringIO()
@@ -297,7 +297,7 @@ def billing_info(year, month):
                 results = BillingModel.get_department_billing(year, month)
                 billing_rows = []
                 for row in results:
-                    billing_row = {'department_code': row.get_department_code(), 'total': row.get_total()}
+                    billing_row = {'department_code': row.get_department_code(), 'total': round(row.get_total(), 2)}
                     billing_rows.append(billing_row)
                 return render_template('billinginfo.html', billing_rows=billing_rows,
                                        year=year, month=month,
@@ -342,7 +342,8 @@ def department_transaction(year, month, department):
                 return render_template('transaction.html', transactions=department_transactions,
                                        refunds=department_refunds,
                                        transaction_title=f'Orders for department code {department} for {month_name} {year}',
-                                       refunds_title=f'Refunds for department code {department} for {month_name} {year}')
+                                       refunds_title=f'Refunds for department code {department} for {month_name} {year}',
+                                       year=year, month=month, department=department)
     return redirect(url_for('admin.Admin'))
 
 
@@ -357,5 +358,20 @@ def email_finance_report(year, month):
                 info = email.send_finance_report(int(month), year)
                 flash(info)
     return redirect(url_for('admin.billing'))
+
+@admin.route('/admin/billing/info/<year>/<month>/<department>/<transaction_id>', methods=['GET'])
+def department_transaction_info(year, month, department, transaction_id):
+    if request.method == 'GET':
+        if 'privilege' in session:
+            transaction_info = TransactionInfoModel.get_transaction_info(transaction_id)
+            transaction = TransactionModel.get_transaction(transaction_id)
+            is_refund = transaction.get_refund()
+            if is_refund is False:
+                transaction_type = "order"
+            else:
+                transaction_type = "refund"
+            return render_template('transactioninfo.html', transaction_info=transaction_info,
+                                   transaction_id=transaction_id, type=transaction_type, year=year, month=month, department=department)
+    return redirect(url_for('admin.Admin'))
 
 

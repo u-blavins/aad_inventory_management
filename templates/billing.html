@@ -11,10 +11,15 @@
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{ message }}
         </div>
-    </div>
+	</div>
 {% endfor %}
-<div class="container text-center">
+
+<div class="container">
 	<br>
+	<a class="editButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+	<br>
+	<br>
+	<div class="text-center">
 	<h3>Department Billing</h3>
 	<hr>
 	<div class="table-responsive">
@@ -31,27 +36,28 @@
 			<tbody>
 			{% for billing_row in billing_rows %}
 				<tr>
-					<th>{{billing_row.month_name}}</th>
-					<th>{{billing_row.billing_year}}</th>
-					<th>
+					<td>{{billing_row.month_name}}</td>
+					<td>{{billing_row.billing_year}}</td>
+					<td>
 						<form method="GET" action="/admin/billing/info/{{billing_row.billing_year}}/{{billing_row.billing_month}}">
                     		<button type="submit" class="adminButton"><i class="fas fa-search"></i> View Departments</button>
                     	</form>
-					</th>
-					<th>
+					</td>
+					<td>
 						<form method="GET" action="/admin/billing/download/{{billing_row.billing_year}}/{{billing_row.billing_month}}">
                     		<button type="submit" class="adminButton"><i class="fas fa-cloud-download-alt"></i> Download</button>
                     	</form>
-					</th>
-					<th>
+					</td>
+					<td>
 						<form method="GET" action="/admin/billing/email/{{billing_row.billing_year}}/{{billing_row.billing_month}}">
                     		<button type="submit" class="adminButton"><i class="far fa-envelope"></i> Email</button>
                     	</form>
-					</th>
+					</td>
 				</tr>
 			{% endfor %}
 			</tbody>
 		</table>
 	</div>
+</div>
 </div>
 {% endblock %}

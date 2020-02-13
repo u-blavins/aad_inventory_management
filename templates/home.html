@@ -24,11 +24,11 @@
         <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/home"><img src="{{url_for('static', filename='img/logo.png')}}"></a>
+                {% if '/auth' != request.url_rule.rule %}
+                {% block nav %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                {% if '/auth' != request.url_rule.rule %}
-                {% block nav %}
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         {% if 'add-item' in request.url_rule.rule %}
@@ -52,7 +52,7 @@
                                 {% else %}
                                 <li class="nav-item">
                                 {% endif %}
-                                    <a class="nav-link" href="/admin"><i class="fas fa-cogs" style="color: #ec1d85; margin-right:5px;"></i>Admin Area</a>
+                                    <a class="nav-link" href="/admin"><i class="fas fa-cogs" style="color: #ec1d85; margin-right:5px;"></i>Staff Area</a>
                                 </li>
                             {% endif %}
                         {% endif %}

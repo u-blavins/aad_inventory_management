@@ -4,7 +4,7 @@
 
 <div class="container text-center">
 	<br>
-	<h2>View Receipt</h2>
+	<h3>Receipt</h3>
 	<br>
 	{% if basket|length %}
 		<div class="table-responsive">
@@ -23,7 +23,7 @@
 			<tr>
 				<td>{{item.code}}</td>
 				<td>{{item.name}}</td>
-				<td>{{item.price}}</td>
+				<td>£{{item.price}}</td>
 				<td>{{item.unit}}</td>
 				<td>{{item.quantity}}</td>
 			</tr>
@@ -33,13 +33,9 @@
 	</div>
 	<br>
 	<br>
-    <h3>Total Cost:</h3>
+    <h3>Total Cost: £{{ price.total }}</h3>
     <br>
-    <h4>£{{ price.total }}</h4>
-    <br>
-    <h3>Transaction:</h3>
-    <br>
-    <h4>{{ transaction.id }}</h4>
+    <h3>Transaction ID: {{ transaction.id }}</h3>
     
 	{% else %}
 	<br>
