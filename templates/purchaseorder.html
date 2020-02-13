@@ -1,12 +1,12 @@
 {% extends "home.html" %}
-
 {% block content %}
+
     <div class="container">
+		<br>
+		<a class="editButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+			<div class="text-center">
 		{% if 'privilege' in session %}
 			{% if session['privilege'] == 3 %}
-			<br>
-			<a class="editButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
-			<div class="text-center">
 			<h3>Create Purchase Order</h3>
 				<hr>
 				<button id="addPurchaseOrderRow" class="adminButton addButton" onclick="addPurchaseOrderRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i> Add Item </button>
@@ -19,7 +19,6 @@
 				</form>
 			{% endif %}
 		{% endif %}
-		<br>
 		<br>
 		<br>
 		<h3>Pending Purchase Orders</h3>
