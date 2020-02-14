@@ -15,7 +15,7 @@ class Unit:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 unit = Unit()
                 unit.set_name(row[0])
@@ -38,7 +38,7 @@ class Unit:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 unit = Unit()
                 unit.set_name(row[0])

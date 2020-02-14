@@ -21,7 +21,7 @@ class User:
         conn.close()
         users = []
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 user = User()
                 user.set_id(row[0])
@@ -47,7 +47,7 @@ class User:
         rows = Database.execute_query(query, cursor)
         conn.close()
         
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 user = User()
                 user.set_id(row[0])
@@ -72,7 +72,7 @@ class User:
         rows = Database.execute_query(query, cursor)
         conn.close()
         
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 user = User()
                 user.set_id(row[0])
@@ -98,7 +98,7 @@ class User:
         rows = Database.execute_query(query, cursor)
         conn.close()
         
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 user = User()
                 user.set_id(row[0])
@@ -124,7 +124,7 @@ class User:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 user = User()
                 user.set_id(row[0])

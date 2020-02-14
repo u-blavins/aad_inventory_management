@@ -25,7 +25,7 @@ class TransactionInfo:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 info = TransactionInfo()
                 info.set_transaction_id(row[0])
@@ -56,7 +56,7 @@ class TransactionInfo:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 info = TransactionInfo()
                 info.set_item_code(row[0])

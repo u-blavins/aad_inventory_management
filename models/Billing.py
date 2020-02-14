@@ -22,7 +22,7 @@ class Billing:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 billing_row = Billing()
                 billing_row.set_billing_month(row[0])
@@ -51,7 +51,7 @@ class Billing:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 department = Billing()
                 department.set_department_code(row[0])

@@ -19,7 +19,7 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 transaction = Transaction()
                 transaction.set_transaction_id(row[0])
@@ -47,7 +47,7 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 transaction = Transaction()
                 transaction.set_transaction_id(row[0])
@@ -68,7 +68,7 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 transaction = Transaction()
                 transaction.set_transaction_id(row[0])
@@ -97,7 +97,7 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 transaction = Transaction()
                 transaction.set_transaction_id(row[0])
@@ -125,7 +125,7 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 transaction = Transaction()
                 transaction.set_transaction_id(row[0])
@@ -154,7 +154,7 @@ class Transaction:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 transaction = Transaction()
                 transaction.set_transaction_id(row[0])

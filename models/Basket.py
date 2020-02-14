@@ -7,12 +7,15 @@ class Basket:
 
     def __init__(self, basket):
         self.basket = basket
-        self.total = self.get_total()
         return
+
+    def get_basket(self):
+        return self.basket
 
     def get_items(self):
         items = []
-        items = self.basket.keys()
+        for item in self.basket.keys():
+            items.append(item)
         return items
 
     def get_units(self, item):
@@ -26,14 +29,3 @@ class Basket:
         if item in self.basket:
             quantity = self.basket[item]['quantity']
         return quantity
-
-    def set_total(self):
-        total = 0
-        for item in self.get_items():
-            model = ItemModel.get_item(item)
-            price += (model.get_price() * self.get_quantity(item))
-        return total
-
-    def checkout(self, user):
-        sproc = "[itm].[createTransaction] @UserID = ?, @Price = ?, @isRefund = ?"
-        params = (user, self.get_total(), 0)

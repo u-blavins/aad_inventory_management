@@ -44,5 +44,31 @@ class TestPurchaseOrder:
         sut = self.mock_purchase_order.get_completion_date()
         assert sut == fake_date
 
-    # def test_create_purchase_order_creates_purchase_order(self):
-        
+    @patch('models.PurchaseOrder.Database.connect', return_value=MagicMock(), autospec=True)
+    @patch('models.PurchaseOrder.Database.execute_sproc', return_value=[('Success',)], autospec=True)
+    def test_create_purchase_order_creates_purchase_order(self, mock_connect, mock_execute):
+        """ Test Success: Purchase Order created and message received back """
+        fake_user_id = 'user_id1'
+        fake_cursor = MagicMock()
+        sut = PurchaseOrder.create_purchase_order(fake_user_id, fake_cursor)
+        assert sut == 'Success'
+
+    @patch('models.PurchaseOrder.Database.connect', return_value=MagicMock(), autospec=True)
+    @patch('models.PurchaseOrder.Database.execute_query', 
+            return_value=[('po1', 'user_1', 'date1', 'comp_date1')],
+            autospec=True)
+    def test_get_purchase_orders_pending_returns_purchase_orders(self, mock_connect, mock_exec):
+        """ Test Success: Purchase Order penging returned """
+        sut = PurchaseOrder.get_purchase_orders_pending()
+        assert isinstance(sut, list)
+        assert len(sut)== 1
+
+    @patch('models.PurchaseOrder.Database.connect', return_value=MagicMock(), autospec=True)
+    @patch('models.PurchaseOrder.Database.execute_query', 
+            return_value=[('po1', 'user_1', 'date1', 'comp_date1')],
+            autospec=True)
+    def test_get_purchase_orders_history_returns_purchase_orders(self, mock_connect, mock_exec):
+        """ Test Success: Purchase Orders returned """
+        sut = PurchaseOrder.get_purchase_orders_history()
+        assert isinstance(sut, list)
+        assert len(sut)== 1

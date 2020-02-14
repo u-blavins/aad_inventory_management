@@ -119,6 +119,24 @@ class TestUser:
 
     @patch('models.User.Database.connect', return_value=MagicMock(), autospec=True)
     @patch('models.User.Database.execute_query', 
+            return_value=[('user1', 'email1', 'fname1', 'lname1', 'deptcode1', 1)],
+            autospec=True)
+    def test_get_registered_users_returns_users_that_are_approved(self, mock_connect, mock_exec):
+        """ Test Success: Users are returned if approved by staff for registration """
+        sut = User.get_registered_users()
+        assert isinstance(sut, list)
+        assert len(sut) == 1
+
+    @patch('models.User.Database.connect', return_value=MagicMock(), autospec=True)
+    @patch('models.User.Database.execute_query', return_value=[], autospec=True)
+    def test_get_registered_users_returns_empty_list_if_no_users_approved(self, mock_connect, mock_exec):
+        """ Test Failure: Empty list returned if no approved users found """
+        sut = User.get_registered_users()
+        assert isinstance(sut, list)
+        assert len(sut) == 0
+
+    @patch('models.User.Database.connect', return_value=MagicMock(), autospec=True)
+    @patch('models.User.Database.execute_query', 
             return_value=[('user3', 'email3', 'fname3', 'lname3', 'deptcode1', 0)], 
             autospec=True)
     def test_get_user_approvals_returns_users_waiting_for_registration_approval(self, mock_connect, mock_exec):
