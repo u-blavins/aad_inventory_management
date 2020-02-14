@@ -22,6 +22,16 @@ master
 ```
 > This setup is for local testing
 
+## Testing
+To run the pytests locally, enter the following command in a terminal:
+```$xslt
+> pytest --cov=[module]
+```
+To run a test coverage report, use this:
+```$xslt
+> pytest --cov=[module] --cov-report html
+```
+
 ## Resources
 Below is a list of resources that will be useful for designing and implementing an API:
 - [Virtual Environment Windows](https://programwithus.com/learn-to-code/Pip-and-virtualenv-on-Windows/)

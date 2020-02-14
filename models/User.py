@@ -21,15 +21,16 @@ class User:
         conn.close()
         users = []
 
-        for row in rows:
-            user = User()
-            user.set_id(row[0])
-            user.set_email(row[1])
-            user.set_first_name(row[2])
-            user.set_last_name(row[3])
-            user.set_department_code(row[4])
-            user.set_user_level(row[5])
-            users.append(user)
+        if len(rows) != 0:
+            for row in rows:
+                user = User()
+                user.set_id(row[0])
+                user.set_email(row[1])
+                user.set_first_name(row[2])
+                user.set_last_name(row[3])
+                user.set_department_code(row[4])
+                user.set_user_level(row[5])
+                users.append(user)
             
         return users
 
@@ -46,14 +47,15 @@ class User:
         rows = Database.execute_query(query, cursor)
         conn.close()
         
-        for row in rows:
-            user = User()
-            user.set_id(row[0])
-            user.set_email(row[1])
-            user.set_first_name(row[2])
-            user.set_last_name(row[3])
-            user.set_department_code(row[4])
-            user.set_user_level(row[5])
+        if len(rows) != 0:
+            for row in rows:
+                user = User()
+                user.set_id(row[0])
+                user.set_email(row[1])
+                user.set_first_name(row[2])
+                user.set_last_name(row[3])
+                user.set_department_code(row[4])
+                user.set_user_level(row[5])
 
         return user
 
@@ -70,7 +72,7 @@ class User:
         rows = Database.execute_query(query, cursor)
         conn.close()
         
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 user = User()
                 user.set_id(row[0])
@@ -96,7 +98,7 @@ class User:
         rows = Database.execute_query(query, cursor)
         conn.close()
         
-        if rows != []:
+        if len(rows) != 0:
             for row in rows:
                 user = User()
                 user.set_id(row[0])
@@ -110,6 +112,8 @@ class User:
 
     @staticmethod
     def get_user_approval():
+        users = []
+
         query = """
             SELECT [ID], [Email], [FirstName], [LastName], [DepartmentCode], [Privileges]
             FROM [StoreManagement].[usr].[WaitingForApproval]                        
@@ -120,23 +124,22 @@ class User:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        users = []
-
-        for row in rows:
-            user = User()
-            user.set_id(row[0])
-            user.set_email(row[1])
-            user.set_first_name(row[2])
-            user.set_last_name(row[3])
-            user.set_department_code(row[4])
-            user.set_user_level(row[5])
-            users.append(user)
+        if len(rows) != 0:
+            for row in rows:
+                user = User()
+                user.set_id(row[0])
+                user.set_email(row[1])
+                user.set_first_name(row[2])
+                user.set_last_name(row[3])
+                user.set_department_code(row[4])
+                user.set_user_level(row[5])
+                users.append(user)
 
         return users
 
     @staticmethod
     def update_user_privilege(id, privilege):
-        message = 'Unable to update user level'
+        message = 'User not found'
         user = User.get_user(id)
         if user != None:
             if privilege != user.get_user_level():
@@ -158,17 +161,21 @@ class User:
 
     @staticmethod
     def update_user_password(id, password):
-        result = 'Error with server'
+        message = 'User not found'
         user = User.get_user(id)
         if user != None:
             sproc = """ [usr].[updatePassword] @UserID = ?, @Password = ?"""
             params = (id, password)
             conn = Database.connect()
-            cursor = conn.cursor()
-            result = Database.execute_sproc(sproc, params, cursor)
-            cursor.commit()
-            conn.close()
-        return result
+            try:
+                cursor = conn.cursor()
+                result = Database.execute_sproc(sproc, params, cursor)
+                cursor.commit()
+                conn.close()
+                message = result
+            except Exception as e:
+                message = "Error updating user password"
+        return message
 
     def __init__(self):
         self.id = None

@@ -8,18 +8,19 @@ class Unit:
         units = []
 
         query = """
-        SELECT * FROM [StoreManagement].[itm].[Unit]
+        SELECT [UnitName], [Val] FROM [StoreManagement].[itm].[Unit]
         """
         conn = Database.connect()
         cursor = conn.cursor()
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            unit = Unit()
-            unit.set_name(row[0])
-            unit.set_value(row[1])
-            units.append(unit)
+        if len(rows) != 0:
+            for row in rows:
+                unit = Unit()
+                unit.set_name(row[0])
+                unit.set_value(row[1])
+                units.append(unit)
 
         return units
     
@@ -28,7 +29,7 @@ class Unit:
         unit = None
 
         query = """
-        SELECT * FROM [StoreManagement].[itm].[Unit] WHERE
+        SELECT [UnitName], [Val] FROM [StoreManagement].[itm].[Unit] WHERE
         [UnitName] = '%s'
         """ % name
 
@@ -37,10 +38,11 @@ class Unit:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            unit = Unit()
-            unit.set_name(row[0])
-            unit.set_value(row[1])
+        if len(rows) != 0:
+            for row in rows:
+                unit = Unit()
+                unit.set_name(row[0])
+                unit.set_value(row[1])
 
         return unit
 

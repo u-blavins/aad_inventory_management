@@ -6,6 +6,8 @@ class PurchaseOrder:
 
     @staticmethod
     def get_purchase_orders_pending():
+        purchase_orders = []
+
         query = """
             SELECT
                 [PurchaseOrderID],
@@ -21,19 +23,20 @@ class PurchaseOrder:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        purchase_orders = []
-
-        for row in rows:
-            purchase_order = PurchaseOrder()
-            purchase_order.set_purchase_order_id(row[0])
-            purchase_order.set_generated_by(row[1])
-            purchase_order.set_generated_date(row[2])
-            purchase_orders.append(purchase_order)
+        if len(rows) != 0:
+            for row in rows:
+                purchase_order = PurchaseOrder()
+                purchase_order.set_purchase_order_id(row[0])
+                purchase_order.set_generated_by(row[1])
+                purchase_order.set_generated_date(row[2])
+                purchase_orders.append(purchase_order)
 
         return purchase_orders
 
     @staticmethod
     def get_purchase_orders_history():
+        purchase_orders = []
+
         query = """
             SELECT
                 [PurchaseOrderID],
@@ -50,15 +53,14 @@ class PurchaseOrder:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        purchase_orders = []
-
-        for row in rows:
-            purchase_order = PurchaseOrder()
-            purchase_order.set_purchase_order_id(row[0])
-            purchase_order.set_generated_by(row[1])
-            purchase_order.set_generated_date(row[2])
-            purchase_order.set_completion_date(row[3])
-            purchase_orders.append(purchase_order)
+        if len(rows) != 0:
+            for row in rows:
+                purchase_order = PurchaseOrder()
+                purchase_order.set_purchase_order_id(row[0])
+                purchase_order.set_generated_by(row[1])
+                purchase_order.set_generated_date(row[2])
+                purchase_order.set_completion_date(row[3])
+                purchase_orders.append(purchase_order)
 
         return purchase_orders
 

@@ -6,6 +6,8 @@ class PurchaseOrderInfo:
 
     @staticmethod
     def get_purchase_order_info(order_id):
+        items = []
+
         query = f"""
             SELECT
                 [ItemCode],
@@ -22,22 +24,21 @@ class PurchaseOrderInfo:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        items = []
-
-        for row in rows:
-            item = PurchaseOrderInfo()
-            item.set_item_code(row[0])
-            item.set_quantity(row[1])
-            item.set_is_complete(row[2])
-            if row[3] is None:
-                item.set_completion_date('Pending')
-            else:
-                item.set_completion_date(row[3])
-            if row[4] is None:
-                item.set_approved_by('NA')
-            else:
-                item.set_approved_by(row[4])
-            items.append(item)
+        if len(rows) != 0:
+            for row in rows:
+                item = PurchaseOrderInfo()
+                item.set_item_code(row[0])
+                item.set_quantity(row[1])
+                item.set_is_complete(row[2])
+                if row[3] is None:
+                    item.set_completion_date('Pending')
+                else:
+                    item.set_completion_date(row[3])
+                if row[4] is None:
+                    item.set_approved_by('NA')
+                else:
+                    item.set_approved_by(row[4])
+                items.append(item)
 
         return items
 
