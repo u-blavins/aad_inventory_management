@@ -1,39 +1,46 @@
 {% extends "home.html" %}
-
 {% block content %}
-<div>
 
+    {% for message in get_flashed_messages() %}
+    <div class="container">
+        {% if 'Success' in message %}
+            <div class="alert alert-success">
+        {% else %}
+            <div class="alert alert-danger">
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+        </div>
+    </div>
+</div>
+    {% endfor %}
     <div class="container text-center">
         <br>
             <h3>Add Items to Basket</h3>
         <hr>
         <br>
-        <button id="addRow" class="greenButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button> 
-        <button id="scanRow" class="greenButton addButton" onclick="openNav()"><i class="fas fa-barcode" style="margin-right: 5px;"></i>Scan Item </button>
-        <!-- <form id="add-item-form" method="post" action="/basket/add"> -->
+        <div>
+        <button id="addRow" class="adminButton addButton" onclick="addRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button> 
+        <button id="scanRow" class="adminButton addButton" onclick="openNav()"><i class="fas fa-barcode" style="margin-right: 5px;"></i>Scan Barcode </button>
+        </div>
         <form id="add-item-form" method="post" action="/basket/add">
             <div id="cont" class="text-center"></div>
             <br>
             <br>
-            <button class="greenButton" type="submit" onclick="submit()">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
+            <button type="submit" class="greenButton" onclick="submit()" href="/add-item">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
         </form>
-        <!-- The overlay -->
-<div id="myNav" class="overlay">
+    <div id="myNav" class="overlay">
 
-  <!-- Button to close the overlay navigation -->
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-  <!-- Overlay content -->
-  <div class="overlay-content" id="scanArea">
-  </div>
-
+    <div class="overlay-content" id="scanArea">
+    </div>
+    </div>
 </div>
 
-</div>
-
-    <script type="text/javascript">
+<script type="text/javascript">
     createTable();
-
+    addRow();
 
         Quagga.onDetected(function (data){
             var result = data;
@@ -42,7 +49,8 @@
             closeNav();
     });
 
-/* Open when someone clicks on the span element */
+    
+
 function openNav() {
   document.getElementById("myNav").style.width = "100%";
 
@@ -50,7 +58,7 @@ function openNav() {
         inputStream : {
           name : "Live",
           type : "LiveStream",
-          target: document.querySelector('#scanArea')    // Or '#yourElement' (optional)
+          target: document.querySelector('#scanArea')
         },
         decoder : {
           readers : ['code_128_reader']
@@ -65,11 +73,9 @@ function openNav() {
         });
 }
 
-/* Close when someone clicks on the "x" symbol inside the overlay */
 function closeNav() {
   Quagga.stop();
   document.getElementById("myNav").style.width = "0%";
 }
-    </script>
-</div>
+</script>
 {% endblock %}

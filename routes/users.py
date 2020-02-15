@@ -57,7 +57,7 @@ def reset_password(id):
     return redirect(url_for('users.user_account'))
 
 
-@users.route('/transaction/<transaction_id>', methods=['GET'])
+@users.route('/user/account/<transaction_id>', methods=['GET'])
 def department_transaction_info(transaction_id):
     if request.method == 'GET':
         if 'privilege' in session:

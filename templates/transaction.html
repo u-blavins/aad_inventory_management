@@ -1,7 +1,11 @@
 {% extends "home.html" %}
 
 {% block content %}
-    <div class="container text-center">
+<div class="container">
+	<br>
+	<a class="editButton" href="/admin/billing/info/{{year}}/{{month}}"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+	<br>
+    <div class="text-center">
         <br>
 	    <h3>{{transaction_title}}</h3>
 	    <hr>
@@ -9,7 +13,7 @@
 	    <table class="table">
             <thread>
                 <tr>
-                    <th>TransactionID</th>
+                    <th>Transaction ID</th>
                     <th>Email</th>
                     <th>Price</th>
                     <th>Date</th>
@@ -19,20 +23,21 @@
             <tbody>
                 {% for transaction in transactions %}
                     <tr>
-                        <th>{{transaction.get_transaction_id()}}</th>
-                        <th>{{transaction.get_user_id()}}</th>
-                        <th>{{transaction.get_price()}}</th>
-                        <th>{{transaction.get_transaction_date()}}</th>
-                        <th>
-						    <form method="GET" action="/transaction/{{transaction.get_transaction_id()}}">
+                        <td>{{transaction.get_transaction_id()}}</td>
+                        <td>{{transaction.get_user_id()}}</td>
+                        <td>£{{transaction.get_price()}}</td>
+                        <td>{{transaction.get_transaction_date()}}</td>
+                        <td>
+						    <form method="GET" action="/admin/billing/info/{{year}}/{{month}}/{{department}}/{{transaction.get_transaction_id()}}">
                     		    <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Order</button>
                     	    </form>
-					    </th>
+					    </td>
                     </tr>
                 {% endfor %}
             </tbody>
             </table>
         </div>
+       <br>
        <br>
 	    <h3>{{refunds_title}}</h3>
 	    <hr>
@@ -40,7 +45,7 @@
 	    <table class="table">
             <thread>
                 <tr>
-                    <th>TransactionID</th>
+                    <th>Transaction ID</th>
                     <th>Email</th>
                     <th>Price</th>
                     <th>Date</th>
@@ -50,19 +55,20 @@
             <tbody>
                 {% for refund in refunds %}
                     <tr>
-                        <th>{{refund.get_transaction_id()}}</th>
-                        <th>{{refund.get_user_id()}}</th>
-                        <th>{{refund.get_price()}}</th>
-                        <th>{{refund.get_transaction_date()}}</th>
-                        <th>
-						    <form method="GET" action="/transaction/{{refund.get_transaction_id()}}">
+                        <td>{{refund.get_transaction_id()}}</td>
+                        <td>{{refund.get_user_id()}}</td>
+                        <td>£{{refund.get_price()}}</td>
+                        <td>{{refund.get_transaction_date()}}</td>
+                        <td>
+						    <form method="GET" action="/admin/billing/info/{{year}}/{{month}}/{{department}}/{{refund.get_transaction_id()}}">
                     		    <button type="submit" class="adminButton"><i class="fas fa-search"></i> Open Refund</button>
                     	    </form>
-					    </th>
+					    </td>
                     </tr>
                 {% endfor %}
             </tbody>
             </table>
         </div>
     </div>
+</div>
 {% endblock %}

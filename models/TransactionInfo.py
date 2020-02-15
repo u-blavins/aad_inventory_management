@@ -25,19 +25,22 @@ class TransactionInfo:
         rows = Database.execute_query(query, cursor)
         conn.close()
 
-        for row in rows:
-            info = TransactionInfo()
-            info.set_transaction_id(row[0])
-            info.set_item_code(row[1])
-            info.set_quantity(row[2])
-            info.set_unit_name(row[3])
-            info.set_transaction_date(row[4])
-            trans_info.append(info)
+        if len(rows) != 0:
+            for row in rows:
+                info = TransactionInfo()
+                info.set_transaction_id(row[0])
+                info.set_item_code(row[1])
+                info.set_quantity(row[2])
+                info.set_unit_name(row[3])
+                info.set_transaction_date(row[4])
+                trans_info.append(info)
         
         return trans_info
 
     @staticmethod
     def get_transaction_info(transaction_id):
+        trans_info = []
+
         query = f"""
             SELECT 
                 [ItemCode],
@@ -52,13 +55,14 @@ class TransactionInfo:
         cursor = conn.cursor()
         rows = Database.execute_query(query, cursor)
         conn.close()
-        trans_info = []
-        for row in rows:
-            info = TransactionInfo()
-            info.set_item_code(row[0])
-            info.set_quantity(row[1])
-            info.set_unit_name(row[2])
-            trans_info.append(info)
+
+        if len(rows) != 0:
+            for row in rows:
+                info = TransactionInfo()
+                info.set_item_code(row[0])
+                info.set_quantity(row[1])
+                info.set_unit_name(row[2])
+                trans_info.append(info)
 
         return trans_info
 

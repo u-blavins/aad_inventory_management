@@ -12,17 +12,22 @@
         </div>
     </div>
     {% endfor %}
-    <div class="container text-center">
+    <div class="container">
         <br>
-        <h3>View & edit stock</h3>
+        <a class="editButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
         <br>
+    <div class="text-center">
         <br>
-        <input type="text" placeholder="Search for items..." class="inputShadowBox">
+        <h3>View and Edit Inventory</h3>
+        <hr>
+        <!-- <br>
         <br>
+        <input type="text" placeholder="Search for items..." class="inputShadowBox"> -->
+       
         <br>
         {% if 'privilege' in session %}
             {% if session['privilege'] == 3 %}
-                <a href="/admin/add-stock" id="addItem" class="greenButton"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Item </a>
+                <a href="/admin/add-stock" id="addItem" class="adminButton"><i class="fas fa-plus-circle" style="margin-right:5px;"></i>Add Item </a>
             {% else %}
             {% endif %}
         {% endif %}
@@ -70,5 +75,6 @@
             {% endfor %}
         </table>
     </div>
+</div>
 </div>
 {% endblock %}

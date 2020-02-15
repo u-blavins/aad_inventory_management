@@ -1,7 +1,7 @@
 {% extends "home.html" %}
-
 {% block content %}
-{% for message in get_flashed_messages() %}
+
+    {% for message in get_flashed_messages() %}
     <div class="container">
         {% if 'Success' in message %}
             <div class="alert alert-success">
@@ -12,14 +12,18 @@
         {{ message }}
         </div>
     </div>
+</div>
 {% endfor %}
-<div class="container text-center">
+<div class="container">
+<br>
+<a class="editButton" href="/admin"><i class="fas fa-chevron-circle-left" style="margin-right: 5px;"></i> Back</a> 
+	<br>
+<div class="text-center">
     <br>
         <h3>Return Items</h3>
     <hr>
     <br>
-    <br>
-    <button id="addReturnRow" class="greenButton addButton" onclick="addReturnRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
+    <button id="addReturnRow" class="adminButton addButton" onclick="addReturnRow()"><i class="fas fa-plus-circle" style="margin-right: 5px;"></i>Add Item </button>
     <form id="remove-item-form" action="/api/returns/items" method="post">
     <!-- <form id="remove-item-form"> -->
         <br>
@@ -27,12 +31,14 @@
         <div id="returnTableContainer" class="text-center"></div>
         <br>
         <h4>Enter Email</h4>
-        <input name="email" type="email" required>
+        <input name="email" type="email" class="inputShadowBox" required>
         <br>
         <br>
-        <button type="submit" class="editButton" onclick="returnSubmit()" href="/basket">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
+        <button type="submit" class="greenButton" onclick="returnSubmit()" href="/basket">Confirm Items<i class="fas fa-long-arrow-alt-right" style="margin-left: 5px;"></i></button>
     </form>
 </div>
+</div>
+
 
 <script type="text/javascript">
     createReturnTable();
